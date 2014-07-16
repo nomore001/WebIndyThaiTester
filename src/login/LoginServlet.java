@@ -80,7 +80,11 @@ public class LoginServlet extends HttpServlet {
 					.getUsername());
 			HttpSession session = request.getSession();
 			session.setAttribute("traineeBean", trainee);
-			response.sendRedirect("test01.jsp");
+			if(loginMgr.searchUserAccessStatus(login.getUsername()).equals("admin")){
+				response.sendRedirect("admin.jsp");
+			}else{
+				response.sendRedirect("test01.jsp");
+			}			
 			System.out.println("pass");
 		} else {
 			System.out.println("fail");

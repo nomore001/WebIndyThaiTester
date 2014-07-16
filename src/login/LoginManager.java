@@ -53,7 +53,7 @@ public class LoginManager {
 	}
 
 	public String searchUserAccessStatus(String username) {
-
+		String userStatus = null;
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {
 			String query = "SELECT * FROM login where username = '" + username
@@ -68,8 +68,8 @@ public class LoginManager {
 
 			// iterate through the java resultset
 			while (rs.next()) {
-				String cn = rs.getString("courseName");
-				System.out.println(cn);
+				userStatus = rs.getString("status");
+				
 			}
 			st.close();
 			conn.close();
@@ -86,7 +86,7 @@ public class LoginManager {
 		// .getStatus();
 		// }
 		// }
-		return null;
+		return userStatus;
 	}
 
 	public TraineeBean searchTraineeByUsername(String username) {
