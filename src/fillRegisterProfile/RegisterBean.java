@@ -30,6 +30,54 @@ public class RegisterBean {
 		this.courseRegisterCosts = courseRegisterCosts;
 	}
 
+	public String getCourseRegisterStartDate() {
+		return courseRegisterStartDate;
+	}
+
+	public void setCourseRegisterStartDate(String courseRegisterStartDate) {
+		this.courseRegisterStartDate = courseRegisterStartDate;
+	}
+
+	public int getCourseRegisterDuration() {
+		return courseRegisterDuration;
+	}
+
+	public void setCourseRegisterDuration(int courseRegisterDuration) {
+		this.courseRegisterDuration = courseRegisterDuration;
+	}
+
+	public String getPaymentStartDate() {
+		return paymentStartDate;
+	}
+
+	public void setPaymentStartDate(String paymentStartDate) {
+		this.paymentStartDate = paymentStartDate;
+	}
+
+	public int getPaymentDuration() {
+		return paymentDuration;
+	}
+
+	public void setPaymentDuration(int paymentDuration) {
+		this.paymentDuration = paymentDuration;
+	}
+
+	public void setRegisterNo(String registerNo) {
+		this.registerNo = registerNo;
+	}
+
+	public void setTrainingStartDate(String trainingStartDate) {
+		this.trainingStartDate = trainingStartDate;
+	}
+
+	public void setCourseRegisterCosts(int courseRegisterCosts) {
+		this.courseRegisterCosts = courseRegisterCosts;
+	}
+
+	public void setTraineeVector(Vector<TraineeBean> traineeVector) {
+		this.traineeVector = traineeVector;
+	}
+
 	public String getRegisterNo() {
 		return registerNo;
 	}
