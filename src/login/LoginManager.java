@@ -11,16 +11,45 @@ import fillRegisterProfile.TraineeBean;
 
 public class LoginManager {
 
-	public boolean isVerifyLogin(LoginBean login) {
-		boolean isLogin = false;
-		String user = "admin";
-		String pass = "admin";
-		if (login.getUsername().equals(user)) {
-			if (login.getPassword().equals(pass)) {
-				isLogin = true;
+	public boolean verifyLogin(LoginBean login) {
+
+		String query = "SELECT * FROM login where username = '"
+				+ login.getUsername() + "';";
+
+		Connection conn = MySQLConnectionPool.getConnection();
+		try {
+
+			// create the java statement
+
+			PreparedStatement st = conn.prepareStatement(query);
+
+			// execute the query, and get a java resultset
+			ResultSet rs = st.executeQuery(query);
+
+			// iterate through the java resultset
+			String username = null;
+			String password = null;
+			while (rs.next()) {
+
+				username = rs.getString("username");
+				password = rs.getString("password");
+				System.out.println(username + password);
+
 			}
+
+			if (login.getUsername().equals(username)) {
+				if (login.getPassword().equals(password)) {
+					return true;
+				}
+			}
+			st.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return isLogin;
+		return false;
 	}
 
 	public String searchUserAccessStatus(String username) {

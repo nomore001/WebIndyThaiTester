@@ -33,6 +33,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
 		// Connection conn = MySQLConnectionPool.getConnection();
 		// try {
 		// String query = "SELECT * FROM coursetraining";
@@ -73,8 +74,8 @@ public class LoginServlet extends HttpServlet {
 		login.setUsername(request.getParameter("username_login"));
 		login.setPassword(request.getParameter("password_login"));
 		LoginManager loginMgr = new LoginManager();
-		if (loginMgr.isVerifyLogin(login)) {
 
+		if (loginMgr.verifyLogin(login)) {
 			TraineeBean trainee = loginMgr.searchTraineeByUsername(login
 					.getUsername());
 			HttpSession session = request.getSession();
@@ -83,8 +84,9 @@ public class LoginServlet extends HttpServlet {
 			System.out.println("pass");
 		} else {
 			System.out.println("fail");
+			response.getWriter().print("fail");
+			response.sendRedirect("index.jsp");
 		}
 
 	}
-
 }
