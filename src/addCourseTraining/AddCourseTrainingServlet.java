@@ -26,11 +26,11 @@ public class AddCourseTrainingServlet extends HttpServlet {
 		
 		String courseName = "QTP";
 		int courseDuration =10;
-		String trainingStartDate = "10/1/2557";		
-		String courseRegisterStartDate = "1/1/2557";
+		String courseRegisterStartDate = "2014-1-1";
 		int courseRegisterDuration = 4;
-		String paymentStartDate = "6/1/2557";
+		String paymentStartDate = "2014-1-6";
 		int paymentDuration = 3;
+		String trainingStartDate = "2014-1-10";
 		int courseRegisterCosts = 2500;
 		
 		CourseTrainingBean courseTrainingBean = (CourseTrainingBean) session.getAttribute("courseTrainingBean"); 
@@ -62,8 +62,9 @@ public class AddCourseTrainingServlet extends HttpServlet {
 		String registerNo = downloadDocMng.createRegisterNo(registerAmount);
 //		12 – ระบบบันทึกข้อมูลการเพิ่มหลักสูตรการอบรมลงฐานข้อมูล
 //		13 – ระบบคืนค่าสถานะการตรวจสอบจากฐานข้อมูล
-		boolean ckAdd = downloadDocMng.addRegister(registerNo, trainingStartDate, courseRegisterStartDate, 
-				courseRegisterDuration, paymentStartDate, paymentDuration, courseRegisterCosts, courseID);
+		boolean ckAdd = downloadDocMng.addRegister(registerNo, courseRegisterStartDate, 
+				courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, 
+				courseRegisterCosts, courseID);
 		
 		if(ckAdd){
 			System.out.println("Add Register Success");

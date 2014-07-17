@@ -11,6 +11,7 @@ import java.util.Vector;
 
 
 
+
 import org.apache.tomcat.jdbc.pool.ConnectionPool;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
@@ -96,8 +97,7 @@ public class DownLoadDocumentManager {
 			statementCourseTraining.setInt(2, this.theCourseTrainingBean.getCourseTrainingDuration()); 
 			statementCourseTraining.executeUpdate();
 			
-			conn.commit(); 
-			this.theCourseTrainingBean = null; 
+			conn.commit();
 			return true;
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
@@ -117,9 +117,9 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public synchronized boolean addRegister(String registerNo, String trainingStartDate, 
-			String courseRegisterStartDate, int courseRegisterDuration, String paymentStartDate, 
-			int paymentDuration, int courseRegisterCosts, int courseID) {
+	public synchronized boolean addRegister(String registerNo, String courseRegisterStartDate, 
+			int courseRegisterDuration, String paymentStartDate, int paymentDuration, 
+			String trainingStartDate, int courseRegisterCosts, int courseID) {
 		RegisterBean register = new RegisterBean(registerNo, courseRegisterStartDate, 
 				courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, 
 				courseRegisterCosts);
@@ -141,7 +141,8 @@ public class DownLoadDocumentManager {
 			statementRegister.executeUpdate(); 
 			
 			conn.commit();
-			register = null;
+			register = null; 
+			this.theCourseTrainingBean = null; 
 			return true;
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
