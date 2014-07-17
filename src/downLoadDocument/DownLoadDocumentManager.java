@@ -31,15 +31,15 @@ public class DownLoadDocumentManager {
 		PreparedStatement statement_listCputseTraining = null;
 		String sql_queryCourse = "SELECT * FROM coursetraining;";
 			
-		courseTrainingVector = new Vector<CourseTrainingBean>();
+		Vector<CourseTrainingBean> courseTrainingVector = new Vector<CourseTrainingBean>();
 		try {
 			statement_listCputseTraining = conn.prepareStatement(sql_queryCourse);
 			ResultSet rs  = statement_listCputseTraining.executeQuery();
 			while (rs.next()) {
-				theCourseTrainingBean = new CourseTrainingBean();
-				theCourseTrainingBean.setCourseTrainingName(rs.getString("courseName"));
-				theCourseTrainingBean.setCourseTrainingDuration(rs.getInt("courseDuration"));
-				courseTrainingVector.add(theCourseTrainingBean);
+				CourseTrainingBean courseTraining = new CourseTrainingBean();
+				courseTraining.setCourseTrainingName(rs.getString("courseName"));
+				courseTraining.setCourseTrainingDuration(rs.getInt("courseDuration"));
+				courseTrainingVector.add(courseTraining);
 				
 			}
 			
