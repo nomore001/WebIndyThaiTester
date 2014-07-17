@@ -90,7 +90,7 @@ public class LoginManager {
 	}
 
 	public TraineeBean searchTraineeByUsername(String username) {
-		TraineeBean tn = new TraineeBean();
+		TraineeBean trainee = new TraineeBean();
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {
 			String query = "SELECT * FROM login where username = '" + username
@@ -119,9 +119,9 @@ public class LoginManager {
 				String traineeTitle = rs2.getString("title");
 				String traineeName = rs2.getString("name");
 				String traineeEducation = rs2.getString("education");
-				tn.setTitle(traineeTitle);
-				tn.setName(traineeName);
-				tn.setEducation(traineeEducation);
+				trainee.setTitle(traineeTitle);
+				trainee.setName(traineeName);
+				trainee.setEducation(traineeEducation);
 				System.out.println(traineeName);
 			}
 			st.close();
@@ -131,16 +131,7 @@ public class LoginManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// ***************************
-		// int i = 0;
-		// while (i < traineeVector.size()) {
-		// if (username.equals(traineeVector.elementAt(i).getLogin()
-		// .getUsername())) {
-		// return traineeVector.elementAt(i);
-		// }
-		// i++;
-		// }
-		// return null;
-		return tn;
+		
+		return trainee;
 	}
 }

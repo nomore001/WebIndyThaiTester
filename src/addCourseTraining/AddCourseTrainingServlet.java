@@ -25,10 +25,10 @@ public class AddCourseTrainingServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		
 		String courseName = "QTP";
-		int courseDuration = 5;
+		int courseDuration =10;
 		String trainingStartDate = "10/1/2557";		
 		String courseRegisterStartDate = "1/1/2557";
-		int courseRegisterDuration = 3;
+		int courseRegisterDuration = 4;
 		String paymentStartDate = "6/1/2557";
 		int paymentDuration = 3;
 		int courseRegisterCosts = 2500;

@@ -8,7 +8,7 @@ import org.apache.tomcat.jdbc.pool.PoolProperties;
 public class MySQLConnectionPool {
 	private static DataSource datasource;
 	private static String driver = "com.mysql.jdbc.Driver";
-	private static String url = "jdbc:mysql://localhost:3306/indy4?useUnicode=true&characterEncoding=UTF-8";
+	private static String url = "jdbc:mysql://localhost:3306/indy_thai_tester?useUnicode=true&characterEncoding=UTF-8";
 	private static String username = "root";
 	private static String password = "1234";
 

@@ -8,13 +8,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+
+
+
+import org.apache.tomcat.jdbc.pool.ConnectionPool;
+
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
+
 import fillRegisterProfile.*;
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
 
 public class DownLoadDocumentManager {
 	public CourseTrainingBean theCourseTrainingBean;
-
+	Vector<CourseTrainingBean> courseTrainingVector;
 	/**
 	 * @roseuid 53C243CE029C
 	 */
@@ -26,6 +33,12 @@ public class DownLoadDocumentManager {
 		this.theCourseTrainingBean = courseTrainingBean;
 	}
 
+	public Vector<CourseTrainingBean> listCourseTraining() {
+		Connection conn = MySQLConnectionPool.getConnection();
+		
+		return courseTrainingVector;
+	}
+	
 	/**
 	 * @return java.util.Vector
 	 * @roseuid 53C244BB03CC
