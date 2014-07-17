@@ -1,13 +1,16 @@
 package listCourseTraining;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import downLoadDocument.CourseTrainingBean;
 import downLoadDocument.DownLoadDocumentManager;
 
 /**
@@ -42,7 +45,14 @@ public class ListCourseTrainingServlet extends HttpServlet {
 		
 		DownLoadDocumentManager downloadDocumentMng = new DownLoadDocumentManager();
 		
-		downloadDocumentMng.listCourseTraining();
+		Vector<CourseTrainingBean> courseTrainingBean = downloadDocumentMng.listCourseTraining();
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("courseTrainingBean", courseTrainingBean);
+		
+		for(int i = 0;i<courseTrainingBean.size();i++){
+			System.out.println(courseTrainingBean.elementAt(i).getCourseTrainingName() +" "+courseTrainingBean.elementAt(i).getCourseTrainingDuration());
+		}
 		
 		
 	}

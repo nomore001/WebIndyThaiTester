@@ -8,17 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-
-
-
-
-import org.apache.tomcat.jdbc.pool.ConnectionPool;
-
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
-
-import fillRegisterProfile.*;
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
+import fillRegisterProfile.RegisterBean;
 
 public class DownLoadDocumentManager {
 	public CourseTrainingBean theCourseTrainingBean;
@@ -36,6 +28,34 @@ public class DownLoadDocumentManager {
 
 	public Vector<CourseTrainingBean> listCourseTraining() {
 		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statement_listCputseTraining = null;
+		String sql_queryCourse = "SELECT * FROM coursetraining;";
+			
+		courseTrainingVector = new Vector<CourseTrainingBean>();
+		try {
+			statement_listCputseTraining = conn.prepareStatement(sql_queryCourse);
+			ResultSet rs  = statement_listCputseTraining.executeQuery();
+			while (rs.next()) {
+				theCourseTrainingBean = new CourseTrainingBean();
+				theCourseTrainingBean.setCourseTrainingName(rs.getString("courseName"));
+				theCourseTrainingBean.setCourseTrainingDuration(rs.getInt("courseDuration"));
+				courseTrainingVector.add(theCourseTrainingBean);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			statement_listCputseTraining.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		return courseTrainingVector;
 	}

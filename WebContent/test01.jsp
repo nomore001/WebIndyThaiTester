@@ -1,3 +1,4 @@
+<%@page import="downLoadDocument.CourseTrainingBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -8,5 +9,7 @@
 </head>
 <body>
 Hello : <p>${sessionScope.traineeBean.name }</p>
+
+<p></p>
 </body>
 </html>
