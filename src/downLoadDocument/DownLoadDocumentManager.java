@@ -143,6 +143,7 @@ public class DownLoadDocumentManager {
 		RegisterBean register = new RegisterBean(registerNo, courseRegisterStartDate, 
 				courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, 
 				courseRegisterCosts);
+		this.theCourseTrainingBean.getRegister().add(register);
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementRegister = null;
 		String sqlRegister = "INSERT INTO register(registerNo, courseRegisterStartDate, courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, courseRegisterCosts, CourseTraining_ID) "
@@ -161,8 +162,7 @@ public class DownLoadDocumentManager {
 			statementRegister.executeUpdate(); 
 			
 			conn.commit();
-			register = null; 
-			this.theCourseTrainingBean = null; 
+			register = null;
 			return true;
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
