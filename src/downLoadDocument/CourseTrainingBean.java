@@ -7,8 +7,8 @@ import java.util.Vector;
 import fillRegisterProfile.RegisterBean;
 
 public class CourseTrainingBean {
-	private String courseTrainingName;
-	private int courseTrainingDuration;
+	private String courseName;
+	private int courseDuration;
 	public TrainingDocumentBean theTrainingDocumentBean;
 	public Vector<RegisterBean> register = new Vector<RegisterBean>();
 
@@ -19,20 +19,20 @@ public class CourseTrainingBean {
 
 	}
 
-	public String getCourseTrainingName() {
-		return courseTrainingName;
+	public String getCourseName() {
+		return courseName;
 	}
 
 	public void setCourseTrainingName(String courseTrainingName) {
-		this.courseTrainingName = courseTrainingName;
+		this.courseName = courseTrainingName;
 	}
 
-	public int getCourseTrainingDuration() {
-		return courseTrainingDuration;
+	public int getCourseDuration() {
+		return courseDuration;
 	}
 
 	public void setCourseTrainingDuration(int courseTrainingDuration) {
-		this.courseTrainingDuration = courseTrainingDuration;
+		this.courseDuration = courseTrainingDuration;
 	}
 
 	public TrainingDocumentBean getTheTrainingDocumentBean() {

@@ -48,10 +48,10 @@ public class ListCourseTrainingServlet extends HttpServlet {
 		Vector<CourseTrainingBean> courseTrainingBean = downloadDocumentMng.listCourseTraining();
 		
 		HttpSession session = request.getSession();
-		session.setAttribute("courseTrainingBean", courseTrainingBean);
-		
+		session.setAttribute("courseTrainingBean",courseTrainingBean);
+		response.sendRedirect("test01.jsp");
 		for(int i = 0;i<courseTrainingBean.size();i++){
-			System.out.println(courseTrainingBean.elementAt(i).getCourseTrainingName() +" "+courseTrainingBean.elementAt(i).getCourseTrainingDuration());
+			System.out.println(courseTrainingBean.elementAt(i).getCourseName() +" "+courseTrainingBean.elementAt(i).getCourseDuration());
 		}
 		
 		

@@ -113,8 +113,8 @@ public class DownLoadDocumentManager {
 		try {
 			conn.setAutoCommit(false); 
 			statementCourseTraining = conn.prepareStatement(sqlCourseTraining); 
-			statementCourseTraining.setString(1, this.theCourseTrainingBean.getCourseTrainingName()); 
-			statementCourseTraining.setInt(2, this.theCourseTrainingBean.getCourseTrainingDuration()); 
+			statementCourseTraining.setString(1, this.theCourseTrainingBean.getCourseName()); 
+			statementCourseTraining.setInt(2, this.theCourseTrainingBean.getCourseDuration()); 
 			statementCourseTraining.executeUpdate();
 			
 			conn.commit();
@@ -240,7 +240,7 @@ public class DownLoadDocumentManager {
 	}
 
 	public String createRegisterNo(int registerAmount) {
-		return this.theCourseTrainingBean.getCourseTrainingName()
+		return this.theCourseTrainingBean.getCourseName()
 				+ (registerAmount + 1);
 	}
 }

@@ -1,6 +1,7 @@
 <%@page import="downLoadDocument.CourseTrainingBean"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,8 +9,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-Hello : <p>${sessionScope.traineeBean.name }</p>
+	Hello :
+<%-- 	<p>${sessionScope.traineeBean.name }</p> --%>
 
-<p></p>
+<c:forEach items="${courseTrainingBean}" var="obj">
+<p>${obj.courseTrainingName} ${obj.courseTrainingDuration}</p>
+</c:forEach>
+
 </body>
 </html>
