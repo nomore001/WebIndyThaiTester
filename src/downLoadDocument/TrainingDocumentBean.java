@@ -15,4 +15,20 @@ public class TrainingDocumentBean
    {
     
    }
+
+public String getDocumentName() {
+	return documentName;
+}
+
+public void setDocumentName(String documentName) {
+	this.documentName = documentName;
+}
+
+public String getDocumentPath() {
+	return documentPath;
+}
+
+public void setDocumentPath(String documentPath) {
+	this.documentPath = documentPath;
+}
 }

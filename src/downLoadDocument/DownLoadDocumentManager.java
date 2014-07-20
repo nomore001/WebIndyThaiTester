@@ -15,6 +15,7 @@ import fillRegisterProfile.RegisterBean;
 public class DownLoadDocumentManager {
 	public CourseTrainingBean theCourseTrainingBean;
 	Vector<CourseTrainingBean> courseTrainingVector;
+	Vector<TrainingDocumentBean> trainingDocumentVector ;
 	/**
 	 * @roseuid 53C243CE029C
 	 */
@@ -64,8 +65,38 @@ public class DownLoadDocumentManager {
 	 * @return java.util.Vector
 	 * @roseuid 53C244BB03CC
 	 */
-	public Vector listAllDocument() {
-		return null;
+	public Vector<TrainingDocumentBean> listAllDocument() {
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statement_listCputseTraining = null;
+		String sql_queryCourse = "SELECT * FROM trainingdocument;";
+			
+		Vector<TrainingDocumentBean> trainingDocumentVector = new Vector<TrainingDocumentBean>();
+		try {
+			statement_listCputseTraining = conn.prepareStatement(sql_queryCourse);
+			ResultSet rs  = statement_listCputseTraining.executeQuery();
+			while (rs.next()) {
+				TrainingDocumentBean trainingDocumentBean = new TrainingDocumentBean();
+				trainingDocumentBean.setDocumentName(rs.getString("documentName"));
+				trainingDocumentBean.setDocumentPath(rs.getString("documentPath"));
+				trainingDocumentVector.add(trainingDocumentBean);
+				
+			}
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			statement_listCputseTraining.close();
+			conn.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return trainingDocumentVector;
 	}
 
 	/**
