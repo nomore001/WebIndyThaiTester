@@ -16,6 +16,7 @@ public class DownLoadDocumentManager {
 	public CourseTrainingBean theCourseTrainingBean;
 	Vector<CourseTrainingBean> courseTrainingVector;
 	Vector<TrainingDocumentBean> trainingDocumentVector;
+	private static DownLoadDocumentManager instance = null;
 
 	/**
 	 * @roseuid 53C243CE029C
@@ -24,8 +25,20 @@ public class DownLoadDocumentManager {
 
 	}
 
+	public static DownLoadDocumentManager getInstance() {
+		if (instance == null) {
+			return instance = new DownLoadDocumentManager();
+		}
+		return instance;
+	}
+
 	public DownLoadDocumentManager(CourseTrainingBean courseTrainingBean) {
 		this.theCourseTrainingBean = courseTrainingBean;
+	}
+
+	public void initDownloadManager(CourseTrainingBean courseTrainingBean) {
+		this.theCourseTrainingBean = courseTrainingBean;
+
 	}
 
 	public synchronized Vector<CourseTrainingBean> listCourseTraining() {
@@ -110,6 +123,10 @@ public class DownLoadDocumentManager {
 	 */
 	public String downloadTrainingDocument() {
 		return null;
+	}
+
+	public void upLoadTrainingDocument() {
+
 	}
 
 	public synchronized int sumOfRegister(int courseTrainingID) {

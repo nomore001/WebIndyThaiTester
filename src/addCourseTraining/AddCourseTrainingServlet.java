@@ -31,13 +31,21 @@ public class AddCourseTrainingServlet extends HttpServlet {
 
 		try {
 			String courseName = request.getParameter("textcourseName");
-			int courseDuration = Integer.parseInt(request.getParameter("textcourseDuration"));
-			String courseRegisterStartDate = myFormat.format(fromUser.parse(request.getParameter("textcourseRegisterStartDate")));
-			int courseRegisterDuration = Integer.parseInt(request.getParameter("textcourseRegisterDuration"));
-			String paymentStartDate = myFormat.format(fromUser.parse(request.getParameter("textpaymentStartDate")));
-			int paymentDuration = Integer.parseInt(request.getParameter("textpaymentDuration"));
-			String trainingStartDate = myFormat.format(fromUser.parse(request.getParameter("texttrainingStartDate")));
-			int courseRegisterCosts = Integer.parseInt(request.getParameter("textcourseRegisterCosts"));
+			int courseDuration = Integer.parseInt(request
+					.getParameter("textcourseDuration"));
+			String courseRegisterStartDate = myFormat
+					.format(fromUser.parse(request
+							.getParameter("textcourseRegisterStartDate")));
+			int courseRegisterDuration = Integer.parseInt(request
+					.getParameter("textcourseRegisterDuration"));
+			String paymentStartDate = myFormat.format(fromUser.parse(request
+					.getParameter("textpaymentStartDate")));
+			int paymentDuration = Integer.parseInt(request
+					.getParameter("textpaymentDuration"));
+			String trainingStartDate = myFormat.format(fromUser.parse(request
+					.getParameter("texttrainingStartDate")));
+			int courseRegisterCosts = Integer.parseInt(request
+					.getParameter("textcourseRegisterCosts"));
 
 			CourseTrainingBean courseTrainingBean = (CourseTrainingBean) session
 					.getAttribute("courseTrainingBean");
@@ -46,14 +54,15 @@ public class AddCourseTrainingServlet extends HttpServlet {
 				session.setAttribute("courseTrainingBean", courseTrainingBean);
 			}
 
-			DownLoadDocumentManager downloadDocMng = new DownLoadDocumentManager(
-					courseTrainingBean);
+			DownLoadDocumentManager downloadDocumentMgr = DownLoadDocumentManager
+					.getInstance();
+			downloadDocumentMgr.initDownloadManager(courseTrainingBean);
 
-			boolean verifyCourse = downloadDocMng.isVerifyCourseTraining(
+			boolean verifyCourse = downloadDocumentMgr.isVerifyCourseTraining(
 					courseName, courseDuration);
 
 			if (!verifyCourse) {
-				boolean ckAddCourse = downloadDocMng.addCourseTraining(
+				boolean ckAddCourse = downloadDocumentMgr.addCourseTraining(
 						courseName, courseDuration);
 				if (ckAddCourse) {
 					System.out.println("Add CourseTraining Success");
@@ -64,26 +73,27 @@ public class AddCourseTrainingServlet extends HttpServlet {
 				System.out.println("Has Course " + courseName);
 			}
 
-			int courseID = downloadDocMng.searchCourseId(courseName,
+			int courseID = downloadDocumentMgr.searchCourseId(courseName,
 					courseDuration);
 			// 9 – ระบบค้นหาจำนวนการลงทะเบียนของหลักสูตรการอบรมนั้น ๆ
 			// จากฐานข้อมูล
 			// 10 – ระบบคืนค่าการค้นหาจากฐานข้อมูล
-			int registerAmount = downloadDocMng.sumOfRegister(courseID);
+			int registerAmount = downloadDocumentMgr.sumOfRegister(courseID);
 			// 11 – ระบบสร้างรหัสการลงทะเบียนโดยบวกรหัสการลงทะเบียนเพิ่มขึ้น 1
 			// ลำดับ
-			String registerNo = downloadDocMng.createRegisterNo(registerAmount);
+			String registerNo = downloadDocumentMgr
+					.createRegisterNo(registerAmount);
 			// 12 – ระบบบันทึกข้อมูลการเพิ่มหลักสูตรการอบรมลงฐานข้อมูล
 			// 13 – ระบบคืนค่าสถานะการตรวจสอบจากฐานข้อมูล
-			boolean ckAdd = downloadDocMng.addRegister(registerNo,
+			boolean ckAdd = downloadDocumentMgr.addRegister(registerNo,
 					courseRegisterStartDate, courseRegisterDuration,
 					paymentStartDate, paymentDuration, trainingStartDate,
 					courseRegisterCosts, courseID);
 
 			if (ckAdd) {
-				courseTrainingBean = downloadDocMng.theCourseTrainingBean;
+				courseTrainingBean = downloadDocumentMgr.theCourseTrainingBean;
 				session.setAttribute("courseTrainingBean", courseTrainingBean);
-				downloadDocMng.theCourseTrainingBean = null;
+				downloadDocumentMgr.theCourseTrainingBean = null;
 				System.out.println("Add Register Success");
 			} else {
 				System.out.println("Add Register Fail");
