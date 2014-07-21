@@ -11,7 +11,7 @@ import fillRegisterProfile.TraineeBean;
 
 public class LoginManager {
 
-	public boolean verifyLogin(LoginBean login) {
+	public synchronized boolean verifyLogin(LoginBean login) {
 
 		String query = "SELECT * FROM login where username = '"
 				+ login.getUsername() + "';";
@@ -52,7 +52,7 @@ public class LoginManager {
 		return false;
 	}
 
-	public String searchUserAccessStatus(String username) {
+	public synchronized String searchUserAccessStatus(String username) {
 		String userStatus = null;
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {
@@ -69,7 +69,7 @@ public class LoginManager {
 			// iterate through the java resultset
 			while (rs.next()) {
 				userStatus = rs.getString("status");
-				
+
 			}
 			st.close();
 			conn.close();
@@ -89,7 +89,7 @@ public class LoginManager {
 		return userStatus;
 	}
 
-	public TraineeBean searchTraineeByUsername(String username) {
+	public synchronized TraineeBean searchTraineeByUsername(String username) {
 		TraineeBean trainee = new TraineeBean();
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {
@@ -131,7 +131,7 @@ public class LoginManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return trainee;
 	}
 }

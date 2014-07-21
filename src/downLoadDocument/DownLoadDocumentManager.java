@@ -15,36 +15,39 @@ import fillRegisterProfile.RegisterBean;
 public class DownLoadDocumentManager {
 	public CourseTrainingBean theCourseTrainingBean;
 	Vector<CourseTrainingBean> courseTrainingVector;
-	Vector<TrainingDocumentBean> trainingDocumentVector ;
+	Vector<TrainingDocumentBean> trainingDocumentVector;
+
 	/**
 	 * @roseuid 53C243CE029C
 	 */
 	public DownLoadDocumentManager() {
-		
+
 	}
-	
+
 	public DownLoadDocumentManager(CourseTrainingBean courseTrainingBean) {
 		this.theCourseTrainingBean = courseTrainingBean;
 	}
 
-	public Vector<CourseTrainingBean> listCourseTraining() {
+	public synchronized Vector<CourseTrainingBean> listCourseTraining() {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statement_listCputseTraining = null;
 		String sql_queryCourse = "SELECT * FROM coursetraining;";
-			
+
 		Vector<CourseTrainingBean> courseTrainingVector = new Vector<CourseTrainingBean>();
 		try {
-			statement_listCputseTraining = conn.prepareStatement(sql_queryCourse);
-			ResultSet rs  = statement_listCputseTraining.executeQuery();
+			statement_listCputseTraining = conn
+					.prepareStatement(sql_queryCourse);
+			ResultSet rs = statement_listCputseTraining.executeQuery();
 			while (rs.next()) {
 				CourseTrainingBean courseTraining = new CourseTrainingBean();
-				courseTraining.setCourseTrainingName(rs.getString("courseName"));
-				courseTraining.setCourseTrainingDuration(rs.getInt("courseDuration"));
+				courseTraining
+						.setCourseTrainingName(rs.getString("courseName"));
+				courseTraining.setCourseTrainingDuration(rs
+						.getInt("courseDuration"));
 				courseTrainingVector.add(courseTraining);
-				
+
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,38 +55,40 @@ public class DownLoadDocumentManager {
 		try {
 			statement_listCputseTraining.close();
 			conn.close();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return courseTrainingVector;
 	}
-	
+
 	/**
 	 * @return java.util.Vector
 	 * @roseuid 53C244BB03CC
 	 */
-	public Vector<TrainingDocumentBean> listAllDocument() {
-		
+	public synchronized Vector<TrainingDocumentBean> listAllDocument() {
+
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statement_listCputseTraining = null;
 		String sql_queryCourse = "SELECT * FROM trainingdocument;";
-			
+
 		Vector<TrainingDocumentBean> trainingDocumentVector = new Vector<TrainingDocumentBean>();
 		try {
-			statement_listCputseTraining = conn.prepareStatement(sql_queryCourse);
-			ResultSet rs  = statement_listCputseTraining.executeQuery();
+			statement_listCputseTraining = conn
+					.prepareStatement(sql_queryCourse);
+			ResultSet rs = statement_listCputseTraining.executeQuery();
 			while (rs.next()) {
 				TrainingDocumentBean trainingDocumentBean = new TrainingDocumentBean();
-				trainingDocumentBean.setDocumentName(rs.getString("documentName"));
-				trainingDocumentBean.setDocumentPath(rs.getString("documentPath"));
+				trainingDocumentBean.setDocumentName(rs
+						.getString("documentName"));
+				trainingDocumentBean.setDocumentPath(rs
+						.getString("documentPath"));
 				trainingDocumentVector.add(trainingDocumentBean);
-				
+
 			}
-			
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,7 +96,7 @@ public class DownLoadDocumentManager {
 		try {
 			statement_listCputseTraining.close();
 			conn.close();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,7 +112,7 @@ public class DownLoadDocumentManager {
 		return null;
 	}
 
-	public int sumOfRegister(int courseTrainingID) {
+	public synchronized int sumOfRegister(int courseTrainingID) {
 		int sumOfRegister = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statement_sumOfRegister = null;
@@ -132,22 +137,25 @@ public class DownLoadDocumentManager {
 		return sumOfRegister;
 	}
 
-	public synchronized boolean addCourseTraining(String courseName, int courseDuration) {
+	public synchronized boolean addCourseTraining(String courseName,
+			int courseDuration) {
 		this.theCourseTrainingBean.setCourseTrainingName(courseName);
 		this.theCourseTrainingBean.setCourseTrainingDuration(courseDuration);
-		
+
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementCourseTraining = null;
 		String sqlCourseTraining = "INSERT INTO coursetraining(courseName, courseDuration) "
 				+ "VALUES (?,?)";
 
 		try {
-			conn.setAutoCommit(false); 
-			statementCourseTraining = conn.prepareStatement(sqlCourseTraining); 
-			statementCourseTraining.setString(1, this.theCourseTrainingBean.getCourseName()); 
-			statementCourseTraining.setInt(2, this.theCourseTrainingBean.getCourseDuration()); 
+			conn.setAutoCommit(false);
+			statementCourseTraining = conn.prepareStatement(sqlCourseTraining);
+			statementCourseTraining.setString(1,
+					this.theCourseTrainingBean.getCourseName());
+			statementCourseTraining.setInt(2,
+					this.theCourseTrainingBean.getCourseDuration());
 			statementCourseTraining.executeUpdate();
-			
+
 			conn.commit();
 			return true;
 		} catch (SQLException ex) {
@@ -168,11 +176,13 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public synchronized boolean addRegister(String registerNo, String courseRegisterStartDate, 
-			int courseRegisterDuration, String paymentStartDate, int paymentDuration, 
+	public synchronized boolean addRegister(String registerNo,
+			String courseRegisterStartDate, int courseRegisterDuration,
+			String paymentStartDate, int paymentDuration,
 			String trainingStartDate, int courseRegisterCosts, int courseID) {
-		RegisterBean register = new RegisterBean(registerNo, courseRegisterStartDate, 
-				courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, 
+		RegisterBean register = new RegisterBean(registerNo,
+				courseRegisterStartDate, courseRegisterDuration,
+				paymentStartDate, paymentDuration, trainingStartDate,
 				courseRegisterCosts);
 		this.theCourseTrainingBean.getRegister().add(register);
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -180,18 +190,19 @@ public class DownLoadDocumentManager {
 		String sqlRegister = "INSERT INTO register(registerNo, courseRegisterStartDate, courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, courseRegisterCosts, CourseTraining_ID) "
 				+ "VALUES (?,?,?,?,?,?,?,?)";
 		try {
-			conn.setAutoCommit(false); 
-			statementRegister = conn.prepareStatement(sqlRegister); 
-			statementRegister.setString(1, register.getRegisterNo()); 
-			statementRegister.setString(2, register.getCourseRegisterStartDate()); 
-			statementRegister.setInt(3, register.getCourseRegisterDuration()); 
-			statementRegister.setString(4, register.getPaymentStartDate()); 
-			statementRegister.setInt(5, register.getPaymentDuration()); 
-			statementRegister.setString(6, register.getTrainingStartDate()); 
-			statementRegister.setInt(7, register.getCourseRegisterCosts()); 
-			statementRegister.setInt(8, courseID); 
-			statementRegister.executeUpdate(); 
-			
+			conn.setAutoCommit(false);
+			statementRegister = conn.prepareStatement(sqlRegister);
+			statementRegister.setString(1, register.getRegisterNo());
+			statementRegister.setString(2,
+					register.getCourseRegisterStartDate());
+			statementRegister.setInt(3, register.getCourseRegisterDuration());
+			statementRegister.setString(4, register.getPaymentStartDate());
+			statementRegister.setInt(5, register.getPaymentDuration());
+			statementRegister.setString(6, register.getTrainingStartDate());
+			statementRegister.setInt(7, register.getCourseRegisterCosts());
+			statementRegister.setInt(8, courseID);
+			statementRegister.executeUpdate();
+
 			conn.commit();
 			register = null;
 			return true;
@@ -213,7 +224,8 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public boolean isVerifyCourseTraining(String courseName, int courseDuration) {
+	public synchronized boolean isVerifyCourseTraining(String courseName,
+			int courseDuration) {
 		String queryCourseName = null;
 		int queryCourseDuratin = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -243,7 +255,7 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public int searchCourseId(String courseName, int courseDuration) {
+	public synchronized int searchCourseId(String courseName, int courseDuration) {
 		int courseTrainingID = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchCourseId = null;
@@ -254,8 +266,10 @@ public class DownLoadDocumentManager {
 			ResultSet rs = statementSearchCourseId.executeQuery();
 			while (rs.next()) {
 				courseTrainingID = rs.getInt("CourseTraining_ID");
-				this.theCourseTrainingBean.setCourseTrainingName(rs.getString("courseName"));
-				this.theCourseTrainingBean.setCourseTrainingDuration(rs.getInt("courseDuration"));
+				this.theCourseTrainingBean.setCourseTrainingName(rs
+						.getString("courseName"));
+				this.theCourseTrainingBean.setCourseTrainingDuration(rs
+						.getInt("courseDuration"));
 			}
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
@@ -270,7 +284,7 @@ public class DownLoadDocumentManager {
 		return courseTrainingID;
 	}
 
-	public String createRegisterNo(int registerAmount) {
+	public synchronized String createRegisterNo(int registerAmount) {
 		return this.theCourseTrainingBean.getCourseName()
 				+ (registerAmount + 1);
 	}
