@@ -10,6 +10,14 @@ import fillRegisterProfile.LoginBean;
 import fillRegisterProfile.TraineeBean;
 
 public class LoginManager {
+	private static LoginManager instance = null;
+
+	public synchronized static LoginManager getInstance() {
+		if (instance == null) {
+			return instance = new LoginManager();
+		}
+		return instance;
+	}
 
 	public synchronized boolean verifyLogin(LoginBean login) {
 

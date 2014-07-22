@@ -47,15 +47,17 @@ public class ListDocumentServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 
-		DownLoadDocumentManager documentMng = new DownLoadDocumentManager();
+		DownLoadDocumentManager documentMng = DownLoadDocumentManager
+				.getInstance();
 
 		Vector<TrainingDocumentBean> trainingDoc = documentMng
 				.listAllDocument();
 		HttpSession session = request.getSession();
 		session.setAttribute("trainingDocumentBean", trainingDoc);
-		
-		for(int i = 0;i<trainingDoc.size();i++){
-			System.out.println(trainingDoc.elementAt(i).getDocumentName()+" "+trainingDoc.elementAt(i).getDocumentPath());
+
+		for (int i = 0; i < trainingDoc.size(); i++) {
+			System.out.println(trainingDoc.elementAt(i).getDocumentName() + " "
+					+ trainingDoc.elementAt(i).getDocumentPath());
 		}
 	}
 

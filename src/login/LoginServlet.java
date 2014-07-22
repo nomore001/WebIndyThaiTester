@@ -73,18 +73,19 @@ public class LoginServlet extends HttpServlet {
 		LoginBean login = new LoginBean();
 		login.setUsername(request.getParameter("username_login"));
 		login.setPassword(request.getParameter("password_login"));
-		LoginManager loginMgr = new LoginManager();
+		LoginManager loginMgr = LoginManager.getInstance();
 
 		if (loginMgr.verifyLogin(login)) {
 			TraineeBean trainee = loginMgr.searchTraineeByUsername(login
 					.getUsername());
 			HttpSession session = request.getSession();
 			session.setAttribute("traineeBean", trainee);
-			if(loginMgr.searchUserAccessStatus(login.getUsername()).equals("admin")){
+			if (loginMgr.searchUserAccessStatus(login.getUsername()).equals(
+					"admin")) {
 				response.sendRedirect("admin.jsp");
-			}else{
+			} else {
 				response.sendRedirect("test01.jsp");
-			}			
+			}
 			System.out.println("pass");
 		} else {
 			System.out.println("fail");

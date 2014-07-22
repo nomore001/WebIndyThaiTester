@@ -20,9 +20,10 @@ public class FillRegisterProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		FillRegisterProfileManager fillRegisterMng = new FillRegisterProfileManager();
-		//session.setAttribute("productList", listProductMng.listProduct());
-		//response.sendRedirect("viewproduct.jsp");
+		FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
+				.getInstance();
+		// session.setAttribute("productList", listProductMng.listProduct());
+		// response.sendRedirect("viewproduct.jsp");
 	}
 
 	protected void doPost(HttpServletRequest request,
