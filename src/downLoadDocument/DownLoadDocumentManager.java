@@ -2,11 +2,21 @@
 
 package downLoadDocument;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
@@ -125,9 +135,29 @@ public class DownLoadDocumentManager {
 		return null;
 	}
 
-	public void upLoadTrainingDocument() {
+	public void upLoadTrainingDocument(HttpServletRequest request,HttpServletResponse response,String dirctory) {
+		
+	
+		if (ServletFileUpload.isMultipartContent(request)) {
+			try {
+				List<FileItem> multiparts = new ServletFileUpload(
+						new DiskFileItemFactory()).parseRequest(request);
 
-	}
+				for (FileItem item : multiparts) {
+					if (!item.isFormField()) {
+						String name = new File(item.getName()).getName();
+						item.write(new File(dirctory + File.separator
+								+ name));
+					} 
+					}
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
+
+		}
+		}
 
 	public synchronized int sumOfRegister(int courseTrainingID) {
 		int sumOfRegister = 0;

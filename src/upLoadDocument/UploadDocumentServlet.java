@@ -40,13 +40,27 @@ public class UploadDocumentServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-			request.setCharacterEncoding("utf-8");
-			response.setCharacterEncoding("utf-8");
-			response.setContentType("text/html");
-			
-			DownLoadDocumentManager documentMng = DownLoadDocumentManager.getInstance();
-			
-			documentMng.upLoadTrainingDocument();
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
+
+		DownLoadDocumentManager documentMng = DownLoadDocumentManager
+				.getInstance();
+		String courseName = "QTP";
+		if (courseName.equals("QTP")) {
+			documentMng
+					.upLoadTrainingDocument(
+							request,
+							response,
+							"D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file\\QTP");
+		}else if(courseName.equals("Selenium")){
+			documentMng
+			.upLoadTrainingDocument(
+					request,
+					response,
+					"D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file\\Selenium");
+
+		}
 	}
 
 }
