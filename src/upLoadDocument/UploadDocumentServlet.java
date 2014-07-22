@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import downLoadDocument.DownLoadDocumentManager;
+
 /**
  * Servlet implementation class UploadDocumentServlet
  */
@@ -38,7 +40,13 @@ public class UploadDocumentServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
+			request.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("text/html");
+			
+			DownLoadDocumentManager documentMng = DownLoadDocumentManager.getInstance();
+			
+			documentMng.upLoadTrainingDocument();
 	}
 
 }
