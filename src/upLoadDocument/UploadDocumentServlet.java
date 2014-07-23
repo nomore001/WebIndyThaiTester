@@ -1,12 +1,22 @@
 package upLoadDocument;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
+
+
+
 
 import downLoadDocument.DownLoadDocumentManager;
 
@@ -43,24 +53,50 @@ public class UploadDocumentServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-
+		String courseName=null;
+		String directory="D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file";
+		boolean resultaddDoc = false;
 		DownLoadDocumentManager documentMng = DownLoadDocumentManager
 				.getInstance();
-		String courseName = "QTP";
-		if (courseName.equals("QTP")) {
-			documentMng
-					.upLoadTrainingDocument(
-							request,
-							response,
-							"D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file\\QTP");
-		}else if(courseName.equals("Selenium")){
-			documentMng
-			.upLoadTrainingDocument(
-					request,
-					response,
-					"D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file\\Selenium");
+	
+		
+		
+		if (ServletFileUpload.isMultipartContent(request)) {
+			try {
+				List<FileItem> multiparts = new ServletFileUpload(
+						new DiskFileItemFactory()).parseRequest(request);
+
+				
+				for (FileItem item : multiparts) {
+					
+					if (item.isFormField()) {
+						if(item.getFieldName().equals("courseToUpload")){
+							 courseName = new String (item.getString().getBytes ("iso-8859-1"), "UTF-8");
+							 if(courseName.equals("qtp")){
+								 directory += "\\QTP";
+								
+							 }else if(courseName.equals("selenium")){
+								 directory += "\\Selenium";
+								
+							 }
+						}
+						
+					} else{
+						String name = new File(item.getName()).getName();
+						item.write(new File(directory + File.separator
+								+ name));			
+						
+//					resultaddDoc = 	documentMng.upLoadTrainingDocument(name, directory,courseName);
+					}
+					}
+				System.out.println(resultaddDoc);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
 
 		}
+
 	}
 
 }

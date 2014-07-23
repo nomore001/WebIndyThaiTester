@@ -8,8 +8,8 @@ import fillRegisterProfile.RegisterBean;
 
 public class CourseTrainingBean {
 	private String courseName;
-	private int courseDuration;
-	public TrainingDocumentBean theTrainingDocumentBean;
+	
+	private Vector<TrainingDocumentBean> trainingDocumentVector;
 	public Vector<RegisterBean> register = new Vector<RegisterBean>();
 
 	/**
@@ -27,29 +27,20 @@ public class CourseTrainingBean {
 		this.courseName = courseTrainingName;
 	}
 
-	public int getCourseDuration() {
-		return courseDuration;
-	}
-
-	public void setCourseTrainingDuration(int courseTrainingDuration) {
-		this.courseDuration = courseTrainingDuration;
-	}
-
-	public TrainingDocumentBean getTheTrainingDocumentBean() {
-		return theTrainingDocumentBean;
-	}
-
-	public void setTheTrainingDocumentBean(
-			TrainingDocumentBean theTrainingDocumentBean) {
-		this.theTrainingDocumentBean = theTrainingDocumentBean;
-	}
-
 	public Vector<RegisterBean> getRegister() {
 		return register;
 	}
 
 	public void setRegister(Vector<RegisterBean> register) {
 		this.register = register;
+	}
+
+	public Vector<TrainingDocumentBean> getTrainingDocumentVector() {
+		return trainingDocumentVector;
+	}
+
+	public void setTrainingDocumentVector(Vector<TrainingDocumentBean> trainingDocumentVector) {
+		this.trainingDocumentVector = trainingDocumentVector;
 	}
 
 }

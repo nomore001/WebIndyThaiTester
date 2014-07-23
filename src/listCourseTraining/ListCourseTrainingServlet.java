@@ -60,8 +60,7 @@ public class ListCourseTrainingServlet extends HttpServlet {
 			System.out
 					.println(courseTrainingBean.elementAt(i).getCourseName()
 							+ " "
-							+ courseTrainingBean.elementAt(i)
-									.getCourseDuration());
+							+ courseTrainingBean.elementAt(i).getRegister().elementAt(i).getCourseDuration());
 		}
 
 	}

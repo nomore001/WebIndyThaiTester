@@ -10,7 +10,7 @@ public class RegisterBean {
 	private int paymentDuration;
 	private String trainingStartDate;
 	private int courseRegisterCosts;
-	
+	private int courseDuration;
 	private Vector<TraineeBean> traineeVector = new Vector<TraineeBean>();
 
 	public RegisterBean() {
@@ -195,6 +195,14 @@ public class RegisterBean {
 			}
 		}
 		return false;
+	}
+
+	public int getCourseDuration() {
+		return courseDuration;
+	}
+
+	public void setCourseDuration(int courseDuration) {
+		this.courseDuration = courseDuration;
 	}
 	
 }

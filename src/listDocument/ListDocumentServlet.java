@@ -50,15 +50,15 @@ public class ListDocumentServlet extends HttpServlet {
 		DownLoadDocumentManager documentMng = DownLoadDocumentManager
 				.getInstance();
 
-		Vector<TrainingDocumentBean> trainingDoc = documentMng
-				.listAllDocument();
-		HttpSession session = request.getSession();
-		session.setAttribute("trainingDocumentBean", trainingDoc);
-
-		for (int i = 0; i < trainingDoc.size(); i++) {
-			System.out.println(trainingDoc.elementAt(i).getDocumentName() + " "
-					+ trainingDoc.elementAt(i).getDocumentPath());
-		}
+//		Vector<TrainingDocumentBean> trainingDoc = documentMng
+//				.listAllDocument();
+//		HttpSession session = request.getSession();
+//		session.setAttribute("trainingDocumentBean", trainingDoc);
+//
+//		for (int i = 0; i < trainingDoc.size(); i++) {
+//			System.out.println(trainingDoc.elementAt(i).getDocumentName() + " "
+//					+ trainingDoc.elementAt(i).getDocumentPath());
+//		}
 	}
 
 }
