@@ -51,8 +51,29 @@ public class FillRegisterProfileManager {
 	 * return null; }
 	 */
 
-	public int sumOfTrainee() {
-		return 0;
+	public int sumOfTrainee(RegisterBean registerBean) {
+		int sumOfTrainee = 0;
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statement_sumOfRegister = null;
+		String sql_sumOfRegister = "select COUNT(Trainee_ID) as SumOfTrainee from trainee where regiserNo = '"
+				+ registerBean.getRegisterNo() + "';";
+		try {
+			statement_sumOfRegister = conn.prepareStatement(sql_sumOfRegister);
+			ResultSet rs = statement_sumOfRegister.executeQuery();
+			while (rs.next()) {
+				sumOfTrainee = rs.getInt("SumOfTrainee");
+			}
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statement_sumOfRegister.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return sumOfTrainee;
 	}
 
 	public String createFrangmentPayment(int sumOfTrainee) {
@@ -88,10 +109,45 @@ public class FillRegisterProfileManager {
 		return false;
 	}
 
-	public boolean verifyLogin(String username, String password) {
+	public synchronized boolean verifyLogin(LoginBean login) {
 
+		String query = "SELECT * FROM login where username = '"
+				+ login.getUsername() + "';";
+
+		Connection conn = MySQLConnectionPool.getConnection();
+		try {
+
+			// create the java statement
+
+			PreparedStatement st = conn.prepareStatement(query);
+
+			// execute the query, and get a java resultset
+			ResultSet rs = st.executeQuery(query);
+
+			// iterate through the java resultset
+			String username = null;
+			String password = null;
+			while (rs.next()) {
+
+				username = rs.getString("username");
+				password = rs.getString("password");
+				System.out.println(username + password);
+
+			}
+
+			if (login.getUsername().equals(username)) {
+				if (login.getPassword().equals(password)) {
+					return true;
+				}
+			}
+			st.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
-
 	}
 
 	public String searchUserAccessStatus(String username) {

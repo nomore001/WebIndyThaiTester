@@ -54,7 +54,7 @@ public class DownLoadDocumentManager {
 	public synchronized Vector<CourseTrainingBean> listCourseTraining() {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statement_listCputseTraining = null;
-		String sql_queryCourse = "SELECT * FROM coursetraining join register;";
+		String sql_queryCourse = "SELECT * FROM coursetraining;";
 
 		Vector<CourseTrainingBean> courseTrainingVector = new Vector<CourseTrainingBean>();
 		try {

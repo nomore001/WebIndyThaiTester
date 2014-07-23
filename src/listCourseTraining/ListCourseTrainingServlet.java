@@ -58,9 +58,7 @@ public class ListCourseTrainingServlet extends HttpServlet {
 		response.sendRedirect("test01.jsp");
 		for (int i = 0; i < courseTrainingBean.size(); i++) {
 			System.out
-					.println(courseTrainingBean.elementAt(i).getCourseName()
-							+ " "
-							+ courseTrainingBean.elementAt(i).getRegister().elementAt(i).getCourseDuration());
+					.println(courseTrainingBean.elementAt(i).getCourseName());
 		}
 
 	}
