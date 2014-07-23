@@ -37,19 +37,6 @@
 			</div>
 
 			<div class="form-group">
-				<label align="right" class="text-info col-sm-4 control-label">จำนวนวันที่เปิดอบรม
-					:</label>
-				<div class="col-sm-4">
-					<div class="input-group input-group-sm">
-						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
-							type="text" name="textcourseDuration" id="txtname"
-							placeholder="จำนวนวันที่เปิดอบรม">
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group">
 				<label align="right" class="text-info col-sm-4 control-label">วันที่เปิดลงทะเบียน
 					:</label>
 				<div class="col-sm-4">
@@ -110,6 +97,19 @@
 							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
 							type="text" name="texttrainingStartDate" id="datepicker3"
 							placeholder="วันที่เริ่มการอบรม">
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label align="right" class="text-info col-sm-4 control-label">จำนวนวันที่เปิดอบรม
+					:</label>
+				<div class="col-sm-4">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon"><i
+							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							type="text" name="textcourseDuration" id="txtname"
+							placeholder="จำนวนวันที่เปิดอบรม">
 					</div>
 				</div>
 			</div>

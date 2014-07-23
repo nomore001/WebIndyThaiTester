@@ -201,15 +201,12 @@ public class DownLoadDocumentManager {
 		return sumOfRegister;
 	}
 
-	public synchronized boolean addCourseTraining(String courseName,
-			int courseDuration) {
+	public synchronized boolean addCourseTraining(String courseName) {
 		this.theCourseTrainingBean.setCourseTrainingName(courseName);
-		
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementCourseTraining = null;
-		String sqlCourseTraining = "INSERT INTO coursetraining(courseName) "
-				+ "VALUES (?,?)";
+		String sqlCourseTraining = "INSERT INTO coursetraining(courseName) VALUES (?)";
 
 		try {
 			conn.setAutoCommit(false);
@@ -238,19 +235,19 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public synchronized boolean addRegister(String registerNo,
-			String courseRegisterStartDate, int courseRegisterDuration,
-			String paymentStartDate, int paymentDuration,
-			String trainingStartDate, int courseRegisterCosts, int courseID) {
-		RegisterBean register = new RegisterBean(registerNo,
-				courseRegisterStartDate, courseRegisterDuration,
-				paymentStartDate, paymentDuration, trainingStartDate,
+	public synchronized boolean addRegister(String registerNo, String courseRegisterStartDate,
+			int courseRegisterDuration, String paymentStartDate,
+			int paymentDuration, String trainingStartDate, int courseDuration,
+			int courseRegisterCosts, int courseID) {
+		RegisterBean register = new RegisterBean(registerNo, courseRegisterStartDate,
+				courseRegisterDuration, paymentStartDate,
+				paymentDuration, trainingStartDate, courseDuration,
 				courseRegisterCosts);
 		this.theCourseTrainingBean.getRegister().add(register);
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementRegister = null;
-		String sqlRegister = "INSERT INTO register(registerNo, courseRegisterStartDate, courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, courseRegisterCosts, CourseTraining_ID) "
-				+ "VALUES (?,?,?,?,?,?,?,?)";
+		String sqlRegister = "INSERT INTO register(registerNo, courseRegisterStartDate, courseRegisterDuration, paymentStartDate, paymentDuration, trainingStartDate, courseDuration, courseRegisterCosts, CourseTraining_ID) "
+				+ "VALUES (?,?,?,?,?,?,?,?,?)";
 		try {
 			conn.setAutoCommit(false);
 			statementRegister = conn.prepareStatement(sqlRegister);
@@ -261,8 +258,9 @@ public class DownLoadDocumentManager {
 			statementRegister.setString(4, register.getPaymentStartDate());
 			statementRegister.setInt(5, register.getPaymentDuration());
 			statementRegister.setString(6, register.getTrainingStartDate());
-			statementRegister.setInt(7, register.getCourseRegisterCosts());
-			statementRegister.setInt(8, courseID);
+			statementRegister.setInt(7, register.getCourseDuration());
+			statementRegister.setInt(8, register.getCourseRegisterCosts());
+			statementRegister.setInt(9, courseID);
 			statementRegister.executeUpdate();
 
 			conn.commit();
@@ -286,10 +284,8 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public synchronized boolean isVerifyCourseTraining(String courseName,
-			int courseDuration) {
+	public synchronized boolean isVerifyCourseTraining(String courseName) {
 		String queryCourseName = null;
-		int queryCourseDuratin = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementVerify = null;
 		String sqlVerify = "SELECT * FROM coursetraining;";
@@ -298,9 +294,7 @@ public class DownLoadDocumentManager {
 			ResultSet rs = statementVerify.executeQuery();
 			while (rs.next()) {
 				queryCourseName = rs.getString("courseName");
-				queryCourseDuratin = rs.getInt("courseDuration");
-				if (queryCourseName.equals(courseName)
-						&& queryCourseDuratin == courseDuration) {
+				if (queryCourseName.equals(courseName)) {
 					return true;
 				}
 			}
@@ -317,12 +311,12 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public synchronized int searchCourseId(String courseName, int courseDuration) {
+	public synchronized int searchCourseId(String courseName) {
 		int courseTrainingID = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchCourseId = null;
 		String sqlVerify = "SELECT * FROM coursetraining WHERE courseName = '"
-				+ courseName + "' and courseDuration = " + courseDuration + ";";
+				+ courseName + "';";
 		try {
 			statementSearchCourseId = conn.prepareStatement(sqlVerify);
 			ResultSet rs = statementSearchCourseId.executeQuery();

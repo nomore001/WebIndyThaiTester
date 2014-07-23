@@ -9,8 +9,8 @@ public class RegisterBean {
 	private String paymentStartDate;
 	private int paymentDuration;
 	private String trainingStartDate;
-	private int courseRegisterCosts;
 	private int courseDuration;
+	private int courseRegisterCosts;
 	private Vector<TraineeBean> traineeVector = new Vector<TraineeBean>();
 
 	public RegisterBean() {
@@ -19,7 +19,7 @@ public class RegisterBean {
 
 	public RegisterBean(String registerNo, String courseRegisterStartDate,
 			int courseRegisterDuration, String paymentStartDate,
-			int paymentDuration, String trainingStartDate,
+			int paymentDuration, String trainingStartDate, int courseDuration,
 			int courseRegisterCosts) {
 		this.registerNo = registerNo;
 		this.courseRegisterStartDate = courseRegisterStartDate;
@@ -27,6 +27,7 @@ public class RegisterBean {
 		this.paymentStartDate = paymentStartDate;
 		this.paymentDuration = paymentDuration;
 		this.trainingStartDate = trainingStartDate;
+		this.courseDuration = courseDuration;
 		this.courseRegisterCosts = courseRegisterCosts;
 	}
 

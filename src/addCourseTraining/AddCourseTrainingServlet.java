@@ -31,8 +31,6 @@ public class AddCourseTrainingServlet extends HttpServlet {
 
 		try {
 			String courseName = request.getParameter("textcourseName");
-			int courseDuration = Integer.parseInt(request
-					.getParameter("textcourseDuration"));
 			String courseRegisterStartDate = myFormat
 					.format(fromUser.parse(request
 							.getParameter("textcourseRegisterStartDate")));
@@ -44,6 +42,8 @@ public class AddCourseTrainingServlet extends HttpServlet {
 					.getParameter("textpaymentDuration"));
 			String trainingStartDate = myFormat.format(fromUser.parse(request
 					.getParameter("texttrainingStartDate")));
+			int courseDuration = Integer.parseInt(request
+					.getParameter("textcourseDuration"));
 			int courseRegisterCosts = Integer.parseInt(request
 					.getParameter("textcourseRegisterCosts"));
 
@@ -59,11 +59,11 @@ public class AddCourseTrainingServlet extends HttpServlet {
 			downloadDocumentMgr.initDownloadManager(courseTrainingBean);
 
 			boolean verifyCourse = downloadDocumentMgr.isVerifyCourseTraining(
-					courseName, courseDuration);
+					courseName);
 
 			if (!verifyCourse) {
 				boolean ckAddCourse = downloadDocumentMgr.addCourseTraining(
-						courseName, courseDuration);
+						courseName);
 				if (ckAddCourse) {
 					System.out.println("Add CourseTraining Success");
 				} else {
@@ -73,8 +73,7 @@ public class AddCourseTrainingServlet extends HttpServlet {
 				System.out.println("Has Course " + courseName);
 			}
 
-			int courseID = downloadDocumentMgr.searchCourseId(courseName,
-					courseDuration);
+			int courseID = downloadDocumentMgr.searchCourseId(courseName);
 			// 9 – ระบบค้นหาจำนวนการลงทะเบียนของหลักสูตรการอบรมนั้น ๆ
 			// จากฐานข้อมูล
 			// 10 – ระบบคืนค่าการค้นหาจากฐานข้อมูล
@@ -87,7 +86,7 @@ public class AddCourseTrainingServlet extends HttpServlet {
 			// 13 – ระบบคืนค่าสถานะการตรวจสอบจากฐานข้อมูล
 			boolean ckAdd = downloadDocumentMgr.addRegister(registerNo,
 					courseRegisterStartDate, courseRegisterDuration,
-					paymentStartDate, paymentDuration, trainingStartDate,
+					paymentStartDate, paymentDuration, trainingStartDate, courseDuration,
 					courseRegisterCosts, courseID);
 
 			if (ckAdd) {
