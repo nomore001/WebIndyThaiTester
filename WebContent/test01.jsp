@@ -10,7 +10,7 @@
 </head>
 <body>
 	Hello :
-<%-- 	<p>${sessionScope.traineeBean.name }</p> --%>
+<%-- 	<p>${sessionScope.traineeBean.name }</p> ---%>
 
 <c:forEach items="${courseTrainingBean}" var="obj">
 <p>${obj.courseName}</p>
