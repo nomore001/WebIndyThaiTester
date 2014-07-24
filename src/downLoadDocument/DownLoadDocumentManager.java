@@ -2,21 +2,11 @@
 
 package downLoadDocument;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Vector;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
@@ -25,7 +15,7 @@ import fillRegisterProfile.RegisterBean;
 public class DownLoadDocumentManager {
 	public CourseTrainingBean theCourseTrainingBean;
 	Vector<CourseTrainingBean> courseTrainingVector;
-	
+
 	private static DownLoadDocumentManager instance = null;
 
 	/**
@@ -89,41 +79,41 @@ public class DownLoadDocumentManager {
 	 * @return java.util.Vector
 	 * @roseuid 53C244BB03CC
 	 */
-//	public synchronized Vector<TrainingDocumentBean> listAllDocument() {
-//
-//		Connection conn = MySQLConnectionPool.getConnection();
-//		PreparedStatement statement_listCputseTraining = null;
-//		String sql_queryCourse = "SELECT * FROM trainingdocument;";
-//
-//		
-//		try {
-//			statement_listCputseTraining = conn
-//					.prepareStatement(sql_queryCourse);
-//			ResultSet rs = statement_listCputseTraining.executeQuery();
-//			while (rs.next()) {
-//				TrainingDocumentBean trainingDocumentBean = new TrainingDocumentBean();
-//				trainingDocumentBean.setDocumentName(rs
-//						.getString("documentName"));
-//				trainingDocumentBean.setDocumentPath(rs
-//						.getString("documentPath"));
-//				trainingDocumentVector.add(trainingDocumentBean);
-//
-//			}
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		try {
-//			statement_listCputseTraining.close();
-//			conn.close();
-//
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		return trainingDocumentVector;
-//	}
+	// public synchronized Vector<TrainingDocumentBean> listAllDocument() {
+	//
+	// Connection conn = MySQLConnectionPool.getConnection();
+	// PreparedStatement statement_listCputseTraining = null;
+	// String sql_queryCourse = "SELECT * FROM trainingdocument;";
+	//
+	//
+	// try {
+	// statement_listCputseTraining = conn
+	// .prepareStatement(sql_queryCourse);
+	// ResultSet rs = statement_listCputseTraining.executeQuery();
+	// while (rs.next()) {
+	// TrainingDocumentBean trainingDocumentBean = new TrainingDocumentBean();
+	// trainingDocumentBean.setDocumentName(rs
+	// .getString("documentName"));
+	// trainingDocumentBean.setDocumentPath(rs
+	// .getString("documentPath"));
+	// trainingDocumentVector.add(trainingDocumentBean);
+	//
+	// }
+	//
+	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// try {
+	// statement_listCputseTraining.close();
+	// conn.close();
+	//
+	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// return trainingDocumentVector;
+	// }
 
 	/**
 	 * @return java.lang.String
@@ -133,48 +123,46 @@ public class DownLoadDocumentManager {
 		return null;
 	}
 
-//	public boolean upLoadTrainingDocument(String documentName,
-//			String documentPath, String courseName) {
-//		
-//		theCourseTrainingBean.getTheTrainingDocumentBean()
-//				.setDocumentName(documentName);
-//		theCourseTrainingBean.getTheTrainingDocumentBean()
-//				.setDocumentPath(documentPath);
-//
-//		Connection conn = MySQLConnectionPool.getConnection();
-//		PreparedStatement statementUpDocument = null;
-//		String sqlUpLoadTrainingDocument = "INSERT INTO trainingdocument(documentName, documentPath,courseName) "
-//				+ "VALUES (?,?,?);";
-//
-//		try {
-//			conn.setAutoCommit(false);
-//			statementUpDocument = conn
-//					.prepareStatement(sqlUpLoadTrainingDocument);
-//			statementUpDocument.setString(1, this.theCourseTrainingBean
-//					.getTheTrainingDocumentBean().getDocumentName());
-//			statementUpDocument.setString(2, this.theCourseTrainingBean
-//					.getTheTrainingDocumentBean().getDocumentPath());
-//			statementUpDocument.setString(3, courseName);
-//			conn.commit();
-//			return true;
-//
-//		} catch (SQLException ex) {
-//			ExceptionUtil.messageException(new Throwable(), ex);
-//			try {
-//				conn.rollback();
-//			} catch (SQLException e) {
-//				ExceptionUtil.messageException(new Throwable(), ex);
-//			}
-//		} finally {
-//			try {
-//				statementUpDocument.close();
-//				conn.close();
-//			} catch (SQLException ex) {
-//				ExceptionUtil.messageException(new Throwable(), ex);
-//			}
-//		}
-//		return false;
-//	}
+	public boolean upLoadTrainingDocument(String documentName,
+			String documentPath, int courseId) {
+		TrainingDocumentBean document = new TrainingDocumentBean();
+		document.setDocumentName(documentName);
+		document.setDocumentPath(documentPath);
+
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementUpDocument = null;
+		String sqlUpLoadTrainingDocument = "INSERT INTO trainingdocument(documentName, documentPath,CourseTraining_ID) "
+				+ "VALUES (?,?,?);";
+
+		try {
+			conn.setAutoCommit(false);
+			statementUpDocument = conn
+					.prepareStatement(sqlUpLoadTrainingDocument);
+			statementUpDocument.setString(1, document.getDocumentName());
+			statementUpDocument.setString(2, document.getDocumentPath());
+			statementUpDocument.setInt(3, courseId);
+
+			statementUpDocument.executeUpdate();
+			conn.commit();
+			return true;
+
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		} finally {
+			try {
+				statementUpDocument.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return false;
+	}
 
 	public synchronized int sumOfRegister(int courseTrainingID) {
 		int sumOfRegister = 0;
@@ -235,14 +223,15 @@ public class DownLoadDocumentManager {
 		return false;
 	}
 
-	public synchronized boolean addRegister(String registerNo, String courseRegisterStartDate,
-			int courseRegisterDuration, String paymentStartDate,
-			int paymentDuration, String trainingStartDate, int courseDuration,
+	public synchronized boolean addRegister(String registerNo,
+			String courseRegisterStartDate, int courseRegisterDuration,
+			String paymentStartDate, int paymentDuration,
+			String trainingStartDate, int courseDuration,
 			int courseRegisterCosts, int courseID) {
-		RegisterBean register = new RegisterBean(registerNo, courseRegisterStartDate,
-				courseRegisterDuration, paymentStartDate,
-				paymentDuration, trainingStartDate, courseDuration,
-				courseRegisterCosts);
+		RegisterBean register = new RegisterBean(registerNo,
+				courseRegisterStartDate, courseRegisterDuration,
+				paymentStartDate, paymentDuration, trainingStartDate,
+				courseDuration, courseRegisterCosts);
 		this.theCourseTrainingBean.getRegister().add(register);
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementRegister = null;
@@ -324,7 +313,7 @@ public class DownLoadDocumentManager {
 				courseTrainingID = rs.getInt("CourseTraining_ID");
 				this.theCourseTrainingBean.setCourseTrainingName(rs
 						.getString("courseName"));
-				
+
 			}
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);

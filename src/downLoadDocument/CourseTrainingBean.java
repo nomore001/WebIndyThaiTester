@@ -8,7 +8,7 @@ import fillRegisterProfile.RegisterBean;
 
 public class CourseTrainingBean {
 	private String courseName;
-	
+
 	private Vector<TrainingDocumentBean> trainingDocumentVector;
 	public Vector<RegisterBean> register = new Vector<RegisterBean>();
 
@@ -39,7 +39,8 @@ public class CourseTrainingBean {
 		return trainingDocumentVector;
 	}
 
-	public void setTrainingDocumentVector(Vector<TrainingDocumentBean> trainingDocumentVector) {
+	public void setTrainingDocumentVector(
+			Vector<TrainingDocumentBean> trainingDocumentVector) {
 		this.trainingDocumentVector = trainingDocumentVector;
 	}
 

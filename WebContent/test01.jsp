@@ -12,8 +12,8 @@
 	Hello :
 <%-- 	<p>${sessionScope.traineeBean.name }</p> ---%>
 
-<c:forEach items="${courseTrainingBean}" var="obj">
-<p>${obj.courseName}</p>
+<c:forEach items="${courseTrainingBean}" varStatus="obj">
+<p>${courseTrainingBean[obj.index].courseName}</p><a href="uploadFile.jsp?courseName=${obj.index+1}">Upload Document</a>
 </c:forEach>
 </body>
 </html>
