@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 
 import downLoadDocument.CourseTrainingBean;
 import downLoadDocument.DownLoadDocumentManager;
+import downLoadDocument.TrainingDocumentBean;
 
 /**
  * Servlet implementation class ListCourseTrainingServlet
@@ -55,12 +56,17 @@ public class ListCourseTrainingServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("courseTrainingBean", courseTrainingBean);
-		response.sendRedirect("test01.jsp");
+
 		for (int i = 0; i < courseTrainingBean.size(); i++) {
-			System.out
-					.println(courseTrainingBean.elementAt(i).getCourseName());
+			System.out.println(courseTrainingBean.elementAt(i).getCourseName());
+		}
+		String ss = request.getParameter("courseID");
+		if (request.getParameter("courseID") != null) {
+			Vector<TrainingDocumentBean> list = downloadDocumentMng
+					.listAllDocument(request.getParameter("courseID"));
+			session.setAttribute("trainingDocumentList", list);
 		}
 
+		response.sendRedirect("admin.jsp");
 	}
-
 }

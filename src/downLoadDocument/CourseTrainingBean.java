@@ -9,7 +9,7 @@ import fillRegisterProfile.RegisterBean;
 public class CourseTrainingBean {
 	private String courseName;
 
-	private Vector<TrainingDocumentBean> trainingDocumentVector;
+	private Vector<TrainingDocumentBean> trainingDocumentVector = new Vector<TrainingDocumentBean>();
 	public Vector<RegisterBean> register = new Vector<RegisterBean>();
 
 	/**

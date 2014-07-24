@@ -13,7 +13,10 @@
 <%-- 	<p>${sessionScope.traineeBean.name }</p> ---%>
 
 <c:forEach items="${courseTrainingBean}" varStatus="obj">
-<p>${courseTrainingBean[obj.index].courseName}</p><a href="uploadFile.jsp?courseName=${obj.index+1}">Upload Document</a>
-</c:forEach>
+<p>${courseTrainingBean[obj.index].courseName}
+		<a href="uploadFile.jsp?courseName=${obj.index+1}">Upload Document</a>
+		<a href="ListCourseTrainingServlet">List Document</a>
+</p>
+	</c:forEach>
 </body>
 </html>

@@ -3,18 +3,21 @@ package upLoadDocument;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import downLoadDocument.DownLoadDocumentManager;
+import downLoadDocument.TrainingDocumentBean;
 
 /**
  * Servlet implementation class UploadDocumentServlet
@@ -49,7 +52,7 @@ public class UploadDocumentServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-		String courseName = null;
+		String courseID = null;
 		String directory = "D:\\workSpace\\WebIndyThaiTester\\WebContent\\file";
 		boolean resultaddDoc = false;
 
@@ -65,12 +68,12 @@ public class UploadDocumentServlet extends HttpServlet {
 
 					if (item.isFormField()) {
 						if (item.getFieldName().equals("courseName")) {
-							courseName = new String(item.getString().getBytes(
+							courseID = new String(item.getString().getBytes(
 									"iso-8859-1"), "UTF-8");
-							if (courseName.equals("QTP")) {
+							if (courseID.equals("1")) {
 								directory += "\\QTP";
 
-							} else if (courseName.equals("Selenium")) {
+							} else if (courseID.equals("2")) {
 								directory += "\\Selenium";
 
 							}
@@ -81,10 +84,16 @@ public class UploadDocumentServlet extends HttpServlet {
 						item.write(new File(directory + File.separator + name));
 
 						resultaddDoc = documentMng.upLoadTrainingDocument(name,
-								directory, Integer.parseInt(courseName));
+								directory, Integer.parseInt(courseID));
 					}
 				}
+				Vector<TrainingDocumentBean> list = documentMng
+						.listAllDocument(courseID);
+				HttpSession session = request.getSession();
+				session.setAttribute("trainingDocumentList", list);
+				System.out.println(list);
 				System.out.println(resultaddDoc);
+				response.sendRedirect("text01.jsp");
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

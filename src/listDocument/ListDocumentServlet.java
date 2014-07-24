@@ -1,17 +1,14 @@
 package listDocument;
 
 import java.io.IOException;
-import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import downLoadDocument.DownLoadDocumentManager;
-import downLoadDocument.TrainingDocumentBean;
 
 /**
  * Servlet implementation class ListDocumentServlet
@@ -50,15 +47,15 @@ public class ListDocumentServlet extends HttpServlet {
 		DownLoadDocumentManager documentMng = DownLoadDocumentManager
 				.getInstance();
 
-//		Vector<TrainingDocumentBean> trainingDoc = documentMng
-//				.listAllDocument();
-//		HttpSession session = request.getSession();
-//		session.setAttribute("trainingDocumentBean", trainingDoc);
-//
-//		for (int i = 0; i < trainingDoc.size(); i++) {
-//			System.out.println(trainingDoc.elementAt(i).getDocumentName() + " "
-//					+ trainingDoc.elementAt(i).getDocumentPath());
-//		}
+		// Vector<TrainingDocumentBean> trainingDoc = documentMng
+		// .listAllDocument();
+		// HttpSession session = request.getSession();
+		// session.setAttribute("trainingDocumentBean", trainingDoc);
+		//
+		// for (int i = 0; i < trainingDoc.size(); i++) {
+		// System.out.println(trainingDoc.elementAt(i).getDocumentName() + " "
+		// + trainingDoc.elementAt(i).getDocumentPath());
+		// }
 	}
 
 }

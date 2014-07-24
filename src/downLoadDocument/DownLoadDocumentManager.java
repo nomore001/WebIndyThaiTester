@@ -76,44 +76,53 @@ public class DownLoadDocumentManager {
 	}
 
 	/**
+	 * @param courseName
 	 * @return java.util.Vector
 	 * @roseuid 53C244BB03CC
 	 */
-	// public synchronized Vector<TrainingDocumentBean> listAllDocument() {
-	//
-	// Connection conn = MySQLConnectionPool.getConnection();
-	// PreparedStatement statement_listCputseTraining = null;
-	// String sql_queryCourse = "SELECT * FROM trainingdocument;";
-	//
-	//
-	// try {
-	// statement_listCputseTraining = conn
-	// .prepareStatement(sql_queryCourse);
-	// ResultSet rs = statement_listCputseTraining.executeQuery();
-	// while (rs.next()) {
-	// TrainingDocumentBean trainingDocumentBean = new TrainingDocumentBean();
-	// trainingDocumentBean.setDocumentName(rs
-	// .getString("documentName"));
-	// trainingDocumentBean.setDocumentPath(rs
-	// .getString("documentPath"));
-	// trainingDocumentVector.add(trainingDocumentBean);
-	//
-	// }
-	//
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// try {
-	// statement_listCputseTraining.close();
-	// conn.close();
-	//
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// return trainingDocumentVector;
-	// }
+	public synchronized Vector<TrainingDocumentBean> listAllDocument(
+			String courseID) {
+
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statement_listCputseTraining = null;
+		String sql_queryCourse = "SELECT * FROM trainingdocument where trainingdocument.CourseTraining_ID = "
+				+ courseID + ";";
+		// courseTrainingVector = new Vector<CourseTrainingBean>();
+		Vector<TrainingDocumentBean> list = new Vector<TrainingDocumentBean>();
+		courseTrainingVector = listCourseTraining();
+		try {
+			statement_listCputseTraining = conn
+					.prepareStatement(sql_queryCourse);
+			ResultSet rs = statement_listCputseTraining.executeQuery();
+			for (int i = 0; i < courseTrainingVector.size(); i++) {
+				while (rs.next()) {
+
+					TrainingDocumentBean trainingDocumentBean = new TrainingDocumentBean();
+					trainingDocumentBean.setDocumentName(rs
+							.getString("documentName"));
+					trainingDocumentBean.setDocumentPath(rs
+							.getString("documentPath"));
+					courseTrainingVector.elementAt(i)
+							.getTrainingDocumentVector()
+							.add(trainingDocumentBean);
+					list.add(trainingDocumentBean);
+				}
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			statement_listCputseTraining.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
 
 	/**
 	 * @return java.lang.String
