@@ -92,6 +92,7 @@ public class FillRegisterProfileServlet extends HttpServlet {
 			// จากฐานข้อมูล
 			// 14 – ระบบคืนค่าการค้นหาจากฐานข้อมูล
 			int sumOfTrainee = fillRegisterMng.sumOfTrainee(registerBean);
+			String traineePayment = fillRegisterMng.createFrangmentPayment(sumOfTrainee);
 		}
 	}
 

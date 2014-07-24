@@ -55,7 +55,7 @@ public class FillRegisterProfileManager {
 		int sumOfTrainee = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statement_sumOfRegister = null;
-		String sql_sumOfRegister = "select COUNT(Trainee_ID) as SumOfTrainee from trainee where regiserNo = '"
+		String sql_sumOfRegister = "select COUNT(Trainee_ID) as SumOfTrainee from trainee t join register r on (t.Register_ID = r.Register_ID)  where registerNo = '"
 				+ registerBean.getRegisterNo() + "';";
 		try {
 			statement_sumOfRegister = conn.prepareStatement(sql_sumOfRegister);
