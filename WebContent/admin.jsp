@@ -114,7 +114,7 @@
 			client.send(formData); /* Send to server */
 
 		}
-
+		
 		/* Check the response status */
 		client.onreadystatechange = function() {
 			if (client.readyState == 4 && client.status == 200) {
@@ -124,6 +124,37 @@
 				// 				alert(client.statusText);
 			}
 		}
+		
+		
+		
+		var docName = document.getElementById("deleteDocumentBtn").value;
+		alert(docName);
+	$("button[id*='deleteDocumentBtn']").click(function() {
+		var tmp = this.id.split("_");
+		// 		alert(tmp[1]);
+		courseID = tmp[1];
+		$.ajax({
+			type : 'POST',
+			url : 'DeleteDocumentServlet',
+			data : {
+				'documentName' : docName,
+			},
+			success : function(data, textStatus) {
+				$("#list01").load("listDocument.jsp");
+
+			},
+			error : function(xhr) {
+				// alert("Error");
+			},
+			complete : function(xhr, textStatus) {
+				// $("#mySubModal").remove();
+				// $("#editAttendanceBtn").bind();
+				// alert("Complete");
+			}
+		});
+
+	});
+		
 	</script>
 </body>
 </html>

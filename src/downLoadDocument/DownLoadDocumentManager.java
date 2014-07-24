@@ -341,4 +341,32 @@ public class DownLoadDocumentManager {
 		return this.theCourseTrainingBean.getCourseName()
 				+ (registerAmount + 1);
 	}
+
+	public synchronized void deleteDocument(String docName) {
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementDeleteDocument = null;
+		String sql = "DELETE FROM trainingdocument " +
+				" WHERE documentName = '" + docName + "' ";
+	
+		try {
+			statementDeleteDocument = conn.prepareStatement(sql);
+			statementDeleteDocument.execute();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(statementDeleteDocument!=null){
+			try {				
+				statementDeleteDocument.close();
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 }
