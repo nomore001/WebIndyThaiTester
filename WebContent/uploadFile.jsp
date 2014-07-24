@@ -9,10 +9,8 @@
 <body>
 	<form action="UploadDocumentServlet" method="post"
 		enctype="multipart/form-data">
-		<select name="courseToUpload">
-			<option value="qtp">Qtp</option>
-			<option value="selenium">Selenium</option>			
-		</select> 
+		<input type="hidden" name="courseName" value="<%=request.getParameter("courseName") %>">
+		
 		<input type="file" name="file"> <br> <input
 			type="submit" value="อัพโหลดนะจ๊ะ">
 	</form>
