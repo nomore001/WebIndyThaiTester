@@ -20,8 +20,9 @@
 		<c:forEach items="${courseTrainingBean}" varStatus="obj">
 			<p>${courseTrainingBean[obj.index].courseName}
 				<button class="btn btn-primary btn-lg" data-toggle="modal"
-					data-target="#uploadModal" id="initUploadBtn_${obj.index+1}">Upload Document</button>
-				<a href="ListCourseTrainingServlet">List Document</a>
+					data-target="#uploadModal" id="initUploadBtn_${obj.index+1}">Document
+					Management</button>
+
 			</p>
 		</c:forEach>
 
@@ -38,19 +39,19 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">Upload Document</h4>
+					<h4 class="modal-title" id="myModalLabel">Document Management</h4>
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-md-12">
-								<div class="col-md-6" id="list01">
-								</div>
+								<div class="col-md-6" id="list01"></div>
 								<div class="col-md-6" id="list02">
 									<form action="UploadDocumentServlet" method="post"
 										enctype="multipart/form-data" id="uploadForm">
-										<input type="hidden" name="courseName" id="courseName" value="${obj.index+1}">
-										<input type="file" name="fileID" id="fileID">
+										<input type="hidden" name="courseName" id="courseName"
+											value="${obj.index+1}"> <input type="file"
+											name="fileID" id="fileID">
 									</form>
 								</div>
 							</div>
@@ -67,38 +68,35 @@
 	</div>
 
 	<script>
-	var courseID = 1;
-	$("button[id*='initUploadBtn']").click(function(){
-		var tmp = this.id.split("_");
-// 		alert(tmp[1]);
-courseID = tmp[1];
-		$.ajax({
-			type : 'POST',
-			url : 'ListCourseTrainingServlet',
-			data : {
-				'courseID' : tmp[1],
-			},
-			success : function(data, textStatus) {
-				$("#list01").load("text01.jsp");
+		var courseID = 1;
+		$("button[id*='initUploadBtn']").click(function() {
+			var tmp = this.id.split("_");
+			// 		alert(tmp[1]);
+			courseID = tmp[1];
+			$.ajax({
+				type : 'POST',
+				url : 'ListCourseTrainingServlet',
+				data : {
+					'courseID' : tmp[1],
+				},
+				success : function(data, textStatus) {
+					$("#list01").load("listDocument.jsp");
 
-			},
-			error : function(xhr) {
-				// alert("Error");
-			},
-			complete : function(xhr, textStatus) {
-				// $("#mySubModal").remove();
-				// $("#editAttendanceBtn").bind();
-				// alert("Complete");
-			}
+				},
+				error : function(xhr) {
+					// alert("Error");
+				},
+				complete : function(xhr, textStatus) {
+					// $("#mySubModal").remove();
+					// $("#editAttendanceBtn").bind();
+					// alert("Complete");
+				}
+			});
+
 		});
 
-	});
-	
 		var client = new XMLHttpRequest();
-		
-		
-		
-		
+
 		$("#uploadBtn").click(function() {
 			upload();
 		});
@@ -110,9 +108,9 @@ courseID = tmp[1];
 			/* Add the file */
 			formData.append("courseName", courseID);
 			formData.append("fileID", file.files[0]);
-			
+
 			client.open("post", "UploadDocumentServlet", true);
-// 			client.setRequestHeader("Content-Type", "multipart/form-data");
+			// 			client.setRequestHeader("Content-Type", "multipart/form-data");
 			client.send(formData); /* Send to server */
 
 		}
@@ -121,9 +119,9 @@ courseID = tmp[1];
 		client.onreadystatechange = function() {
 			if (client.readyState == 4 && client.status == 200) {
 				$('#uploadForm')[0].reset();
-				$("#list01").load("text01.jsp");
-				
-// 				alert(client.statusText);
+				$("#list01").load("listDocument.jsp");
+
+				// 				alert(client.statusText);
 			}
 		}
 	</script>

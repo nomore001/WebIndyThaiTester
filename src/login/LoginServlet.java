@@ -82,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("traineeBean", trainee);
 			if (loginMgr.searchUserAccessStatus(login.getUsername()).equals(
 					"admin")) {
-				response.sendRedirect("admin.jsp");
+				response.sendRedirect("ListCourseTrainingServlet");
 			} else {
 				response.sendRedirect("test01.jsp");
 			}

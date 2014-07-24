@@ -13,7 +13,7 @@ found <c:out value="${fn:length(trainingDocumentList)}"></c:out> file(s)
 <br>
 <c:forEach items="${trainingDocumentList}" var="obj">
 
-<c:out value="${obj.documentName}"></c:out>
+<c:out value="${obj.documentName}"> </c:out> <button>Delete</button>
 <br>
 </c:forEach>
 </body>
