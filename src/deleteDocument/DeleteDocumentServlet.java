@@ -16,33 +16,40 @@ import downLoadDocument.DownLoadDocumentManager;
 @WebServlet("/DeleteDocumentServlet")
 public class DeleteDocumentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeleteDocumentServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public DeleteDocumentServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-		String documentName=request.getParameter("documentName");
-		DownLoadDocumentManager documentMng = new DownLoadDocumentManager();		
-		documentMng.deleteDocument(documentName);
-		
+		String documentID = request.getParameter("documentID");
+		// String documentPath = request.getParameter("documentPath");
+		DownLoadDocumentManager documentMng = DownLoadDocumentManager
+				.getInstance();
+		documentMng.deleteDocument(documentID);
+		response.sendRedirect("listDocument.jsp");
+
 	}
 
 }

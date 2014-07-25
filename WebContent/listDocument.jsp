@@ -13,17 +13,62 @@
 	<c:out value="${fn:length(trainingDocumentList)}"></c:out>
 	file(s)
 	<br>
+	<input type="hidden" id="courseIDUpload" value="${courseIDSession }">
 	<c:forEach items="${trainingDocumentList}" var="obj">
 
 		<c:out value="${obj.documentName}">
 		</c:out>
-		<button type="button" class="btn btn-danger btn-xs glyphicon glyphicon-remove"
-		id="deleteDocumentBtn" value="${obj.documentName}"></button>
+		<button type="button"
+			class="btn btn-danger btn-xs glyphicon glyphicon-remove"
+			id="deleteDocumentBtn" value="${obj.documentId}"></button>
+		<input type="hidden" id="docPath" value="${obj.documentPath}">
 		<br>
 	</c:forEach>
 
 
+	<script type="text/javascript">
+		$("button[id*='deleteDocumentBtn']").click(function() {
 
+			$.ajax({
+				type : 'POST',
+				url : 'DeleteDocumentServlet',
+				data : {
+					'documentID' : $(this).val(),
+				// 					'documentPath' : $('#docPath').val(),
+				},
+				success : function(data, textStatus) {
+					//$("#list01").load("listDocument.jsp");
+					$.ajax({
+						type : 'POST',
+						url : 'ListCourseTrainingServlet',
+						data : {
+							'courseID' : $("#courseIDUpload").val(),
+						},
+						success : function(data, textStatus) {
+							$("#list01").load("listDocument.jsp");
 
+						},
+						error : function(xhr) {
+							// alert("Error");
+						},
+						complete : function(xhr, textStatus) {
+							// $("#mySubModal").remove();
+							// $("#editAttendanceBtn").bind();
+							// alert("Complete");
+						}
+					});
 
+				},
+				error : function(xhr) {
+					// alert("Error");
+				},
+				complete : function(xhr, textStatus) {
+					// $("#mySubModal").remove();
+					// $("#editAttendanceBtn").bind();
+					// alert("Complete");
+				}
+			});
+
+		});
+	</script>
 </html>

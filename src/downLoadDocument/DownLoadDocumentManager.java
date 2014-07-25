@@ -102,6 +102,8 @@ public class DownLoadDocumentManager {
 							.getString("documentName"));
 					trainingDocumentBean.setDocumentPath(rs
 							.getString("documentPath"));
+					trainingDocumentBean.setDocumentId(rs
+							.getInt("TrainingDocument_ID"));
 					courseTrainingVector.elementAt(i)
 							.getTrainingDocumentVector()
 							.add(trainingDocumentBean);
@@ -342,31 +344,34 @@ public class DownLoadDocumentManager {
 				+ (registerAmount + 1);
 	}
 
-	public synchronized void deleteDocument(String docName) {
-		
+	public synchronized void deleteDocument(String docID) {
+
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementDeleteDocument = null;
-		String sql = "DELETE FROM trainingdocument " +
-				" WHERE documentName = '" + docName + "' ";
-	
+		String sql = "DELETE FROM trainingdocument "
+				+ " WHERE trainingdocument.TrainingDocument_ID = " + docID + "";
+
 		try {
 			statementDeleteDocument = conn.prepareStatement(sql);
-			statementDeleteDocument.execute();
-			
+			int b = statementDeleteDocument.executeUpdate();
+			System.out.println("Delete : " + b);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(statementDeleteDocument!=null){
-			try {				
-				statementDeleteDocument.close();
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+
+		try {
+			statementDeleteDocument.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+
 	}
+	// String filename = docPath + File.separator + docName;
+	// File deleteFile = new File(filename);
+	// deleteFile.delete();
+
 }

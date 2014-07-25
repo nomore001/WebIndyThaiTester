@@ -60,11 +60,13 @@ public class ListCourseTrainingServlet extends HttpServlet {
 		for (int i = 0; i < courseTrainingBean.size(); i++) {
 			System.out.println(courseTrainingBean.elementAt(i).getCourseName());
 		}
-		String ss = request.getParameter("courseID");
 		if (request.getParameter("courseID") != null) {
 			Vector<TrainingDocumentBean> list = downloadDocumentMng
 					.listAllDocument(request.getParameter("courseID"));
 			session.setAttribute("trainingDocumentList", list);
+			String courseID = request.getParameter("courseID");
+			session.setAttribute("courseIDSession", courseID);
+
 		}
 
 		response.sendRedirect("admin.jsp");
