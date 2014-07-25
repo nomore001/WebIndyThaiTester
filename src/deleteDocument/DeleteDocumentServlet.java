@@ -44,10 +44,14 @@ public class DeleteDocumentServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		String documentID = request.getParameter("documentID");
-		// String documentPath = request.getParameter("documentPath");
+		String documentPath = request.getParameter("documentPath");
+		String documentName = request.getParameter("documentName");
 		DownLoadDocumentManager documentMng = DownLoadDocumentManager
 				.getInstance();
-		documentMng.deleteDocument(documentID);
+		
+		documentMng.deleteDocument(documentID,documentPath,documentName);
+		
+		
 		response.sendRedirect("listDocument.jsp");
 
 	}

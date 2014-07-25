@@ -57,9 +57,9 @@ public class ListCourseTrainingServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("courseTrainingBean", courseTrainingBean);
 
-		for (int i = 0; i < courseTrainingBean.size(); i++) {
-			System.out.println(courseTrainingBean.elementAt(i).getCourseName());
-		}
+//		for (int i = 0; i < courseTrainingBean.size(); i++) {
+//			System.out.println(courseTrainingBean.elementAt(i).getCourseName());
+//		}
 		if (request.getParameter("courseID") != null) {
 			Vector<TrainingDocumentBean> list = downloadDocumentMng
 					.listAllDocument(request.getParameter("courseID"));

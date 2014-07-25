@@ -2,11 +2,14 @@
 
 package downLoadDocument;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+
+import javax.websocket.RemoteEndpoint.Async;
 
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
@@ -344,7 +347,7 @@ public class DownLoadDocumentManager {
 				+ (registerAmount + 1);
 	}
 
-	public synchronized void deleteDocument(String docID) {
+	public synchronized void deleteDocument(String docID,String path,String docName) {
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementDeleteDocument = null;
@@ -352,10 +355,11 @@ public class DownLoadDocumentManager {
 				+ " WHERE trainingdocument.TrainingDocument_ID = " + docID + "";
 
 		try {
+			conn.setAutoCommit(false);
 			statementDeleteDocument = conn.prepareStatement(sql);
 			int b = statementDeleteDocument.executeUpdate();
-			System.out.println("Delete : " + b);
-
+			System.out.println("Delete : " + sql);
+			conn.commit();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -368,10 +372,11 @@ public class DownLoadDocumentManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		 String filename = path + File.separator + docName;
+		 File deleteFile = new File(filename);
+		 deleteFile.delete();
 
 	}
-	// String filename = docPath + File.separator + docName;
-	// File deleteFile = new File(filename);
-	// deleteFile.delete();
+
 
 }

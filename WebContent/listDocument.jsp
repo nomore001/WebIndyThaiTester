@@ -22,6 +22,7 @@
 			class="btn btn-danger btn-xs glyphicon glyphicon-remove"
 			id="deleteDocumentBtn" value="${obj.documentId}"></button>
 		<input type="hidden" id="docPath" value="${obj.documentPath}">
+		<input type="hidden" id="docName" value="${obj.documentName}">
 		<br>
 	</c:forEach>
 
@@ -34,7 +35,8 @@
 				url : 'DeleteDocumentServlet',
 				data : {
 					'documentID' : $(this).val(),
-				// 					'documentPath' : $('#docPath').val(),
+					'documentPath' : $('#docPath').val(),
+					'documentName' : $('#docName').val(),
 				},
 				success : function(data, textStatus) {
 					//$("#list01").load("listDocument.jsp");
@@ -46,6 +48,7 @@
 						},
 						success : function(data, textStatus) {
 							$("#list01").load("listDocument.jsp");
+							
 
 						},
 						error : function(xhr) {

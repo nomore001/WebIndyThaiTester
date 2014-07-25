@@ -53,9 +53,9 @@ public class UploadDocumentServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		String courseID = null;
-		String directory = "D:\\workSpace\\WebIndyThaiTester\\WebContent\\file";
-		// String directory =
-		// "D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file";
+//		String directory = "D:\\workSpace\\WebIndyThaiTester\\WebContent\\file";
+		 String directory =
+		 "D:\\work\\3.2556\\AutomateTest\\gitWorkspace\\WebIndyThaiTester\\WebContent\\file";
 		boolean resultaddDoc = false;
 
 		DownLoadDocumentManager documentMng = DownLoadDocumentManager
