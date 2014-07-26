@@ -1,6 +1,7 @@
 package downLoadDocument;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ public class DownLoadDocumentServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	DownLoadDocumentManager documentMng = new DownLoadDocumentManager();
+	DownLoadDocumentManager documentMng = DownLoadDocumentManager.getInstance();
 
 	/**
 	 * @roseuid 53C24272022B
@@ -55,6 +56,17 @@ public class DownLoadDocumentServlet extends HttpServlet {
 	 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("55");
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
+		
+		String courseId = request.getParameter("documentID");
+		Vector<TrainingDocumentBean> trainingDoc = documentMng
+				.listAllDocument(courseId);
+		Vector<String> FileToLoad = documentMng.downloadTrainingDocument(trainingDoc);
+		
+		
+		response.sendRedirect("file/QTP/listRegisterDetail.rar");
+				
 	}
 }

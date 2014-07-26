@@ -130,11 +130,28 @@ public class DownLoadDocumentManager {
 	}
 
 	/**
+	 * @param trainingDoc 
+	 * @return 
 	 * @return java.lang.String
 	 * @roseuid 53C244CC009B
 	 */
-	public String downloadTrainingDocument() {
-		return null;
+	public Vector<String> downloadTrainingDocument(Vector<TrainingDocumentBean> trainingDoc) {
+		
+		Vector<String> pathToLoadFile = new Vector<String>();
+
+		for (int i = 0; i < trainingDoc.size(); i++) {
+			String docPath = trainingDoc.elementAt(i).getDocumentPath();
+			String text = "D:\\\\work\\\\3.2556\\\\AutomateTest\\\\gitWorkspace\\\\WebIndyThaiTester\\\\WebContent\\\\";
+			String[] temp = docPath.split(text);
+			String f = temp[1].replace("\\", "/");
+			
+			System.out.println(f + "/"
+					+ trainingDoc.elementAt(i).getDocumentName());
+			pathToLoadFile.add(f + "/"
+					+ trainingDoc.elementAt(i).getDocumentName());
+
+		}
+		return pathToLoadFile;
 	}
 
 	public boolean upLoadTrainingDocument(String documentName,
@@ -347,7 +364,8 @@ public class DownLoadDocumentManager {
 				+ (registerAmount + 1);
 	}
 
-	public synchronized void deleteDocument(String docID,String path,String docName) {
+	public synchronized void deleteDocument(String docID, String path,
+			String docName) {
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementDeleteDocument = null;
@@ -372,11 +390,10 @@ public class DownLoadDocumentManager {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 String filename = path + File.separator + docName;
-		 File deleteFile = new File(filename);
-		 deleteFile.delete();
+		String filename = path + File.separator + docName;
+		File deleteFile = new File(filename);
+		deleteFile.delete();
 
 	}
-
 
 }

@@ -18,5 +18,7 @@
 		<a href="ListCourseTrainingServlet">List Document</a>
 </p>
 	</c:forEach>
+	
+	<a href="file/QTP/listRegisterDetail.rar">load</a>
 </body>
 </html>

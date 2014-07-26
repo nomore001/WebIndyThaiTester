@@ -26,7 +26,7 @@
 		<br>
 	</c:forEach>
 
-
+</body>
 	<script type="text/javascript">
 		$("button[id*='deleteDocumentBtn']").click(function() {
 
