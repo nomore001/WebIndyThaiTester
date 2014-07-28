@@ -55,6 +55,11 @@ public class ListDocumentServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.setAttribute("trainingDocumentBean", trainingDoc);
 
+		Vector<TrainingDocumentBean> partToLoadFile = new Vector<TrainingDocumentBean>();
+		partToLoadFile = documentMng.downloadTrainingDocument(trainingDoc);
+
+		session.setAttribute("partToLoad", partToLoadFile);
+
 		response.sendRedirect("UserList&downloadDocument.jsp");
 	}
 

@@ -12,17 +12,17 @@
 <body>
 
 	found
-	<c:out value="${fn:length(trainingDocumentBean)}"></c:out>
+	<c:out value="${fn:length(partToLoad)}"></c:out>
 	file(s)
 	<br>
 
-	<c:forEach items="${trainingDocumentBean}" var="obj">
+	<c:forEach items="${partToLoad}" var="obj">
 
 		<c:out value="${obj.documentName}">
 		</c:out>
-		<button type="button"
+		<a href="${obj.documentPath}"><button type="button"
 			
-			id="abc_${obj.documentId}" value="${obj.documentId}">DownLoad</button>
+			id="abc_${obj.documentId}" value="">DownLoad</button></a>
 
 		<br>
 	</c:forEach>
@@ -32,33 +32,6 @@
 <script src="assets/js/jquery-1.11.1.js"></script>
 <script src="assets/js/jquery-ui.js"></script>
 <script src="assets/js/bootstrap.js"></script>
-<script type="text/javascript">
 
-	$("button[id*='abc']").click(function() {
-		
-		alert( $(this).val());
-		$.ajax({
-			type : 'POST',
-			url : 'DownLoadDocumentServlet',
-			data : {
-				'documentID' : $(this).val(),
-
-			},
-			success : function(data, textStatus) {
-				window.load(this);
-
-			},
-			error : function(xhr) {
-				// alert("Error");
-			},
-			complete : function(xhr, textStatus) {
-				// $("#mySubModal").remove();
-				// $("#editAttendanceBtn").bind();
-				// alert("Complete");
-			}
-		});
-
-	});
-</script>
 
 </html>
