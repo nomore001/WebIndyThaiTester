@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @WebServlet("/DownLoadDocumentServlet")
 public class DownLoadDocumentServlet extends HttpServlet {
@@ -59,14 +60,23 @@ public class DownLoadDocumentServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-		
-		String courseId = request.getParameter("documentID");
+
+		String courseId = "1";
+
+		DownLoadDocumentManager documentMng = DownLoadDocumentManager
+				.getInstance();
+
 		Vector<TrainingDocumentBean> trainingDoc = documentMng
 				.listAllDocument(courseId);
-		Vector<String> FileToLoad = documentMng.downloadTrainingDocument(trainingDoc);
-		
-		
-		response.sendRedirect("file/QTP/listRegisterDetail.rar");
-				
+		HttpSession session = request.getSession();
+		session.setAttribute("trainingDocumentBean", trainingDoc);
+
+		Vector<TrainingDocumentBean> partToLoadFile = new Vector<TrainingDocumentBean>();
+		partToLoadFile = documentMng.downloadTrainingDocument(trainingDoc);
+
+		session.setAttribute("partToLoad", partToLoadFile);
+
+		response.sendRedirect("UserList&downloadDocument.jsp");
+
 	}
 }

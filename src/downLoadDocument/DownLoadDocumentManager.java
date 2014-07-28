@@ -9,8 +9,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import javax.websocket.RemoteEndpoint.Async;
-
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
 import fillRegisterProfile.RegisterBean;
@@ -130,25 +128,34 @@ public class DownLoadDocumentManager {
 	}
 
 	/**
-	 * @param trainingDoc 
-	 * @return 
+	 * @param trainingDoc
+	 * @return
 	 * @return java.lang.String
 	 * @roseuid 53C244CC009B
 	 */
-	public Vector<String> downloadTrainingDocument(Vector<TrainingDocumentBean> trainingDoc) {
-		
-		Vector<String> pathToLoadFile = new Vector<String>();
+	public Vector<TrainingDocumentBean> downloadTrainingDocument(
+			Vector<TrainingDocumentBean> trainingDoc) {
+
+		Vector<TrainingDocumentBean> pathToLoadFile = new Vector<TrainingDocumentBean>();
 
 		for (int i = 0; i < trainingDoc.size(); i++) {
 			String docPath = trainingDoc.elementAt(i).getDocumentPath();
-			String text = "D:\\\\work\\\\3.2556\\\\AutomateTest\\\\gitWorkspace\\\\WebIndyThaiTester\\\\WebContent\\\\";
+			// String text =
+			// "D:\\\\work\\\\3.2556\\\\AutomateTest\\\\gitWorkspace\\\\WebIndyThaiTester\\\\WebContent\\\\";
+			String text = "D:\\\\workSpace\\\\WebIndyThaiTester\\\\WebContent\\\\";
+
 			String[] temp = docPath.split(text);
+
 			String f = temp[1].replace("\\", "/");
-			
+
 			System.out.println(f + "/"
 					+ trainingDoc.elementAt(i).getDocumentName());
-			pathToLoadFile.add(f + "/"
+			TrainingDocumentBean t = new TrainingDocumentBean();
+			t.setDocumentId(trainingDoc.elementAt(i).getDocumentId());
+			t.setDocumentName(trainingDoc.elementAt(i).getDocumentName());
+			t.setDocumentPath(f + "/"
 					+ trainingDoc.elementAt(i).getDocumentName());
+			pathToLoadFile.add(t);
 
 		}
 		return pathToLoadFile;
