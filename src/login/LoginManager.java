@@ -22,7 +22,7 @@ public class LoginManager {
 	public synchronized boolean verifyLogin(LoginBean login) {
 
 		String query = "SELECT * FROM login where username = '"
-				+ login.getUsername() + "';";
+				+ login.getUsername() + "' and password = '"+login.getPassword()+"';";
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {

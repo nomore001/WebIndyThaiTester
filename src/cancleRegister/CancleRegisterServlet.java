@@ -1,4 +1,4 @@
-package login;
+package cancleRegister;
 
 import java.io.IOException;
 
@@ -9,20 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fillRegisterProfile.LoginBean;
 import fillRegisterProfile.TraineeBean;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class CancleRegisterServlet
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/CancleRegisterServlet")
+public class CancleRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoginServlet() {
+	public CancleRegisterServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -34,8 +33,6 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
-		
-
 	}
 
 	/**
@@ -44,34 +41,14 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-
-		LoginBean login = new LoginBean();
-		login.setUsername(request.getParameter("username_login"));
-		login.setPassword(request.getParameter("password_login"));
-		LoginManager loginMgr = LoginManager.getInstance();
-
-		if (loginMgr.verifyLogin(login)) {
-			TraineeBean trainee = loginMgr.searchTraineeByUsername(login
-					.getUsername());
-			HttpSession session = request.getSession();
-			session.setAttribute("traineeBean", trainee);
-			if (loginMgr.searchUserAccessStatus(login.getUsername()).equals(
-					"admin")) {
-
-				response.sendRedirect("ListCourseTrainingServlet");
-			} else {
-				response.sendRedirect("");
-			}
-			System.out.println("pass");
-			System.out.println(trainee.getLogin().getUsername());
-		} else {
-			System.out.println("fail");
-			response.getWriter().print("fail");
-			response.sendRedirect("index.jsp");
-		}
-
+		HttpSession session = request.getSession();
+		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
+		
+		System.out.println("cancle : "+trainee.getLogin().getUsername());
 	}
+
 }

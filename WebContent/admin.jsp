@@ -15,6 +15,9 @@
 <script src="assets/js/bootstrap.js"></script>
 </head>
 <body>
+<form action="LogoutServlet" method="post" >
+<button type="submit">log out</button>
+</form>
 	<h3>Admin Manager</h3>
 	<div class="col-md-12">
 		<c:forEach items="${courseTrainingBean}" varStatus="obj">
