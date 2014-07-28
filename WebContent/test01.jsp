@@ -20,5 +20,7 @@
 	</c:forEach>
 	
 	<a href="file/QTP/listRegisterDetail.rar">load</a>
+	
+	<a href="ListProfileDetailServlet">courseID</a>
 </body>
 </html>

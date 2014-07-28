@@ -25,6 +25,62 @@ public class AddressBean {
 		this.zipcode = zipcode;
 	}
 	
+	public String getWorkplace() {
+		return workplace;
+	}
+
+	public void setWorkplace(String workplace) {
+		this.workplace = workplace;
+	}
+
+	public String getAddressNo() {
+		return addressNo;
+	}
+
+	public void setAddressNo(String addressNo) {
+		this.addressNo = addressNo;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getSubDistrict() {
+		return subDistrict;
+	}
+
+	public void setSubDistrict(String subDistrict) {
+		this.subDistrict = subDistrict;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getZipcode() {
+		return zipcode;
+	}
+
+	public void setZipcode(String zipcode) {
+		this.zipcode = zipcode;
+	}
+
 	public void editAddress(String workplace, String addressNo,
 			String street, String subDistrict, String district,
 			String province, String zipcode) {

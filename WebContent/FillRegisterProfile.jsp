@@ -7,8 +7,8 @@
 <title>Indy Thai Tester</title>
 
 <!-- Bootstrap core CSS -->
-<link href="assets/css/bootstrap.css" rel="stylesheet">
-<link href="assets/css/style.css" rel="stylesheet">
+<link href="assets/css/bootstrap2.css" rel="stylesheet">
+<link href="assets/css/style2.css" rel="stylesheet">
 <link href="assets/css/jquery-ui.css" rel="stylesheet">	
 </head>
 <body>
@@ -18,7 +18,7 @@
 			<div class="col-md-12">
 				<div class="col-md-2"></div>
 				<div class="col-md-8" style="background-color: #ffffff;">
-				<form class="form-horizontal" name="frm" action="" method="post">
+				<form class="form-horizontal" name="frm" action="FillRegisterProfileServlet" method="post">
 					<div class="page-header">
 						<strong><font color="#5A9800">ส่วนที่ 1
 								ข้อมูลส่วนตัว</font></strong>
@@ -66,22 +66,22 @@
 							<label align="right" class="text-info col-sm-4 control-label">ตำแหน่งงาน:</label>
 							<div class="col-sm-5">
 								<div class="checkbox">
-									<label> <input type="checkbox" name="checkboxjob" id="job"
+									<label> <input type="checkbox" name="checkboxjob" id="checkboxjob"
 										value="Tester">Tester
 									</label>
 								</div>
 								<div class="checkbox">
-									<label> <input type="checkbox" name="checkboxjob" id="job"
+									<label> <input type="checkbox" name="checkboxjob" id="checkboxjob"
 										value="Administrator">Administrator
 									</label>
 								</div>
 								<div class="checkbox">
-									<label> <input type="checkbox" name="checkboxjob" id="job"
+									<label> <input type="checkbox" name="checkboxjob" id="checkboxjob"
 										value="Programmer">Programmer
 									</label>
 								</div>
 								<div class="checkbox">
-									<label> <input type="checkbox" name="checkboxjob" id="job"
+									<label> <input type="checkbox" name="checkboxjob" id="checkboxjob"
 										value="System analyst">System analyst
 									</label>
 								</div>
@@ -263,8 +263,7 @@
 						</div>
 
 						<div align="center">
-							<button class="btn btn-default" type="submit" class="btn"
-								onclick="return validate(frm)">ลงทะเบียน</button>
+							<button class="btn btn-default" type="submit" class="btn">ลงทะเบียน</button>
 							<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button>
 							
 						</div>
@@ -285,5 +284,6 @@
 	<script src="assets/js/jquery-1.11.1.js"></script>
 	<script src="assets/js/bootstrap.js"></script>
 	<script src="assets/js/jquery-ui.js"></script>
+	<script src="assets/js/checkInputFillRegisterProfile.js"></script>
 </body>
 </html>

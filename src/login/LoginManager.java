@@ -101,8 +101,7 @@ public class LoginManager {
 		TraineeBean trainee = new TraineeBean();
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {
-			String query = "SELECT * FROM login where username = '" + username
-					+ "'";
+			String query = "SELECT * FROM login l join trainee t on (l.Trainee_ID=t.Trainee_ID) where username = '"+username+"'";
 
 			// create the java statement
 
@@ -114,19 +113,16 @@ public class LoginManager {
 			// iterate through the java resultset
 			int traineeID = 0;
 			while (rs.next()) {
+				LoginBean loginBean = new LoginBean();
+				loginBean.setUsername(rs.getString("username"));
+				loginBean.setPassword(rs.getString("password"));
 				traineeID = rs.getInt("Trainee_ID");
 				System.out.println(traineeID);
-			}
-			// st.close();
-
-			query = "SELECT * FROM trainee where Trainee_ID = " + traineeID
-					+ "";
-			ResultSet rs2 = st.executeQuery(query);
-
-			while (rs2.next()) {
-				String traineeTitle = rs2.getString("title");
-				String traineeName = rs2.getString("name");
-				String traineeEducation = rs2.getString("education");
+				String traineeTitle = rs.getString("title");
+				String traineeName = rs.getString("name");
+				String traineeEducation = rs.getString("education");
+				
+				trainee.setLogin(loginBean);
 				trainee.setTitle(traineeTitle);
 				trainee.setName(traineeName);
 				trainee.setEducation(traineeEducation);

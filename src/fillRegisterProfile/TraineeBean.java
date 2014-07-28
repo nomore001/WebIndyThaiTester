@@ -1,5 +1,7 @@
 package fillRegisterProfile;
 
+import java.util.Vector;
+
 //import evaluation.Evaluation;
 
 public class TraineeBean {
@@ -7,32 +9,32 @@ public class TraineeBean {
 	private String title;
 	private String name;
 	private String education;
-	private String[] occupation;
 	private String telNo;
+	private String other;
 	private String email;
 	private String traineeStatus;
 	private String registerDate;
-	private String trainePayment;
+	private String traineePayment;
 	
 	private LoginBean login;
 	private AddressBean address;
 //	private Evaluation evaluation;
+	private Vector<OccupationBean> occVector = new Vector<OccupationBean>();
 	
 	public TraineeBean(){
 		
 	}
 	
-	public TraineeBean(String title, String name, String education, String[] occupation, String telNo, 
-			String email, String traineeStatus, String registerDate, String trainePayment){
+	public TraineeBean(String title, String name, String education,  String telNo,  String email, 
+			String traineeStatus, String registerDate, String traineePayment){
 		this.title = title;
 		this.name = name;
 		this.education = education;
-		this.occupation = occupation;
 		this.telNo = telNo;
 		this.email = email;
 		this.traineeStatus = traineeStatus;
 		this.registerDate = registerDate;
-		this.trainePayment = trainePayment;
+		this.traineePayment = traineePayment;
 	}
 	
 	public String getTitle() {
@@ -56,13 +58,6 @@ public class TraineeBean {
 		this.education = education;
 	}
 	
-	public String[] getOccupation() {
-		return occupation;
-	}
-	public void setOccupation(String[] occupation) {
-		this.occupation = occupation;
-	}
-	
 	public String getTelNo() {
 		return telNo;
 	}
@@ -70,6 +65,13 @@ public class TraineeBean {
 		this.telNo = telNo;
 	}
 	
+	public String getOther() {
+		return other;
+	}
+	public void setOther(String other) {
+		this.other = other;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -91,11 +93,11 @@ public class TraineeBean {
 		this.registerDate = registerDate;
 	}
 	
-	public String getTrainePayment() {
-		return trainePayment;
+	public String getTraineePayment() {
+		return traineePayment;
 	}
-	public void setTrainePayment(String trainePayment) {
-		this.trainePayment = trainePayment;
+	public void setTraineePayment(String traineePayment) {
+		this.traineePayment = traineePayment;
 	}
 
 	public LoginBean getLogin() {
@@ -110,27 +112,6 @@ public class TraineeBean {
 		return evaluation;
 	}*/
 	
-	public TraineeBean editTrainee(String title, String name, String education,
-			String[] occupation, String telNo, String email, String workplace, 
-			String addressNo, String street, String subDistrict, String district, 
-			String province, String zipcode) {
-		this.getAddress().editAddress(workplace, addressNo, street, subDistrict, district, province, zipcode);
-		this.setTitle(title);
-		this.setName(name);
-		this.setEducation(education);
-		this.setOccupation(occupation);
-		this.setTelNo(telNo);
-		this.setEmail(email);
-		return this;
-	}
-	
-	public void addAddress(AddressBean address){
-		this.address = address;
-	}
-	
-	public void addLogin(LoginBean login){
-		this.login = login;
-	}
 	/*
 	public void addEvaluation(Evaluation evaluation){
 		this.evaluation = evaluation;
@@ -138,22 +119,83 @@ public class TraineeBean {
 	
 	public String toString() {
 		String text = "ส่วนที่ 1 ข้อมูลส่วนตัว\n";
-		text = text + "\tชื่อ-นามสกุล : " + getTitle() + " " + getName()
-				+ "\n" + "\tวุฒิการศึกษา : " + getEducation() + "\n"
+		text = text + "\tชื่อ-นามสกุล : " + this.title + " " + this.name
+				+ "\n" + "\tวุฒิการศึกษา : " + this.education + "\n"
 				+ "\tตำแหน่งงาน : ";
-		for (int i = 0; i < getOccupation().length; i++) {
-			if (i == 0) {
-				text = text + occupation[i];
-			} else {
-				text = text + ", " + occupation[i];
+		for (int i = 0 ; i < occVector.size()-1 ; i++) {
+			if(occVector.get(i).getSelected()){
+				if (i == 0) {
+					text = text + occVector.get(i).getOccupationName();
+				} else {
+					text = text + ", " + occVector.get(i).getOccupationName();
+				}
 			}
 		}
-		text = text + "\n\tเบอร์โทรศัพท์ : " + getTelNo() + "\n"
-				+ "\tอีเมล์ : " + getEmail() + "\n";
+		if(occVector.get(4).getSelected()){
+			text = text + ", " + this.other;
+		}
+		text = text + "\n\tเบอร์โทรศัพท์ : " + this.telNo + "\n"
+				+ "\tอีเมล์ : " + this.email + "\n";
 		return text;
 	}
 	
 	public void editPaymentStatus(String traineeStatus) {
 		this.traineeStatus = traineeStatus;
 	}
+	
+	public TraineeBean editTrainee(String title, String name, String education,
+			boolean[] occupation, String other, String telNo, String email, 
+			String workplace, String addressNo, String street, String subDistrict, String district, 
+			String province, String zipcode) {
+		for(int i=0 ; i<4 ; i++){
+			if(this.isSelected(occupation[i])){
+				this.occVector.get(i).editOccupation(occupation[i]);
+			}
+		}
+		if(this.isOccExist(occupation[4])){
+			this.occVector.get(4).editOther(other);
+		}
+		this.getAddress().editAddress(workplace, addressNo, street, subDistrict, district, province, zipcode);
+		this.title = title;
+		this.name = name;
+		this.education = education;
+		this.telNo = telNo;
+		this.email = email;
+		return this;
+	}
+	
+	public boolean isSelected(boolean check){
+		if(check){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isOccExist(boolean other){
+		if(other){
+			return true;
+		}
+		return false;
+	}
+	
+	public void addOccupation(OccupationBean occ){
+		this.occVector.addElement(occ);
+	}
+
+	public Vector<OccupationBean> getOccVector() {
+		return occVector;
+	}
+
+	public void setOccVector(Vector<OccupationBean> occVector) {
+		this.occVector = occVector;
+	}
+
+	public void setLogin(LoginBean login) {
+		this.login = login;
+	}
+
+	public void setAddress(AddressBean address) {
+		this.address = address;
+	}
+	
 }

@@ -29,7 +29,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-pencil"></i></span> <input class="form-control"
 							type="text" name="textcourseName" id="txtname"
 							placeholder="ชื่อหลักสูตรการอบรม">
 					</div>
@@ -42,7 +42,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-calendar"></i></span> <input class="form-control"
 							type="text" name="textcourseRegisterStartDate" id="datepicker1"
 							placeholder="วันที่เปิดลงทะเบียน">
 					</div>
@@ -55,7 +55,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-time"></i></span> <input class="form-control"
 							type="text" name="textcourseRegisterDuration" id="txtname"
 							placeholder="จำนวนวันที่เปิดลงทะเบียน">
 					</div>
@@ -68,7 +68,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-calendar"></i></span> <input class="form-control"
 							type="text" name="textpaymentStartDate" id="datepicker2"
 							placeholder="วันที่เริ่มชำระเงินค่าอบรม">
 					</div>
@@ -81,7 +81,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-time"></i></span> <input class="form-control"
 							type="text" name="textpaymentDuration" id="txtname"
 							placeholder="จำนวนวันที่ชำระเงิน">
 					</div>
@@ -94,7 +94,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-calendar"></i></span> <input class="form-control"
 							type="text" name="texttrainingStartDate" id="datepicker3"
 							placeholder="วันที่เริ่มการอบรม">
 					</div>
@@ -107,7 +107,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-time"></i></span> <input class="form-control"
 							type="text" name="textcourseDuration" id="txtname"
 							placeholder="จำนวนวันที่เปิดอบรม">
 					</div>
@@ -120,7 +120,7 @@
 				<div class="col-sm-4">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><i
-							class="glyphicon glyphicon-user"></i></span> <input class="form-control"
+							class="glyphicon glyphicon-tag"></i></span> <input class="form-control"
 							type="text" name="textcourseRegisterCosts" id="txtname"
 							placeholder="จำนวนเงินค่าอบรม">
 					</div>
