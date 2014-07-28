@@ -8,48 +8,56 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 
-import fillRegisterProfile.*;
+import fillRegisterProfile.FillRegisterProfileManager;
+import fillRegisterProfile.TraineeBean;
 
 /**
  * Servlet implementation class ListProfileDetailServlet
  */
-@WebServlet("/ListProfileDetailServlet")
+@WebServlet("/ListRegisterDetailServlet")
 public class ListRegisterDetailServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ListRegisterDetailServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ListRegisterDetailServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-		
+
 		HttpSession session = request.getSession();
 
-		TraineeBean traineeBean = (TraineeBean) session.getAttribute("traineeBean");
-		
+		TraineeBean traineeBean = (TraineeBean) session
+				.getAttribute("traineeBean");
+
 		FillRegisterProfileManager fillMng = new FillRegisterProfileManager();
-		int courseID = fillMng.searchCourseTrainingIdByUsername(traineeBean.getLogin().getUsername());
+		int courseID = fillMng.searchCourseTrainingIdByUsername(traineeBean
+				.getLogin().getUsername());
+
 		session.setAttribute("courseID", courseID);
-		response.sendRedirect("ListRegisterDetail.jsp");
+
+		response.sendRedirect("DownLoadDocumentServlet");
 
 	}
 

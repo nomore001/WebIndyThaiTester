@@ -61,14 +61,15 @@ public class DownLoadDocumentServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 
-		String courseId = "1";
+		HttpSession session = request.getSession();
+		Integer courseId = (Integer) session.getAttribute("courseID");
 
 		DownLoadDocumentManager documentMng = DownLoadDocumentManager
 				.getInstance();
 
 		Vector<TrainingDocumentBean> trainingDoc = documentMng
-				.listAllDocument(courseId);
-		HttpSession session = request.getSession();
+				.listAllDocument("" + courseId);
+
 		session.setAttribute("trainingDocumentBean", trainingDoc);
 
 		Vector<TrainingDocumentBean> partToLoadFile = new Vector<TrainingDocumentBean>();

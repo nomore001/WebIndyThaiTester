@@ -84,7 +84,7 @@ public class LoginServlet extends HttpServlet {
 					"admin")) {
 				response.sendRedirect("ListCourseTrainingServlet");
 			} else {
-				response.sendRedirect("test01.jsp");
+				response.sendRedirect("ListRegisterDetailServlet");
 			}
 			System.out.println("pass");
 		} else {
