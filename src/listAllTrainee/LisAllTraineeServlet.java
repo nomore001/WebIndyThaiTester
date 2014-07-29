@@ -1,7 +1,7 @@
-
-package login;
+package listAllTrainee;
 
 import java.io.IOException;
+import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fillRegisterProfile.*;
+import fillRegisterProfile.FillRegisterProfileManager;
+import fillRegisterProfile.TraineeBean;
 
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class LisAllTrainee
  */
-@WebServlet("/LoginServlet")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/LisAllTraineeServlet")
+public class LisAllTraineeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public LoginServlet() {
+	public LisAllTraineeServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -45,29 +46,19 @@ public class LoginServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
+		HttpSession session = request.getSession();
+		String registerNo = request.getParameter("registerNo");
+		System.out.print("KK" + registerNo);
+		FillRegisterProfileManager fillregisterMng = FillRegisterProfileManager
+				.getInstance();
+		int regiserId = fillregisterMng.searchRegisterId(registerNo);
+		Vector<TraineeBean> traineeVector = new Vector<TraineeBean>();
+		traineeVector = fillregisterMng.listTraineeByRegisterId(regiserId);
 
-		LoginBean login = new LoginBean();
-		login.setUsername(request.getParameter("username_login"));
-		login.setPassword(request.getParameter("password_login"));
-		FillRegisterProfileManager loginMgr = FillRegisterProfileManager.getInstance();
-
-		if (loginMgr.verifyLogin(login)) {
-			TraineeBean trainee = loginMgr.searchTraineeByUsername(login
-					.getUsername());
-			HttpSession session = request.getSession();
-			session.setAttribute("traineeBean", trainee);
-			if (loginMgr.searchUserAccessStatus(login.getUsername()).equals(
-					"admin")) {
-				response.sendRedirect("ListCourseTrainingServlet");
-			} else {
-				response.sendRedirect("test01.jsp");
-			}
-			System.out.println("pass");
-		} else {
-			System.out.println("fail");
-			response.getWriter().print("fail");
-			response.sendRedirect("index.jsp");
-		}
-
+		System.out.println(traineeVector.elementAt(0).getName());
+		session.setAttribute("allTraineeBean", traineeVector);
+		response.sendRedirect("listAllTrainee.jsp");
+		
 	}
+
 }

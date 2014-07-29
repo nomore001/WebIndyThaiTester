@@ -49,7 +49,9 @@ public class ListAllRegisterServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		String courseID = request.getParameter("courseID");
-
+		
+		System.out.println(courseID);
+		 
 		HttpSession session = request.getSession();
 
 		FillRegisterProfileManager fillRegisterProfile = FillRegisterProfileManager
@@ -59,8 +61,10 @@ public class ListAllRegisterServlet extends HttpServlet {
 		registerBeanVector = fillRegisterProfile.listAllRegister(Integer
 				.parseInt(courseID));
 		session.setAttribute("registerBean", registerBeanVector);
-
-		System.out.println(registerBeanVector.elementAt(0).getRegisterNo());
+		
+		for(int i =0 ;i<registerBeanVector.size();i++){
+			System.out.println(registerBeanVector.elementAt(i).getRegisterNo());
+		}
 
 		response.sendRedirect("listAllRegister.jsp");
 	}
