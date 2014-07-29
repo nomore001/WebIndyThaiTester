@@ -634,4 +634,75 @@ public class FillRegisterProfileManager {
 		}
 		return courseTrainingId;
 	}
+
+	public Vector<TraineeBean> listTraineeByRegisterId(int registerID) {
+
+		Vector<TraineeBean> trainee = new Vector<TraineeBean>();
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementListTrainee = null;
+		String sql_selectTrainee = "SELECT * FROM trainee WHERE Register_ID="
+				+ registerID + ";";
+
+		try {
+			statementListTrainee = conn.prepareStatement(sql_selectTrainee);
+			ResultSet rs = statementListTrainee.executeQuery();
+			while (rs.next()) {
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	public Vector<RegisterBean> listAllRegister(int courseID) {
+		Vector<RegisterBean> registervector = new Vector<RegisterBean>();
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementListRegister = null;
+		String sql_selectRegister = "SELECT registerNo, DATE_FORMAT(courseRegisterStartDate, '%d/%m/%Y') AS courseRegisterStartDate, "
+				+ "courseRegisterDuration, DATE_FORMAT(paymentStartDate, '%d/%m/%Y') AS paymentStartDate, "
+				+ "paymentDuration, DATE_FORMAT(trainingStartDate, '%d/%m/%Y') AS trainingStartDate,courseDuration,"
+				+ "courseRegisterCosts FROM register WHERE CourseTraining_ID="
+				+ courseID + ";";
+		this.theRegisterBean = new RegisterBean();
+		try {
+			statementListRegister = conn.prepareStatement(sql_selectRegister);
+			ResultSet rs = statementListRegister.executeQuery();
+			while (rs.next()) {
+				this.theRegisterBean.setRegisterNo(rs.getString("registerNo"));
+				this.theRegisterBean.setCourseRegisterStartDate(rs
+						.getString("courseRegisterStartDate"));
+				this.theRegisterBean.setCourseRegisterDuration(rs
+						.getInt("courseRegisterDuration"));
+				this.theRegisterBean.setPaymentStartDate(rs
+						.getString("paymentStartDate"));
+				this.theRegisterBean.setPaymentDuration(rs
+						.getInt("paymentDuration"));
+				this.theRegisterBean.setTrainingStartDate(rs
+						.getString("trainingStartDate"));
+				this.theRegisterBean.setCourseDuration(rs
+						.getInt("courseDuration"));
+				this.theRegisterBean.setCourseRegisterCosts(rs
+						.getInt("courseRegisterCosts"));
+
+				registervector.add(theRegisterBean);
+			}
+
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementListRegister.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+
+		return registervector;
+
+	}
+
 }
