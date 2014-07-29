@@ -61,8 +61,10 @@ public class ListAllRegisterServlet extends HttpServlet {
 		registerBeanVector = fillRegisterProfile.listAllRegister(Integer
 				.parseInt(courseID));
 		session.setAttribute("registerBean", registerBeanVector);
-
-		System.out.println(registerBeanVector);
+		
+		for(int i =0 ;i<registerBeanVector.size();i++){
+			System.out.println(registerBeanVector.elementAt(i).getRegisterNo());
+		}
 
 		response.sendRedirect("listAllRegister.jsp");
 	}

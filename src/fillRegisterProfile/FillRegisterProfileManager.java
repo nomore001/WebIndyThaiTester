@@ -117,7 +117,7 @@ public class FillRegisterProfileManager {
 
 			// iterate through the java resultset
 			int traineeID = 0;
-			
+
 			Vector<OccupationBean> occupationVector = new Vector<OccupationBean>();
 			OccupationBean occ1 = new OccupationBean(false, "Tester");
 			OccupationBean occ2 = new OccupationBean(false, "Administrator");
@@ -129,7 +129,7 @@ public class FillRegisterProfileManager {
 			occupationVector.add(occ3);
 			occupationVector.add(occ4);
 			occupationVector.add(occ5);
-			
+
 			while (rs.next()) {
 				LoginBean loginBean = new LoginBean();
 				loginBean.setUsername(rs.getString("username"));
@@ -146,22 +146,22 @@ public class FillRegisterProfileManager {
 
 				traineeID = rs.getInt("Trainee_ID");
 				System.out.println("Trinee_ID : " + traineeID);
-				
+
 				int occID = rs.getInt("Occupation_ID");
 				String occName = rs.getString("occName");
 
-				if(occID <= 4){
+				if (occID <= 4) {
 					for (int j = 1; j <= 4; j++) {
 						if (occID == j) {
-							occupationVector.get(j-1).setSelected(true);
+							occupationVector.get(j - 1).setSelected(true);
 							break;
 						}
 					}
-				}else{
+				} else {
 					occupationVector.get(4).setSelected(true);
 					trainee.setOther(occName);
 				}
-				
+
 				trainee.setOccVector(occupationVector);
 
 				trainee.setTitle(rs.getString("title"));
@@ -640,14 +640,15 @@ public class FillRegisterProfileManager {
 		Vector<TraineeBean> trainee = new Vector<TraineeBean>();
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementListTrainee = null;
-		String sql_selectTrainee = "SELECT * FROM trainee WHERE Register_ID="
+		String sql_selectTrainee = "SELECT title,name,education,telNO,email,traineeStatus,DATE_FORMAT(registerDate, '%d/%m/%Y')as registerDate,traineePayment  FROM trainee WHERE Register_ID="
 				+ registerID + ";";
 
 		try {
 			statementListTrainee = conn.prepareStatement(sql_selectTrainee);
 			ResultSet rs = statementListTrainee.executeQuery();
-			TraineeBean traineeBean = new TraineeBean();
+			
 			while (rs.next()) {
+				TraineeBean traineeBean = new TraineeBean();
 				traineeBean.setTitle(rs.getString("title"));
 				traineeBean.setName(rs.getString("name"));
 				traineeBean.setEducation(rs.getString("education"));
@@ -656,7 +657,7 @@ public class FillRegisterProfileManager {
 				traineeBean.setTraineeStatus(rs.getString("traineeStatus"));
 				traineeBean.setRegisterDate(rs.getString("registerDate"));
 				traineeBean.setTraineePayment(rs.getString("traineePayment"));
-				
+
 				trainee.add(traineeBean);
 			}
 		} catch (SQLException ex) {
@@ -682,11 +683,11 @@ public class FillRegisterProfileManager {
 				+ "paymentDuration, DATE_FORMAT(trainingStartDate, '%d/%m/%Y') AS trainingStartDate,courseDuration,"
 				+ "courseRegisterCosts FROM register WHERE CourseTraining_ID="
 				+ courseID + ";";
-		this.theRegisterBean = new RegisterBean();
 		try {
 			statementListRegister = conn.prepareStatement(sql_selectRegister);
 			ResultSet rs = statementListRegister.executeQuery();
 			while (rs.next()) {
+				this.theRegisterBean = new RegisterBean();
 				this.theRegisterBean.setRegisterNo(rs.getString("registerNo"));
 				this.theRegisterBean.setCourseRegisterStartDate(rs
 						.getString("courseRegisterStartDate"));
