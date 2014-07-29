@@ -18,6 +18,7 @@
 <form action="LogoutServlet" method="post" >
 <button type="submit">log out</button>
 </form>
+
 	<h3>Admin Manager</h3>
 	<div class="col-md-12">
 		<c:forEach items="${courseTrainingBean}" varStatus="obj">
@@ -25,8 +26,12 @@
 				<button class="btn btn-primary btn-lg" data-toggle="modal"
 					data-target="#uploadModal" id="initUploadBtn_${obj.index+1}">Document
 					Management</button>
+					
+					<button class="btn btn-primary btn-lg" data-toggle="modal"
+					data-target="#viewRegister" id="viewRegisterBtn_${obj.index+1}">View Register</button>
 
 			</p>
+			
 		</c:forEach>
 
 	</div>
@@ -130,7 +135,33 @@
 		
 		
 		
-		
+		var course_ID = 1;
+		$("button[id*='viewRegisterBtn']").click(function() {
+			var tmp = this.id.split("_");
+			// 		alert(tmp[1]);
+			course_ID = tmp[1];
+			$.ajax({
+				type : 'POST',
+				url : 'ListAllRegisterServlet',
+				data : {
+					'courseID' : tmp[1],
+				},
+				success : function(data, textStatus) {
+					alert('done');
+					window.location.href ="listAllRegister.jsp";
+
+				},
+				error : function(xhr) {
+					// alert("Error");
+				},
+				complete : function(xhr, textStatus) {
+					// $("#mySubModal").remove();
+					// $("#editAttendanceBtn").bind();
+					// alert("Complete");
+				}
+			});
+
+		});
 		
 	</script>
 </body>

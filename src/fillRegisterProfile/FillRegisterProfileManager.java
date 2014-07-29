@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
@@ -141,10 +142,10 @@ public class FillRegisterProfileManager {
 	public synchronized RegisterBean getRegisterNow() {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementGetRegisterNow = null;
-		String sqlGetRegisterNow = "SELECT registerNo, DATE_FORMAT(courseRegisterStartDate, '%d/%m/%Y') AS courseRegisterStartDate, "+
-		"courseRegisterDuration, DATE_FORMAT(paymentStartDate, '%d/%m/%Y') AS paymentStartDate, "+
-		"paymentDuration, DATE_FORMAT(trainingStartDate, '%d/%m/%Y') AS trainingStartDate, "+
-		"courseRegisterCosts FROM register WHERE CURDATE() BETWEEN courseRegisterStartDate AND DATE_FORMAT(DATE_ADD(courseRegisterStartDate,INTERVAL courseRegisterDuration DAY), '%Y-%m-%d');";
+		String sqlGetRegisterNow = "SELECT registerNo, DATE_FORMAT(courseRegisterStartDate, '%d/%m/%Y') AS courseRegisterStartDate, "
+				+ "courseRegisterDuration, DATE_FORMAT(paymentStartDate, '%d/%m/%Y') AS paymentStartDate, "
+				+ "paymentDuration, DATE_FORMAT(trainingStartDate, '%d/%m/%Y') AS trainingStartDate, "
+				+ "courseRegisterCosts FROM register WHERE CURDATE() BETWEEN courseRegisterStartDate AND DATE_FORMAT(DATE_ADD(courseRegisterStartDate,INTERVAL courseRegisterDuration DAY), '%Y-%m-%d');";
 		try {
 			statementGetRegisterNow = conn.prepareStatement(sqlGetRegisterNow);
 			ResultSet rs = statementGetRegisterNow.executeQuery();
@@ -423,12 +424,14 @@ public class FillRegisterProfileManager {
 			for (int i = 0; i < traineeBean.getOccVector().size(); i++) {
 				if (traineeBean.getOccVector().get(i).getSelected()) {
 					if (i == 4) {
-						occupationID = this.searchOccupationId(traineeBean.getOther());
+						occupationID = this.searchOccupationId(traineeBean
+								.getOther());
 					} else {
 						occupationID = this.searchOccupationId(traineeBean
 								.getOccVector().get(i).getOccName());
 					}
-					statementTraineeOccupation = conn.prepareStatement(sqlTraineeOccupation);
+					statementTraineeOccupation = conn
+							.prepareStatement(sqlTraineeOccupation);
 					statementTraineeOccupation.setInt(1, traineeID);
 					statementTraineeOccupation.setInt(2, occupationID);
 					statementTraineeOccupation.executeUpdate();
@@ -479,7 +482,7 @@ public class FillRegisterProfileManager {
 		}
 		return occupationId;
 	}
-	
+
 	public synchronized int searchCourseTrainingIdByUsername(String username) {
 		int courseTrainingId = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -487,7 +490,7 @@ public class FillRegisterProfileManager {
 		String sqlSearchCourseTrainingId = "select c.CourseTraining_ID from trainee t join login l on (t.Trainee_ID = l.Trainee_ID) "
 				+ "join register r on (t.Register_ID = r.Register_ID) "
 				+ "join coursetraining c on (r.CourseTraining_ID = c.CourseTraining_ID) "
-				+ "where username = '"+username+"';";
+				+ "where username = '" + username + "';";
 		try {
 			statementSearchCourseTrainingId = conn
 					.prepareStatement(sqlSearchCourseTrainingId);
@@ -507,4 +510,75 @@ public class FillRegisterProfileManager {
 		}
 		return courseTrainingId;
 	}
+
+	public Vector<TraineeBean> listTraineeByRegisterId(int registerID) {
+
+		Vector<TraineeBean> trainee = new Vector<TraineeBean>();
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementListTrainee = null;
+		String sql_selectTrainee = "SELECT * FROM trainee WHERE Register_ID="
+				+ registerID + ";";
+
+		try {
+			statementListTrainee = conn.prepareStatement(sql_selectTrainee);
+			ResultSet rs = statementListTrainee.executeQuery();
+			while (rs.next()) {
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	public Vector<RegisterBean> listAllRegister(int courseID) {
+		Vector<RegisterBean> registervector = new Vector<RegisterBean>();
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementListRegister = null;
+		String sql_selectRegister = "SELECT registerNo, DATE_FORMAT(courseRegisterStartDate, '%d/%m/%Y') AS courseRegisterStartDate, "
+				+ "courseRegisterDuration, DATE_FORMAT(paymentStartDate, '%d/%m/%Y') AS paymentStartDate, "
+				+ "paymentDuration, DATE_FORMAT(trainingStartDate, '%d/%m/%Y') AS trainingStartDate,courseDuration,"
+				+ "courseRegisterCosts FROM register WHERE CourseTraining_ID="
+				+ courseID + ";";
+		this.theRegisterBean = new RegisterBean();
+		try {
+			statementListRegister = conn.prepareStatement(sql_selectRegister);
+			ResultSet rs = statementListRegister.executeQuery();
+			while (rs.next()) {
+				this.theRegisterBean.setRegisterNo(rs.getString("registerNo"));
+				this.theRegisterBean.setCourseRegisterStartDate(rs
+						.getString("courseRegisterStartDate"));
+				this.theRegisterBean.setCourseRegisterDuration(rs
+						.getInt("courseRegisterDuration"));
+				this.theRegisterBean.setPaymentStartDate(rs
+						.getString("paymentStartDate"));
+				this.theRegisterBean.setPaymentDuration(rs
+						.getInt("paymentDuration"));
+				this.theRegisterBean.setTrainingStartDate(rs
+						.getString("trainingStartDate"));
+				this.theRegisterBean.setCourseDuration(rs
+						.getInt("courseDuration"));
+				this.theRegisterBean.setCourseRegisterCosts(rs
+						.getInt("courseRegisterCosts"));
+
+				registervector.add(theRegisterBean);
+			}
+
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementListRegister.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+
+		return registervector;
+
+	}
+
 }
