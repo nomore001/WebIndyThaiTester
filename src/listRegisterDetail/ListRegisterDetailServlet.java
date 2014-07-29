@@ -1,3 +1,4 @@
+
 package listRegisterDetail;
 
 import java.io.IOException;
@@ -8,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 
-import fillRegisterProfile.FillRegisterProfileManager;
-import fillRegisterProfile.TraineeBean;
+import fillRegisterProfile.*;
 
 /**
  * Servlet implementation class ListProfileDetailServlet
@@ -48,16 +49,20 @@ public class ListRegisterDetailServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		TraineeBean traineeBean = (TraineeBean) session
-				.getAttribute("traineeBean");
-
-		FillRegisterProfileManager fillMng = new FillRegisterProfileManager();
-		int courseID = fillMng.searchCourseTrainingIdByUsername(traineeBean
-				.getLogin().getUsername());
-
-		session.setAttribute("courseID", courseID);
-
-		response.sendRedirect("DownLoadDocumentServlet");
+		TraineeBean traineeBean = (TraineeBean) session.getAttribute("traineeBean");
+		if (traineeBean == null) {
+			traineeBean = new TraineeBean();
+			session.setAttribute("traineeBean", traineeBean);
+		}
+		try {
+			FillRegisterProfileManager fillMng = new FillRegisterProfileManager();
+			String username = "unchalee";
+			traineeBean = fillMng.searchTraineeByUsername(username);
+			session.setAttribute("traineeBean", traineeBean);
+			response.sendRedirect("ListRegisterDetail.jsp");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 
 	}
 

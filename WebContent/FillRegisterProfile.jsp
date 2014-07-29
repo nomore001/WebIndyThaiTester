@@ -18,7 +18,7 @@
 			<div class="col-md-12">
 				<div class="col-md-2"></div>
 				<div class="col-md-8" style="background-color: #ffffff;">
-				<form class="form-horizontal" name="frm" action="FillRegisterProfileServlet" method="post">
+				<form class="form-horizontal" name="formFillRegisterProfile" action="FillRegisterProfileServlet" method="post">
 					<div class="page-header">
 						<strong><font color="#5A9800">ส่วนที่ 1
 								ข้อมูลส่วนตัว</font></strong>
@@ -263,7 +263,8 @@
 						</div>
 
 						<div align="center">
-							<button class="btn btn-default" type="submit" class="btn">ลงทะเบียน</button>
+<!-- 							<button class="btn btn-default" type="submit" class="btn" onclick="return validate(formFillRegisterProfile)">ลงทะเบียน</button> -->
+							<button class="btn btn-default" type="submit" class="btn" >ลงทะเบียน</button>
 							<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button>
 							
 						</div>

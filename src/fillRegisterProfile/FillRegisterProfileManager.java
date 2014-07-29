@@ -14,16 +14,181 @@ public class FillRegisterProfileManager {
 
 	private static FillRegisterProfileManager instance = null;
 
-	public void editAddress(String workplace, String addressNo, String street,
-			String subDistrict, String district, String province, String zipcode) {
-
-	}
-
 	public static FillRegisterProfileManager getInstance() {
 		if (instance == null) {
 			return instance = new FillRegisterProfileManager();
 		}
 		return instance;
+	}
+
+	public synchronized boolean verifyLogin(LoginBean login) {
+
+		String query = "SELECT * FROM login where username = '"
+				+ login.getUsername() + "';";
+
+		Connection conn = MySQLConnectionPool.getConnection();
+		try {
+
+			// create the java statement
+
+			PreparedStatement st = conn.prepareStatement(query);
+
+			// execute the query, and get a java resultset
+			ResultSet rs = st.executeQuery(query);
+
+			// iterate through the java resultset
+			String username = null;
+			String password = null;
+			while (rs.next()) {
+
+				username = rs.getString("username");
+				password = rs.getString("password");
+				System.out.println(username + password);
+
+			}
+
+			if (login.getUsername().equals(username)) {
+				if (login.getPassword().equals(password)) {
+					return true;
+				}
+			}
+			st.close();
+			conn.close();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public synchronized String searchUserAccessStatus(String username) {
+		String userStatus = null;
+		Connection conn = MySQLConnectionPool.getConnection();
+		try {
+			String query = "SELECT * FROM login where username = '" + username
+					+ "'";
+
+			// create the java statement
+
+			PreparedStatement st = conn.prepareStatement(query);
+
+			// execute the query, and get a java resultset
+			ResultSet rs = st.executeQuery(query);
+
+			// iterate through the java resultset
+			while (rs.next()) {
+				userStatus = rs.getString("status");
+
+			}
+			st.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// --------------------------------------
+		// for (int i = 0; i < this.getTraineeVector().size(); i++) {
+		// if (this.getTraineeVector().elementAt(i).getLogin().getUsername()
+		// .equals(username)) {
+		// return this.getTraineeVector().elementAt(i).getLogin()
+		// .getStatus();
+		// }
+		// }
+		return userStatus;
+	}
+
+	public synchronized TraineeBean searchTraineeByUsername(String username) {
+		TraineeBean trainee = new TraineeBean();
+		Connection conn = MySQLConnectionPool.getConnection();
+		try {
+			String query = "SELECT * FROM login l join trainee t on (l.Trainee_ID=t.Trainee_ID) "
+					+ "join address a on (t.Trainee_ID = a.Trainee_ID) "
+					+ "join traineeoccupation tocc on (t.Trainee_ID = tocc.Trainee_ID) "
+					+ "join occupation o on (tocc.Occupation_ID = o.Occupation_ID) "
+					+ "where username = '" + username + "'";
+
+			// create the java statement
+			PreparedStatement st = conn.prepareStatement(query);
+
+			// execute the query, and get a java resultset
+			ResultSet rs = st.executeQuery(query);
+
+			// iterate through the java resultset
+			int traineeID = 0;
+			
+			Vector<OccupationBean> occupationVector = new Vector<OccupationBean>();
+			OccupationBean occ1 = new OccupationBean(false, "Tester");
+			OccupationBean occ2 = new OccupationBean(false, "Administrator");
+			OccupationBean occ3 = new OccupationBean(false, "Programmer");
+			OccupationBean occ4 = new OccupationBean(false, "System analyst");
+			OccupationBean occ5 = new OccupationBean(false, "Other");
+			occupationVector.add(occ1);
+			occupationVector.add(occ2);
+			occupationVector.add(occ3);
+			occupationVector.add(occ4);
+			occupationVector.add(occ5);
+			
+			while (rs.next()) {
+				LoginBean loginBean = new LoginBean();
+				loginBean.setUsername(rs.getString("username"));
+				loginBean.setPassword(rs.getString("password"));
+
+				AddressBean addressBean = new AddressBean();
+				addressBean.setWorkplace(rs.getString("workplace"));
+				addressBean.setAddressNo(rs.getString("addressNo"));
+				addressBean.setStreet(rs.getString("street"));
+				addressBean.setSubDistrict(rs.getString("subDistrict"));
+				addressBean.setDistrict(rs.getString("district"));
+				addressBean.setProvince(rs.getString("province"));
+				addressBean.setZipcode(rs.getString("zipcode"));
+
+				traineeID = rs.getInt("Trainee_ID");
+				System.out.println("Trinee_ID : " + traineeID);
+				
+				int occID = rs.getInt("Occupation_ID");
+				String occName = rs.getString("occName");
+
+				if(occID <= 4){
+					for (int j = 1; j <= 4; j++) {
+						if (occID == j) {
+							occupationVector.get(j-1).setSelected(true);
+							break;
+						}
+					}
+				}else{
+					occupationVector.get(4).setSelected(true);
+					trainee.setOther(occName);
+				}
+				
+				trainee.setOccVector(occupationVector);
+
+				trainee.setTitle(rs.getString("title"));
+				trainee.setName(rs.getString("name"));
+				trainee.setEducation(rs.getString("education"));
+				trainee.setTelNo(rs.getString("telNo"));
+				trainee.setEmail(rs.getString("email"));
+				trainee.setTraineeStatus(rs.getString("traineeStatus"));
+				trainee.setRegisterDate(rs.getString("registerDate"));
+				trainee.setTraineePayment(rs.getString("traineePayment"));
+
+				trainee.setLogin(loginBean);
+				trainee.setAddress(addressBean);
+			}
+			st.close();
+
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return trainee;
+	}
+
+	public void editAddress(String workplace, String addressNo, String street,
+			String subDistrict, String district, String province, String zipcode) {
+
 	}
 
 	public void initFillRegisterProfileManager(RegisterBean registerBean) {
@@ -95,47 +260,6 @@ public class FillRegisterProfileManager {
 	 */
 	public boolean removeInvalidTrainee(String name) {
 
-		return false;
-	}
-
-	public synchronized boolean verifyLogin(LoginBean login) {
-
-		String query = "SELECT * FROM login where username = '"
-				+ login.getUsername() + "';";
-
-		Connection conn = MySQLConnectionPool.getConnection();
-		try {
-
-			// create the java statement
-
-			PreparedStatement st = conn.prepareStatement(query);
-
-			// execute the query, and get a java resultset
-			ResultSet rs = st.executeQuery(query);
-
-			// iterate through the java resultset
-			String username = null;
-			String password = null;
-			while (rs.next()) {
-
-				username = rs.getString("username");
-				password = rs.getString("password");
-				System.out.println(username + password);
-
-			}
-
-			if (login.getUsername().equals(username)) {
-				if (login.getPassword().equals(password)) {
-					return true;
-				}
-			}
-			st.close();
-			conn.close();
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return false;
 	}
 

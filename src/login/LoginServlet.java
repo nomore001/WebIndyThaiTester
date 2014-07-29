@@ -1,3 +1,4 @@
+
 package login;
 
 import java.io.IOException;
@@ -9,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fillRegisterProfile.LoginBean;
-import fillRegisterProfile.TraineeBean;
+import fillRegisterProfile.*;
 
 /**
  * Servlet implementation class LoginServlet
@@ -34,8 +34,6 @@ public class LoginServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
-		
-
 	}
 
 	/**
@@ -51,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 		LoginBean login = new LoginBean();
 		login.setUsername(request.getParameter("username_login"));
 		login.setPassword(request.getParameter("password_login"));
-		LoginManager loginMgr = LoginManager.getInstance();
+		FillRegisterProfileManager loginMgr = FillRegisterProfileManager.getInstance();
 
 		if (loginMgr.verifyLogin(login)) {
 			TraineeBean trainee = loginMgr.searchTraineeByUsername(login
@@ -60,13 +58,11 @@ public class LoginServlet extends HttpServlet {
 			session.setAttribute("traineeBean", trainee);
 			if (loginMgr.searchUserAccessStatus(login.getUsername()).equals(
 					"admin")) {
-
 				response.sendRedirect("ListCourseTrainingServlet");
 			} else {
-				response.sendRedirect("");
+				response.sendRedirect("test01.jsp");
 			}
 			System.out.println("pass");
-			System.out.println(trainee.getLogin().getUsername());
 		} else {
 			System.out.println("fail");
 			response.getWriter().print("fail");
