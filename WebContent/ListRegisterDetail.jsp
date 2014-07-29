@@ -62,10 +62,12 @@
 										<c:if test="${occupation.selected == true}">
 											<c:choose>
 												<c:when test="${occupation.occName.equals('Other')}">
-													<c:out value="${traineeBean.other}"></c:out><br />
+													<c:out value="${traineeBean.other}"></c:out>
+													<br />
 												</c:when>
 												<c:otherwise>
-													<c:out value="${occupation.occName}"></c:out><br />
+													<c:out value="${occupation.occName}"></c:out>
+													<br />
 												</c:otherwise>
 											</c:choose>
 										</c:if>
@@ -195,15 +197,14 @@
 									</p>
 								</div>
 							</div>
-
-							<div align="center">
-								<!-- 								<button class="btn btn-default" type="submit" class="btn">ลงทะเบียน</button> -->
-								<!-- 								<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button> -->
-
-							</div>
 							<br> <br>
 						</div>
 					</form>
+
+					<div align="center">
+						<button class="btn btn-default" type="button" class="btn" onclick="window.location.href='EditRegisterProfileServlet'">แก้ไข</button>
+						<button class="btn btn-default" type="button" class="btn">พิมพ์</button>
+					</div>
 
 				</div>
 			</div>
