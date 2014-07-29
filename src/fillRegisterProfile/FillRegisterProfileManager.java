@@ -522,14 +522,30 @@ public class FillRegisterProfileManager {
 		try {
 			statementListTrainee = conn.prepareStatement(sql_selectTrainee);
 			ResultSet rs = statementListTrainee.executeQuery();
+			TraineeBean traineeBean = new TraineeBean();
 			while (rs.next()) {
-
+				traineeBean.setTitle(rs.getString("title"));
+				traineeBean.setName(rs.getString("name"));
+				traineeBean.setEducation(rs.getString("education"));
+				traineeBean.setTelNo(rs.getString("telNo"));
+				traineeBean.setEmail(rs.getString("email"));
+				traineeBean.setTraineeStatus(rs.getString("traineeStatus"));
+				traineeBean.setRegisterDate(rs.getString("registerDate"));
+				traineeBean.setTraineePayment(rs.getString("traineePayment"));
+				
+				trainee.add(traineeBean);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementListTrainee.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
 		}
-		return null;
+		return trainee;
 
 	}
 

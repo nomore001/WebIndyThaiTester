@@ -13,15 +13,43 @@
 	<c:out value="${fn:length(registerBean)}"></c:out>
 	Register(s)
 	<br>
-	<c:forEach items="${registerBean}" var="obj">
-
-		<c:out value="${obj.registerNo}"> </c:out>
-		<c:out value="${obj.trainingStartDate}"> </c:out>
-		<c:out value="${obj.courseRegisterCosts}"> </c:out>
-
+	<c:forEach items="${registerBean}" varStatus="obj">
+		<p>${registerBean[obj.index].registerNo}</p>
+		
+		<button type="button" class="btn btn-danger btn-xs"
+			id="viewTraineeBtn_${obj.registerNo}" value="${obj.registerNo}">ABC</button>
 		<br>
 	</c:forEach>
 
 </body>
-	
+<script type="text/javascript">
+	var registerNo = 1;
+	$("button[id*='viewTraineeBtn']").click(function() {
+		var tmp = this.id.split("_");
+		// 		alert(tmp[1]);
+		registerNo = tmp[1];
+		$.ajax({
+			type : 'POST',
+			url : 'LisAllTraineeServlet',
+			data : {
+				'registerNo' : tmp[1],
+			},
+			success : function(data, textStatus) {
+				alert('done');
+				// 			window.location.href ="listAllRegister.jsp";
+
+			},
+			error : function(xhr) {
+				// alert("Error");
+			},
+			complete : function(xhr, textStatus) {
+				// $("#mySubModal").remove();
+				// $("#editAttendanceBtn").bind();
+				// alert("Complete");
+			}
+		});
+
+	});
+</script>
+
 </html>

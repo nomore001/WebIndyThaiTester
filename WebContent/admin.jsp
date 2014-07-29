@@ -27,8 +27,8 @@
 					data-target="#uploadModal" id="initUploadBtn_${obj.index+1}">Document
 					Management</button>
 					
-					<button class="btn btn-primary btn-lg" data-toggle="modal"
-					data-target="#viewRegister" id="viewRegisterBtn_${obj.index+1}">View Register</button>
+					<button class="btn btn-primary btn-lg" 
+					 id="viewRegisterBtn_${obj.index+1}">View Register</button>
 
 			</p>
 			
@@ -78,6 +78,7 @@
 	<script>
 		var courseID = 1;
 		$("button[id*='initUploadBtn']").click(function() {
+			
 			var tmp = this.id.split("_");
 			// 		alert(tmp[1]);
 			courseID = tmp[1];
@@ -135,11 +136,11 @@
 		
 		
 		
-		var course_ID = 1;
+		var course_ID_tolistRegister = 1;
 		$("button[id*='viewRegisterBtn']").click(function() {
 			var tmp = this.id.split("_");
-			// 		alert(tmp[1]);
-			course_ID = tmp[1];
+			 		alert(tmp[1]);
+			course_ID_tolistRegister = tmp[1];
 			$.ajax({
 				type : 'POST',
 				url : 'ListAllRegisterServlet',
