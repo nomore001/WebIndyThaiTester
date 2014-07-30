@@ -34,7 +34,6 @@ public class EditRegisterProfileServlet extends HttpServlet {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
-		FillRegisterProfileManager manager = new FillRegisterProfileManager();
 		TraineeBean traineeBean = (TraineeBean) session.getAttribute("traineeBean");
 		session.setAttribute("traineeBean", traineeBean);
 		response.sendRedirect("EditRegisterProfile.jsp");
@@ -55,6 +54,11 @@ public class EditRegisterProfileServlet extends HttpServlet {
 			traineeBean = new TraineeBean();
 			session.setAttribute("traineeBean", traineeBean);
 		}
+		
+		for (int j = 0; j < traineeBean.getOccVector().size(); j++) {
+			traineeBean.getOccVector().get(j).setSelected(false);
+		}
+		traineeBean.setOther("");
 		
 		String title = request.getParameter("radiotitle");
 		String name = request.getParameter("textname");
@@ -77,14 +81,45 @@ public class EditRegisterProfileServlet extends HttpServlet {
 		String district = request.getParameter("textdistrict");
 		String province = request.getParameter("textprovince");
 		String zipcode = request.getParameter("textzipcode");
-		String traineeStatus = request.getParameter("texttraineestatus");
 
 		traineeBean.setTitle(title);
 		traineeBean.setName(name);
 		traineeBean.setEducation(education);
 		traineeBean.setTelNo(telNo);
 		traineeBean.setEmail(email);
-		traineeBean.setTraineeStatus(traineeStatus);
+		
+		for (int i = 0; i < job.length; i++) {
+			for (int j = 0; j < traineeBean.getOccVector().size(); j++) {
+				if (traineeBean.getOccVector().get(j).getOccupationName()
+						.equals(job[i])) {
+					traineeBean.getOccVector().get(j).setSelected(true);
+					if (job[i].equals("Other")) {
+						traineeBean.setOther(other);
+					}
+					break;
+				}
+			}
+		}
+		
+		traineeBean.getAddress().setWorkplace(workplace);
+		traineeBean.getAddress().setAddressNo(addressNo);
+		traineeBean.getAddress().setStreet(street);
+		traineeBean.getAddress().setSubDistrict(subDistrict);
+		traineeBean.getAddress().setDistrict(district);
+		traineeBean.getAddress().setProvince(province);
+		traineeBean.getAddress().setZipcode(zipcode);
+		
+		try {
+			FillRegisterProfileManager mng = FillRegisterProfileManager.getInstance();
+			boolean editTrainee = mng.editTrainee(traineeBean);
+			if(editTrainee){
+				traineeBean = mng.searchTraineeByUsername(traineeBean.getLogin().getUsername());
+				session.setAttribute("traineeBean", traineeBean);
+				response.sendRedirect("ListRegisterDetail.jsp");
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 }

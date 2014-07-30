@@ -242,13 +242,6 @@
 								</div>
 								<font color="red" size="4px">*</font>
 							</div>
-							
-							<div class="form-group">
-								<div class="col-sm-6">
-									<input class="form-control" type="hidden" name="texttraineestatus"
-											id="texttraineestatus" value="<%=trainee.getTraineeStatus()%>">
-								</div>
-							</div>
 
 							<div align="center">
 								<button class="btn btn-default" type="submit" class="btn">ยืนยัน</button>

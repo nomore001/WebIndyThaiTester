@@ -88,14 +88,6 @@ public class FillRegisterProfileManager {
 			e.printStackTrace();
 		}
 
-		// --------------------------------------
-		// for (int i = 0; i < this.getTraineeVector().size(); i++) {
-		// if (this.getTraineeVector().elementAt(i).getLogin().getUsername()
-		// .equals(username)) {
-		// return this.getTraineeVector().elementAt(i).getLogin()
-		// .getStatus();
-		// }
-		// }
 		return userStatus;
 	}
 
@@ -186,21 +178,8 @@ public class FillRegisterProfileManager {
 		return trainee;
 	}
 
-	public void editAddress(String workplace, String addressNo, String street,
-			String subDistrict, String district, String province, String zipcode) {
-
-	}
-
 	public void initFillRegisterProfileManager(RegisterBean registerBean) {
 		this.theRegisterBean = registerBean;
-	}
-
-	public void editOccupation(boolean selected) {
-
-	}
-
-	public void editOther(String other) {
-
 	}
 
 	public synchronized int sumOfTrainee(RegisterBean registerBean) {
@@ -345,7 +324,7 @@ public class FillRegisterProfileManager {
 	}
 
 	public synchronized boolean addAddress(TraineeBean traineeBean) {
-		int traineeID = this.searchTraineeId(traineeBean.getEmail());
+		int traineeID = this.searchMaxTraineeId();
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementAddress = null;
@@ -391,7 +370,7 @@ public class FillRegisterProfileManager {
 	}
 
 	public synchronized boolean addLogin(TraineeBean traineeBean) {
-		int traineeID = this.searchTraineeId(traineeBean.getEmail());
+		int traineeID = this.searchMaxTraineeId();
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementLogin = null;
@@ -425,13 +404,39 @@ public class FillRegisterProfileManager {
 		}
 		return false;
 	}
-
-	public synchronized int searchTraineeId(String email) {
+	
+	public synchronized int searchMaxTraineeId() {
 		int traineeId = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchTraineeID = null;
-		String sqlSearchTraineeID = "select * from trainee where email = '"
-				+ email + "';";
+		String sqlSearchTraineeID = "select max(Trainee_ID) as Trainee_ID from trainee;";
+		try {
+			statementSearchTraineeID = conn
+					.prepareStatement(sqlSearchTraineeID);
+			ResultSet rs = statementSearchTraineeID.executeQuery();
+			while (rs.next()) {
+				traineeId = rs.getInt("Trainee_ID");
+
+			}
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementSearchTraineeID.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return traineeId;
+	}
+
+	public synchronized int searchTraineeId(String username) {
+		int traineeId = 0;
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementSearchTraineeID = null;
+		String sqlSearchTraineeID = "select * from login l join trainee t on (l.Trainee_ID=t.Trainee_ID) where username = '"
+				+ username + "';";
 		try {
 			statementSearchTraineeID = conn
 					.prepareStatement(sqlSearchTraineeID);
@@ -537,7 +542,7 @@ public class FillRegisterProfileManager {
 
 	public synchronized boolean addTraineeOccupation(TraineeBean traineeBean) {
 		int occupationID = 0;
-		int traineeID = this.searchTraineeId(traineeBean.getEmail());
+		int traineeID = this.searchTraineeId(traineeBean.getLogin().getUsername());
 
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementTraineeOccupation = null;
@@ -635,7 +640,7 @@ public class FillRegisterProfileManager {
 		return courseTrainingId;
 	}
 
-	public Vector<TraineeBean> listTraineeByRegisterId(int registerID) {
+	public synchronized Vector<TraineeBean> listTraineeByRegisterId(int registerID) {
 
 		Vector<TraineeBean> trainee = new Vector<TraineeBean>();
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -674,7 +679,7 @@ public class FillRegisterProfileManager {
 
 	}
 
-	public Vector<RegisterBean> listAllRegister(int courseID) {
+	public synchronized Vector<RegisterBean> listAllRegister(int courseID) {
 		Vector<RegisterBean> registervector = new Vector<RegisterBean>();
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementListRegister = null;
@@ -721,5 +726,136 @@ public class FillRegisterProfileManager {
 		return registervector;
 
 	}
+
+	public synchronized boolean editTrainee(TraineeBean traineeBean) {
+		int traineeID = this.searchTraineeId(traineeBean.getLogin().getUsername());
+
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementEditTrainee = null;
+		String sqlEditTrainee = "UPDATE trainee SET title = ?, name = ?, education = ?, telNo = ?, email = ? WHERE Trainee_ID = ?;";
+
+		try {
+			this.editAddress(traineeBean.getAddress(), traineeID);
+			this.editOccupation(traineeBean, traineeID);
+			conn.setAutoCommit(false);
+			statementEditTrainee = conn
+					.prepareStatement(sqlEditTrainee);
+			statementEditTrainee.setString(1, traineeBean.getTitle());
+			statementEditTrainee.setString(2, traineeBean.getName());
+			statementEditTrainee.setString(3, traineeBean.getEducation());
+			statementEditTrainee.setString(4, traineeBean.getTelNo());
+			statementEditTrainee.setString(5, traineeBean.getEmail());
+			statementEditTrainee.setInt(6, traineeID);
+			statementEditTrainee.executeUpdate();
+			conn.commit();
+			return true;
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		} finally {
+			try {
+				statementEditTrainee.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return false;
+	}
+	
+	public synchronized boolean editAddress(AddressBean address, int traineeID) {
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementEditAddress = null;
+		String sqlEditAddress = "UPDATE address SET workplace = ?, addressNo = ?, street = ?, subDistrict = ?, district = ?, province = ?, zipcode = ? WHERE Trainee_ID = ?;";
+
+		try {
+			conn.setAutoCommit(false);
+			
+			statementEditAddress = conn
+							.prepareStatement(sqlEditAddress);
+			statementEditAddress.setString(1, address.getWorkplace());
+			statementEditAddress.setString(2, address.getAddressNo());
+			statementEditAddress.setString(3, address.getStreet());
+			statementEditAddress.setString(4, address.getSubDistrict());
+			statementEditAddress.setString(5, address.getDistrict());
+			statementEditAddress.setString(6, address.getProvince());
+			statementEditAddress.setString(7, address.getZipcode());
+			statementEditAddress.setInt(8, traineeID);
+			statementEditAddress.executeUpdate();
+				
+			conn.commit();
+			return true;
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		} finally {
+			try {
+				statementEditAddress.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return false;
+	}
+
+	public synchronized boolean editOccupation(TraineeBean trainee, int traineeID) {
+		try {
+			this.removeOccupation(traineeID);
+			if(trainee.getOther() != ""){
+				boolean isOccExist = this.isOccExist(trainee.getOther());
+				if (!isOccExist) {
+					this.addOccupation(trainee);
+				}
+			}
+			this.addTraineeOccupation(trainee);
+			return true;
+		} catch (Exception ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} 
+		return false;
+	}
+	
+	public synchronized boolean removeOccupation(int traineeID) {
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementRemoveOccupation = null;
+		String sqlRemoveOccupation = "DELETE FROM traineeoccupation WHERE Trainee_ID = ?;";
+
+		try {
+			conn.setAutoCommit(false);
+			
+			statementRemoveOccupation = conn
+							.prepareStatement(sqlRemoveOccupation);
+			statementRemoveOccupation.setInt(1, traineeID);
+			statementRemoveOccupation.executeUpdate();
+				
+			conn.commit();
+			return true;
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+			try {
+				conn.rollback();
+			} catch (SQLException e) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		} finally {
+			try {
+				statementRemoveOccupation.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return false;
+	}
+
 
 }
