@@ -502,6 +502,40 @@ public class FillRegisterProfileManager {
 		}
 		return registerId;
 	}
+	
+	public synchronized RegisterBean searchRegisterByUsername(String username) {
+		RegisterBean register = null;
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementSearchRegister = null;
+		String sqlSearchRegister = "SELECT * FROM login l join trainee t on (l.Trainee_ID=t.Trainee_ID) join register r on(t.Register_ID = r.Register_ID) where username = '"+username+"'";
+		try {
+			statementSearchRegister = conn
+					.prepareStatement(sqlSearchRegister);
+			ResultSet rs = statementSearchRegister.executeQuery();
+			 
+			while (rs.next()) {
+				register = new RegisterBean();
+				register.setRegisterNo(rs.getString("registerNo"));
+				register.setCourseRegisterStartDate(rs.getString("courseRegisterStartDate"));
+				register.setCourseRegisterDuration(rs.getInt("courseRegisterDuration"));
+				register.setPaymentStartDate(rs.getString("paymentStartDate"));
+				register.setPaymentDuration(rs.getInt("paymentDuration"));
+				register.setTrainingStartDate(rs.getString("trainingStartDate"));
+				register.setCourseDuration(rs.getInt("courseDuration"));
+				register.setCourseRegisterCosts(rs.getInt("courseRegisterCosts"));
+			}
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementSearchRegister.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return register;
+	}
 
 	public synchronized boolean isOccExist(String job) {
 		Connection conn = MySQLConnectionPool.getConnection();

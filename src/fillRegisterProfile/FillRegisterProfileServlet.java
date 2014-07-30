@@ -116,10 +116,11 @@ public class FillRegisterProfileServlet extends HttpServlet {
 
 		AddressBean addressBean = new AddressBean(workplace, addressNo, street,
 				subDistrict, district, province, zipcode);
-		LoginBean loginBean = new LoginBean(username, password, "Trainee");
+		LoginBean loginBean = new LoginBean(username, password, "user");
 
 		traineeBean.setAddress(addressBean);
 		traineeBean.setLogin(loginBean);
+		registerBean.getTraineeVector().add(traineeBean);
 		
 		try {
 			boolean verifyLoginOfTrainee = fillRegisterMng.verifyLogin(traineeBean.getLogin());
@@ -144,6 +145,8 @@ public class FillRegisterProfileServlet extends HttpServlet {
 				} else {
 					System.out.println("เกิดข้อผิดพลาด : ไม่สามารถลงทะเบียนได้");
 				}
+				
+				session.setAttribute("registerBean", registerBean);
 			} else {
 				System.out.println("ขออภัย   ชื่อผู้ใช้ที่ท่านกำหนดไม่สามารถใช้งานได้   เนื่องจากมีผู้ใช้งานแล้ว");
 			}
