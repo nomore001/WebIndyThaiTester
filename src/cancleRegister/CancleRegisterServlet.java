@@ -44,17 +44,18 @@ public class CancleRegisterServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
-		HttpSession session = request.getSession();
-		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
-
-		FillRegisterProfileManager registerProfileMng = FillRegisterProfileManager
-				.getInstance();
-
-		registerProfileMng.editTraineeStatus();
-
-		System.out.println("cancle : " + trainee.getName());
+  		response.setCharacterEncoding("utf-8");
+  		response.setContentType("text/html");
+ 		String status = request.getParameter("editBtn");
+  		HttpSession session = request.getSession();
+  		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
+  
+  		FillRegisterProfileManager registerProfileMng = FillRegisterProfileManager
+  				.getInstance();
+  
+ 		registerProfileMng.editTraineeStatus(trainee.getName(),status);
+  
+  		System.out.println("cancle : " + trainee.getName());
 	}
 
 }
