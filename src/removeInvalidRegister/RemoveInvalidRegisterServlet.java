@@ -1,4 +1,4 @@
-package cancleRegister;
+package removeInvalidRegister;
 
 import java.io.IOException;
 
@@ -7,22 +7,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import fillRegisterProfile.FillRegisterProfileManager;
-import fillRegisterProfile.TraineeBean;
 
 /**
- * Servlet implementation class CancleRegisterServlet
+ * Servlet implementation class RemoveInvalidRegister
  */
-@WebServlet("/CancleRegisterServlet")
-public class CancleRegisterServlet extends HttpServlet {
+@WebServlet("/RemoveInvalidRegisterServlet")
+public class RemoveInvalidRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public CancleRegisterServlet() {
+	public RemoveInvalidRegisterServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -42,19 +40,19 @@ public class CancleRegisterServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
-		HttpSession session = request.getSession();
-		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
 
-		FillRegisterProfileManager registerProfileMng = FillRegisterProfileManager
+		String name = request.getParameter("traineeName");
+		System.out.println(name);
+		FillRegisterProfileManager registerMng = FillRegisterProfileManager
 				.getInstance();
 
-		registerProfileMng.editTraineeStatus();
+		registerMng.removeInvalidTrainee(name);
 
-		System.out.println("cancle : " + trainee.getName());
+		response.sendRedirect("listAllTraineeServlet");
+
 	}
 
 }

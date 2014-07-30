@@ -238,6 +238,24 @@ public class FillRegisterProfileManager {
 	 * public Vector<Trainee> listTrainee() { return null; }
 	 */
 	public boolean removeInvalidTrainee(String name) {
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementDeleteRow = null;
+		String del_sql = "DELETE FROM trainee WHERE trainee.name ='" + name
+				+ "';";
+		try {
+			statementDeleteRow = conn.prepareStatement(del_sql);
+			statementDeleteRow.execute();
+
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementDeleteRow.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
 
 		return false;
 	}
@@ -651,7 +669,7 @@ public class FillRegisterProfileManager {
 		try {
 			statementListTrainee = conn.prepareStatement(sql_selectTrainee);
 			ResultSet rs = statementListTrainee.executeQuery();
-			
+
 			while (rs.next()) {
 				TraineeBean traineeBean = new TraineeBean();
 				traineeBean.setTitle(rs.getString("title"));
@@ -857,5 +875,9 @@ public class FillRegisterProfileManager {
 		return false;
 	}
 
+
+	public void editTraineeStatus() {
+
+	}
 
 }
