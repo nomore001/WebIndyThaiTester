@@ -1,4 +1,4 @@
-package cancleRegister;
+package cancelRegister;
 
 import java.io.IOException;
 
@@ -15,14 +15,14 @@ import fillRegisterProfile.TraineeBean;
 /**
  * Servlet implementation class CancleRegisterServlet
  */
-@WebServlet("/CancleRegisterServlet")
-public class CancleRegisterServlet extends HttpServlet {
+@WebServlet("/CancelRegisterServlet")
+public class CancelRegisterServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public CancleRegisterServlet() {
+	public CancelRegisterServlet() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -46,13 +46,14 @@ public class CancleRegisterServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
+		String status = request.getParameter("editBtn");
 		HttpSession session = request.getSession();
 		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
 
 		FillRegisterProfileManager registerProfileMng = FillRegisterProfileManager
 				.getInstance();
 
-		registerProfileMng.editTraineeStatus();
+		registerProfileMng.editTraineeStatus(trainee.getName(),status);
 
 		System.out.println("cancle : " + trainee.getName());
 	}

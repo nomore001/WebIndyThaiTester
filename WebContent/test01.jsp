@@ -9,15 +9,19 @@
 <title>Insert title here</title>
 </head>
 <body>
+<form action="CancelRegisterServlet" method="Post">
+<p>ABC: ${sessionScope.traineeBean.name}</p>
+	<input type="submit" id ="editBtn" name="editBtn" type="submit" value="ยกเลิกการลงทะเบียน"/>
+</form>
 	Hello :
-<%-- 	<p>${sessionScope.traineeBean.name }</p> ---%>
+	<p>${sessionScope.traineeBean.name }</p> 
 
-<c:forEach items="${courseTrainingBean}" varStatus="obj">
-<p>${courseTrainingBean[obj.index].courseName}
-		<a href="uploadFile.jsp?courseName=${obj.index+1}">Upload Document</a>
-		<a href="ListCourseTrainingServlet">List Document</a>
-</p>
-	</c:forEach>
+<%-- <c:forEach items="${courseTrainingBean}" varStatus="obj"> --%>
+<%-- <p>${courseTrainingBean[obj.index].courseName} --%>
+<%-- 		<a href="uploadFile.jsp?courseName=${obj.index+1}">Upload Document</a> --%>
+<!-- 		<a href="ListCourseTrainingServlet">List Document</a> -->
+<!-- </p> -->
+<%-- 	</c:forEach> --%>
 	
 	<a href="file/QTP/listRegisterDetail.rar">load</a>
 	
