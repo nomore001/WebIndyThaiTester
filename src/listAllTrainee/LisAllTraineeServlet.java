@@ -55,7 +55,7 @@ public class LisAllTraineeServlet extends HttpServlet {
 		Vector<TraineeBean> traineeVector = new Vector<TraineeBean>();
 		traineeVector = fillregisterMng.listTraineeByRegisterId(regiserId);
 
-		System.out.println(traineeVector.elementAt(0).getName());
+		
 		session.setAttribute("allTraineeBean", traineeVector);
 		response.sendRedirect("listAllTrainee.jsp");
 		

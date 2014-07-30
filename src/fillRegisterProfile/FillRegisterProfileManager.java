@@ -665,8 +665,9 @@ public class FillRegisterProfileManager {
 		Vector<TraineeBean> trainee = new Vector<TraineeBean>();
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementListTrainee = null;
-		String sql_selectTrainee = "SELECT title,name,education,telNO,email,traineeStatus,DATE_FORMAT(registerDate, '%d/%m/%Y')as registerDate,traineePayment  FROM trainee WHERE Register_ID="
-				+ registerID + ";";
+		String sql_selectTrainee = "SELECT title,name,education,telNO,email,traineeStatus,DATE_FORMAT(registerDate, '%d/%m/%Y')as registerDate,traineePayment,workplace  "
+				+ "FROM trainee join login on(trainee.Trainee_Id = login.Trainee_Id) join address on(trainee.Trainee_Id = address.Trainee_Id) WHERE Register_ID="
+				+ registerID + " AND status='user';";
 
 		try {
 			statementListTrainee = conn.prepareStatement(sql_selectTrainee);
@@ -674,6 +675,7 @@ public class FillRegisterProfileManager {
 
 			while (rs.next()) {
 				TraineeBean traineeBean = new TraineeBean();
+				
 				traineeBean.setTitle(rs.getString("title"));
 				traineeBean.setName(rs.getString("name"));
 				traineeBean.setEducation(rs.getString("education"));
@@ -682,7 +684,7 @@ public class FillRegisterProfileManager {
 				traineeBean.setTraineeStatus(rs.getString("traineeStatus"));
 				traineeBean.setRegisterDate(rs.getString("registerDate"));
 				traineeBean.setTraineePayment(rs.getString("traineePayment"));
-
+				traineeBean.getAddress().setWorkplace(rs.getString("workplace"));
 				trainee.add(traineeBean);
 			}
 		} catch (SQLException ex) {
@@ -883,14 +885,13 @@ public class FillRegisterProfileManager {
 		PreparedStatement statementEditStatus = null;
 		String sqlEditStatus = "UPDATE trainee SET traineeStatus='"
 				+ traineeStatus + "' WHERE name='" + traineeName + "';";
-		
+
 		try {
 			conn.setAutoCommit(false);
 			statementEditStatus = conn.prepareStatement(sqlEditStatus);
 			statementEditStatus.executeUpdate();
 			conn.commit();
-			
-			
+
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
 			try {
@@ -906,8 +907,7 @@ public class FillRegisterProfileManager {
 				ExceptionUtil.messageException(new Throwable(), ex);
 			}
 		}
-		
-		
+
 	}
 
 }

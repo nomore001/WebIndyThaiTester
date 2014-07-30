@@ -17,7 +17,7 @@ public class TraineeBean {
 	private String traineePayment;
 	
 	private LoginBean login;
-	private AddressBean address;
+	private AddressBean address = new AddressBean();
 //	private Evaluation evaluation;
 	private Vector<OccupationBean> occVector = new Vector<OccupationBean>();
 	

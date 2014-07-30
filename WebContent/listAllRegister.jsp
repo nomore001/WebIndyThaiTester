@@ -17,6 +17,7 @@
 	Register(s)
 	<br>
 	<c:forEach items="${registerBean}" var="obj">
+	
 		<p>${obj.registerNo}
 
 			<button type="button" class="btn btn-danger btn-xs"
