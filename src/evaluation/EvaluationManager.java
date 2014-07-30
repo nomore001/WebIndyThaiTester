@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import fillRegisterProfile.RegisterBean;
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
 
@@ -220,6 +221,148 @@ public class EvaluationManager {
 			}
 		}
 		return topicID;
+	}
+
+//	public synchronized double[] calculateTotalAllEvaluation(RegisterBean registerBean, int sumOfTrainee) {
+//		int sumOfTopic = this.sumOfTopic(evaluationID);
+//		double[] totalAllEvaluation = new double[sumOfTopic-1] ;
+//		
+//		Connection conn = MySQLConnectionPool.getConnection();
+//		PreparedStatement statementEvaluation = null;
+//		String sqlEvaluation = "select * from topic where Evaluation_ID = "+evaluationID+";";
+//		try {
+//			statementEvaluation = conn
+//					.prepareStatement(sqlEvaluation);
+//
+//			ResultSet rs = statementEvaluation.executeQuery();
+//			
+//			int i = 0;
+//			while (rs.next()) {
+//				if(i<(sumOfTopic-1)){
+//					int topicID = rs.getInt("Topic_ID");
+//					totalSelectedValue[i] = this.calculateValueSelected(topicID);
+//				}
+//				i++;
+//			}
+//			
+//		} catch (SQLException ex) {
+//			ExceptionUtil.messageException(new Throwable(), ex);
+//		} finally {
+//			try {
+//				statementEvaluation.close();
+//				conn.close();
+//			} catch (SQLException ex) {
+//				ExceptionUtil.messageException(new Throwable(), ex);
+//			}
+//		}
+//		
+//		for(int i=0 ; i<sumOfTrainee ; i++){
+//			double[] topicChoice = traineeVector.elementAt(i).getEvaluation().calculateAllTopic();
+//			for(int j=0 ; j<topicChoice.length ; j++){
+//				totalAllEvaluation[j] += topicChoice[j];
+//			}
+//		}
+//		for(int k=0 ; k<totalAllEvaluation.length ; k++){
+//			totalAllEvaluation[k] = totalAllEvaluation[k]/sumOfTrainee;
+//		}
+//		return totalAllEvaluation;
+//	}
+	
+	public synchronized double[] calculateAllTopic(int evaluationID){
+		int sumOfTopic = this.sumOfTopic(evaluationID);
+		double[] totalSelectedValue = new double[sumOfTopic-1];
+				
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementTopic = null;
+		String sqlTopic = "select * from topic where Evaluation_ID = "+evaluationID+";";
+		try {
+			statementTopic = conn
+					.prepareStatement(sqlTopic);
+
+			ResultSet rs = statementTopic.executeQuery();
+			
+			int i = 0;
+			while (rs.next()) {
+				if(i<(sumOfTopic-1)){
+					int topicID = rs.getInt("Topic_ID");
+					totalSelectedValue[i] = this.calculateValueSelected(topicID);
+				}
+				i++;
+			}
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementTopic.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return totalSelectedValue;
+	}
+	
+	public synchronized double calculateValueSelected(int topicID){
+		double sumSelectedValue = 0.0;
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementChoice = null;
+		String sqlChoice = "select * from choice where Topic_ID = "+topicID+";";
+		try {
+			statementChoice = conn
+					.prepareStatement(sqlChoice);
+
+			ResultSet rs = statementChoice.executeQuery();
+			int i = 0;
+			while (rs.next()) {
+				int selectedValue = rs.getInt("selectedValue");
+				sumSelectedValue = sumSelectedValue + selectedValue;
+				i++;
+			}
+			
+			sumSelectedValue = sumSelectedValue/i;
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementChoice.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return sumSelectedValue;
+	}
+	
+	public synchronized int sumOfTopic(int evaluationID) {
+		int sumOfTopic = 0;
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementSumOfTopic = null;
+		String sqlSumOfTopic = "select count(Topic_ID) as countTopic from topic where Evaluation_ID = "+evaluationID+";";
+		try {
+			statementSumOfTopic = conn
+					.prepareStatement(sqlSumOfTopic);
+
+			ResultSet rs = statementSumOfTopic.executeQuery();
+			while (rs.next()) {
+				sumOfTopic = rs.getInt("countTopic");
+
+			}
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementSumOfTopic.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return sumOfTopic;
 	}
 
 }
