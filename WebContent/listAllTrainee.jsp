@@ -17,11 +17,46 @@
 	Trainee(s)
 	<br>
 	<c:forEach items="${allTraineeBean}" var="obj">
-		<p>${obj.name}</p>
+		<p>${obj.title} ${obj.name}
+		
+		<button type="button" class="btn btn-danger btn-xs"
+				id="removetraineeBtn_${obj.name}" value="${obj.name}">Remove</button>
+		
+		</p>
 		<br>
 	</c:forEach>
 
 
+<script type="text/javascript">
+	var registerNo = 1;
+	$("button[id*='removetraineeBtn']").click(function() {
+		
+		var tmp = this.id.split("_");
+		 		alert(tmp[1]);
+		registerNo = tmp[1];
+		$.ajax({
+			type : 'POST',
+			url : 'RemoveInvalidRegisterServlet',
+			data : {
+				'traineeName' : tmp[1],
+			},
+			success : function(data, textStatus) {
+				window.location = 'ListAllTraineeServlet';	
+				
+
+			},
+			error : function(xhr) {
+				// alert("Error");
+			},
+			complete : function(xhr, textStatus) {
+				// $("#mySubModal").remove();
+				// $("#editAttendanceBtn").bind();
+				// alert("Complete");
+			}
+		});
+
+	});
+</script>
 
 </body>
 </html>

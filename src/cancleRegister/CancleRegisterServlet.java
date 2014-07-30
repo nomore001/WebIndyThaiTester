@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fillRegisterProfile.FillRegisterProfileManager;
 import fillRegisterProfile.TraineeBean;
 
 /**
@@ -47,8 +48,13 @@ public class CancleRegisterServlet extends HttpServlet {
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
 		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
-		
-		System.out.println("cancle : "+trainee.getLogin().getUsername());
+
+		FillRegisterProfileManager registerProfileMng = FillRegisterProfileManager
+				.getInstance();
+
+		registerProfileMng.editTraineeStatus();
+
+		System.out.println("cancle : " + trainee.getName());
 	}
 
 }
