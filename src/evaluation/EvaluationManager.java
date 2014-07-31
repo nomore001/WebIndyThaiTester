@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Vector;
 
 import fillRegisterProfile.FillRegisterProfileManager;
 import fillRegisterProfile.RegisterBean;
@@ -431,7 +432,7 @@ public class EvaluationManager {
 		return sumOfTopic;
 	}
 
-	public String totalSuggestion(RegisterBean registerBean, int sumOfTrainee) {
+	public synchronized String totalSuggestion(RegisterBean registerBean, int sumOfTrainee) {
 		String totalSuggestion = "";
 		FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
 				.getInstance();
@@ -469,6 +470,148 @@ public class EvaluationManager {
 		}
 		
 		return totalSuggestion;
+	}
+	
+	public synchronized EvaluationBean getEvaluation(RegisterBean registerBean, String name) {
+		EvaluationBean evaluation = null;
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementEvaluationID = null;
+		String sqlEvaluationID = "select * "
+				+ "from evaluation e join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
+				+ "join register r on (tn.Register_ID = r.Register_ID) "
+				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"' and tn.name = '"+name+"';";
+		try {
+			
+			statementEvaluationID = conn.prepareStatement(sqlEvaluationID);
+				
+			ResultSet rs = statementEvaluationID.executeQuery();
+				
+			while (rs.next()) {
+				evaluation = new EvaluationBean();
+				evaluation.setEvaluationName(rs.getString("evaluationName"));
+				
+				int evaluationID = rs.getInt("Evaluation_ID");
+				Vector<TopicBean> topic = this.listTopic(evaluationID);
+				evaluation.setTopicVector(topic);
+			}
+			
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementEvaluationID.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return evaluation;
+	}
+	
+	public synchronized Vector<TopicBean> listTopic(int evaluationID) {
+		Vector<TopicBean> topicVector = new Vector<TopicBean>();
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementTopic = null;
+		String sqlTopic = "select * from topic where Evaluation_ID = "+evaluationID+";";
+		try {
+			
+			statementTopic = conn.prepareStatement(sqlTopic);
+				
+			ResultSet rs = statementTopic.executeQuery();
+				
+			while (rs.next()) {
+				TopicBean topicBean = new TopicBean();
+				topicBean.setTopicName(rs.getString("topicName"));
+				
+				int topicID = rs.getInt("Topic_ID");
+				if(rs.getString("topicName").equals("ข้อเสนอแนะอื่นๆ")){
+					SuggestionBean suggestion = this.getSuggestion(topicID);
+					topicBean.setSuggestion(suggestion);
+				}else{
+					Vector<ChoiceBean> choice = this.listChoice(topicID);
+					topicBean.setChoiceVector(choice);
+				}
+				
+				topicVector.add(topicBean);
+			}
+				
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementTopic.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return topicVector;
+	}
+	
+	public synchronized Vector<ChoiceBean> listChoice(int topicID) {
+		Vector<ChoiceBean> choiceVector = new Vector<ChoiceBean>();
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementChoice = null;
+		String sqlChoice = "select * from choice where Topic_ID = "+topicID+";";
+		try {
+			
+			statementChoice = conn.prepareStatement(sqlChoice);
+				
+			ResultSet rs = statementChoice.executeQuery();
+				
+			while (rs.next()) {
+				ChoiceBean choiceBean = new ChoiceBean();
+				choiceBean.setChoiceQuestion(rs.getString("choiceQuestion"));
+				choiceBean.setSelectedValue(rs.getInt("selectedValue"));
+				
+				choiceVector.add(choiceBean);
+			}
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementChoice.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return choiceVector;
+	}
+	
+	public synchronized SuggestionBean getSuggestion(int topicID) {
+		SuggestionBean suggestion = null;
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementSuggestion = null;
+		String sqlSuggestion = "select * from suggestion where Topic_ID = "+topicID+";";
+		try {
+			
+			statementSuggestion = conn.prepareStatement(sqlSuggestion);
+				
+			ResultSet rs = statementSuggestion.executeQuery();
+				
+			while (rs.next()) {
+				suggestion = new SuggestionBean();
+				suggestion.setAnswerSuggestion(rs.getString("answerSuggestion"));
+			}
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementSuggestion.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return suggestion;
 	}
 
 }
