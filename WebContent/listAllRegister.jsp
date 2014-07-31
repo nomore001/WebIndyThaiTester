@@ -32,7 +32,7 @@
 	$("button[id*='viewtraineeBtn']").click(function() {
 		
 		var tmp = this.id.split("_");
-		 		alert(tmp[1]);
+// 		 		alert(tmp[1]);
 		registerNo = tmp[1];
 		$.ajax({
 			type : 'POST',
@@ -41,7 +41,7 @@
 				'registerNo' : tmp[1],
 			},
 			success : function(data, textStatus) {
-				alert('done');
+// 				alert('done');
 				window.location.href ="listAllTrainee.jsp";
 				
 

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import fillRegisterProfile.RegisterBean;
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
 

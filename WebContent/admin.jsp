@@ -140,7 +140,7 @@
 		var course_ID_tolistRegister = 1;
 		$("button[id*='viewRegisterBtn']").click(function() {
 			var tmp = this.id.split("_");
-			 		alert(tmp[1]);
+// 			 		alert(tmp[1]);
 			course_ID_tolistRegister = tmp[1];
 			$.ajax({
 				type : 'POST',
@@ -149,7 +149,7 @@
 					'courseID' : tmp[1],
 				},
 				success : function(data, textStatus) {
-					alert('done');
+// 					alert('done');
 					window.location.href ="listAllRegister.jsp";
 
 				},
