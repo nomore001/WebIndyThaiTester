@@ -346,6 +346,63 @@ public class EvaluationManager {
 		return sumSelectedValue;
 	}
 	
+	public synchronized String[] getAllTopic(RegisterBean registerBean){
+		int sumOfTopic = 0;
+		String[] allTopicName = null;
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		
+		PreparedStatement statementSumOfTopic = null;
+		String sqlSumOfTopic = "select count(Topic_ID) as countTopic "
+				+ "from topic t join evaluation e on(t.Evaluation_ID = e.Evaluation_ID) "
+				+ "join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
+				+ "join register r on (tn.Register_ID = r.Register_ID) "
+				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"';";
+		
+		PreparedStatement statementTopic = null;
+		String sqlTopic = "select t.topicName "
+				+ "from topic t join evaluation e on(t.Evaluation_ID = e.Evaluation_ID) "
+				+ "join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
+				+ "join register r on (tn.Register_ID = r.Register_ID) "
+				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"';";
+		try {
+			statementSumOfTopic = conn
+					.prepareStatement(sqlSumOfTopic);
+
+			ResultSet rs = statementSumOfTopic.executeQuery();
+			
+			while (rs.next()) {
+				sumOfTopic = rs.getInt("countTopic");
+			}
+			
+			allTopicName = new String[sumOfTopic];
+			
+			statementTopic = conn
+					.prepareStatement(sqlTopic);
+
+			ResultSet rs2 = statementTopic.executeQuery();
+			
+			int i = 0;
+			while (rs2.next()) {
+				String topicName = rs2.getString("topicName");
+				allTopicName[i] = topicName;
+				i++;
+			}
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementTopic.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return allTopicName;
+	}
+	
 	public synchronized int sumOfTopic(int evaluationID) {
 		int sumOfTopic = 0;
 		
@@ -375,36 +432,36 @@ public class EvaluationManager {
 	}
 
 	public String totalSuggestion(RegisterBean registerBean, int sumOfTrainee) {
-		int sumOfTopic = 0;
 		String totalSuggestion = "";
+		FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
+				.getInstance();
 		
 		Connection conn = MySQLConnectionPool.getConnection();
-		PreparedStatement statementSumOfTopic = null;
-		String sqlSumOfTopic = "select count(Topic_ID) as countTopic "
-				+ "from topic t join evaluation e on(t.Evaluation_ID = e.Evaluation_ID) "
-				+ "join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
-				+ "join register r on (tn.Register_ID = r.Register_ID) "
-				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"';";
+		PreparedStatement statementSuggestion = null;
+		String sqlSuggestion = "select * from topic t join suggestion s on (t.Topic_ID = s.Topic_ID) where Evaluation_ID = ?;";
 		try {
-			statementSumOfTopic = conn
-					.prepareStatement(sqlSumOfTopic);
-
-			ResultSet rs = statementSumOfTopic.executeQuery();
 			
-			while (rs.next()) {
-				sumOfTopic = rs.getInt("countTopic");
-			}
-			
-			int sizeTopic = sumOfTopic-1;
 			for(int i=0 ; i<sumOfTrainee ; i++){
-				totalSuggestion += registerBean.getTraineeVector().elementAt(i).getEvaluation().getTopicVector().elementAt(sizeTopic).getSuggestion().getAnswerSuggestion() + "\n";
+				int traineeID = fillRegisterMng.searchTraineeId(registerBean.getTraineeVector().get(i).getLogin().getUsername());
+				int evaluationID = this.searchEvaluationID(traineeID);
+				
+				statementSuggestion = conn.prepareStatement(sqlSuggestion);
+				statementSuggestion.setInt(1, evaluationID);
+				
+				ResultSet rs = statementSuggestion.executeQuery();
+				
+				while (rs.next()) {
+					String answerSuggestion = rs.getString("answerSuggestion");
+					totalSuggestion += answerSuggestion + "\n";
+				}
+				
 			}
 			
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
 		} finally {
 			try {
-				statementSumOfTopic.close();
+				statementSuggestion.close();
 				conn.close();
 			} catch (SQLException ex) {
 				ExceptionUtil.messageException(new Throwable(), ex);

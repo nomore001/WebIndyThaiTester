@@ -51,29 +51,43 @@ public class CalculateEvaluationServlet extends HttpServlet {
 				.getAttribute("registerBean");
 		if (registerBean == null) {
 			registerBean = new RegisterBean();
+			registerBean.setRegisterNo("QTP2");
 			session.setAttribute("registerBean", registerBean);
 		}
-		
+		try{
 		FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
 				.getInstance();
 //		int registerID = fillRegisterMng.searchRegisterId(registerBean.getRegisterNo());
-		int registerID = fillRegisterMng.searchRegisterId(registerBean.getRegisterNo());
+		int registerID = fillRegisterMng.searchRegisterId("QTP2");
 		Vector<TraineeBean> traineeVector = fillRegisterMng.listTraineeByRegisterId(registerID);
 		registerBean.setTraineeVector(traineeVector);
 		
-		int sumOfTrainee = fillRegisterMng.sumOfTrainee(registerBean);
+		int sumOfTrainee = fillRegisterMng.sumOfTraineeEvaluation(registerBean);
 		
 		EvaluationManager evaluationMng = EvaluationManager.getInstance();
 		
+		String[] allTopicName = evaluationMng.getAllTopic(registerBean);
 		double[] totalTopic = evaluationMng.calculateTotalAllEvaluation(registerBean, sumOfTrainee);
-
+		String suggestion = evaluationMng.totalSuggestion(registerBean, sumOfTrainee);
+		
 		System.out.println("จำนวนผู้เข้าร่วมอบรม " + sumOfTrainee);
-		for(int i=0 ; i<totalTopic.length ; i++){
-			System.out.println("หัวข้อที่ " + (i+1));
-			System.out.println("\t" + totalTopic[i]);
+		for(int i=0 ; i<allTopicName.length ; i++){
+			System.out.println(allTopicName[i]);
+			if(i == (allTopicName.length-1)){
+				System.out.println("\t" + suggestion);
+			}else{
+				System.out.println("\t" + totalTopic[i]);
+			}
 		}
-		System.out.println("ข้อเสนอแนะอื่น ๆ");
-		System.out.println("\t" + evaluationMng.totalSuggestion(registerBean, sumOfTrainee));
+		
+		session.setAttribute("sumOfTrainee", sumOfTrainee);
+		session.setAttribute("allTopicName", allTopicName);
+		session.setAttribute("totalTopic", totalTopic);
+		session.setAttribute("suggestion", suggestion);
+		response.sendRedirect("calculateEvaluation.jsp");
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 	}
 
 }

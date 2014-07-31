@@ -206,12 +206,36 @@ public class FillRegisterProfileManager {
 		}
 		return sumOfTrainee;
 	}
+	
+	public synchronized int sumOfTraineeEvaluation(RegisterBean registerBean) {
+		int sumOfTrainee = 0;
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statement_sumOfRegister = null;
+		String sql_sumOfRegister = "select COUNT(e.Trainee_ID) as SumOfTrainee from trainee t join register r on (t.Register_ID = r.Register_ID) join evaluation e on (t.Trainee_ID = e.Trainee_ID) where registerNo = '"+registerBean.getRegisterNo()+"';";
+		try {
+			statement_sumOfRegister = conn.prepareStatement(sql_sumOfRegister);
+			ResultSet rs = statement_sumOfRegister.executeQuery();
+			while (rs.next()) {
+				sumOfTrainee = rs.getInt("SumOfTrainee");
+			}
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statement_sumOfRegister.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		return sumOfTrainee;
+	}
 
 	public synchronized String createFrangmentPayment(RegisterBean registerBean) {
 		int sumOfTrainee = this.sumOfTrainee(registerBean);
 		registerBean.getCourseRegisterCosts();
 		String traineePayment = registerBean.getCourseRegisterCosts() + "."
-				+ (sumOfTrainee + 1);
+				+ (sumOfTrainee + 10);
 
 		return traineePayment;
 	}
@@ -699,7 +723,7 @@ public class FillRegisterProfileManager {
 		Vector<TraineeBean> trainee = new Vector<TraineeBean>();
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementListTrainee = null;
-		String sql_selectTrainee = "SELECT title,name,education,telNO,email,traineeStatus,DATE_FORMAT(registerDate, '%d/%m/%Y')as registerDate,traineePayment,workplace  "
+		String sql_selectTrainee = "SELECT title,name,education,telNO,email,traineeStatus,DATE_FORMAT(registerDate, '%d/%m/%Y')as registerDate,traineePayment,workplace, username  "
 				+ "FROM trainee join login on(trainee.Trainee_Id = login.Trainee_Id) join address on(trainee.Trainee_Id = address.Trainee_Id) WHERE Register_ID="
 				+ registerID + " AND status='user';";
 
@@ -708,6 +732,9 @@ public class FillRegisterProfileManager {
 			ResultSet rs = statementListTrainee.executeQuery();
 
 			while (rs.next()) {
+				LoginBean login = new LoginBean();
+				login.setUsername(rs.getString("username"));
+				
 				TraineeBean traineeBean = new TraineeBean();
 				
 				traineeBean.setTitle(rs.getString("title"));
@@ -719,6 +746,7 @@ public class FillRegisterProfileManager {
 				traineeBean.setRegisterDate(rs.getString("registerDate"));
 				traineeBean.setTraineePayment(rs.getString("traineePayment"));
 				traineeBean.getAddress().setWorkplace(rs.getString("workplace"));
+				traineeBean.setLogin(login);
 				trainee.add(traineeBean);
 			}
 		} catch (SQLException ex) {
