@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import fillRegisterProfile.FillRegisterProfileManager;
 import fillRegisterProfile.RegisterBean;
 import utility.ExceptionUtil;
 import utility.MySQLConnectionPool;
@@ -224,50 +225,57 @@ public class EvaluationManager {
 		return topicID;
 	}
 
-//	public synchronized double[] calculateTotalAllEvaluation(RegisterBean registerBean, int sumOfTrainee) {
-//		int sumOfTopic = this.sumOfTopic(evaluationID);
-//		double[] totalAllEvaluation = new double[sumOfTopic-1] ;
-//		
-//		Connection conn = MySQLConnectionPool.getConnection();
-//		PreparedStatement statementEvaluation = null;
-//		String sqlEvaluation = "select * from topic where Evaluation_ID = "+evaluationID+";";
-//		try {
-//			statementEvaluation = conn
-//					.prepareStatement(sqlEvaluation);
-//
-//			ResultSet rs = statementEvaluation.executeQuery();
-//			
-//			int i = 0;
-//			while (rs.next()) {
-//				if(i<(sumOfTopic-1)){
-//					int topicID = rs.getInt("Topic_ID");
-//					totalSelectedValue[i] = this.calculateValueSelected(topicID);
-//				}
-//				i++;
-//			}
-//			
-//		} catch (SQLException ex) {
-//			ExceptionUtil.messageException(new Throwable(), ex);
-//		} finally {
-//			try {
-//				statementEvaluation.close();
-//				conn.close();
-//			} catch (SQLException ex) {
-//				ExceptionUtil.messageException(new Throwable(), ex);
-//			}
-//		}
-//		
-//		for(int i=0 ; i<sumOfTrainee ; i++){
-//			double[] topicChoice = traineeVector.elementAt(i).getEvaluation().calculateAllTopic();
-//			for(int j=0 ; j<topicChoice.length ; j++){
-//				totalAllEvaluation[j] += topicChoice[j];
-//			}
-//		}
-//		for(int k=0 ; k<totalAllEvaluation.length ; k++){
-//			totalAllEvaluation[k] = totalAllEvaluation[k]/sumOfTrainee;
-//		}
-//		return totalAllEvaluation;
-//	}
+	public synchronized double[] calculateTotalAllEvaluation(RegisterBean registerBean, int sumOfTrainee) {
+		int sumOfTopic = 0;
+		double[] totalAllEvaluation = null ;
+		
+		FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
+				.getInstance();
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementSumOfTopic = null;
+		String sqlSumOfTopic = "select count(Topic_ID) as countTopic "
+				+ "from topic t join evaluation e on(t.Evaluation_ID = e.Evaluation_ID) "
+				+ "join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
+				+ "join register r on (tn.Register_ID = r.Register_ID) "
+				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"';";
+		try {
+			statementSumOfTopic = conn
+					.prepareStatement(sqlSumOfTopic);
+
+			ResultSet rs = statementSumOfTopic.executeQuery();
+			
+			while (rs.next()) {
+				sumOfTopic = rs.getInt("countTopic");
+			}
+			
+			totalAllEvaluation = new double[sumOfTopic-1];
+			
+			for(int i=0 ; i<sumOfTrainee ; i++){
+				int traineeID = fillRegisterMng.searchTraineeId(registerBean.getTraineeVector().get(i).getLogin().getUsername());
+				int evaluationID = this.searchEvaluationID(traineeID);
+				double[] topicChoice = this.calculateAllTopic(evaluationID);
+				for(int j=0 ; j<topicChoice.length ; j++){
+					totalAllEvaluation[j] += topicChoice[j];
+				}
+			}
+			for(int k=0 ; k<totalAllEvaluation.length ; k++){
+				totalAllEvaluation[k] = totalAllEvaluation[k]/sumOfTrainee;
+			}
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementSumOfTopic.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return totalAllEvaluation;
+	}
 	
 	public synchronized double[] calculateAllTopic(int evaluationID){
 		int sumOfTopic = this.sumOfTopic(evaluationID);
@@ -364,6 +372,46 @@ public class EvaluationManager {
 			}
 		}
 		return sumOfTopic;
+	}
+
+	public String totalSuggestion(RegisterBean registerBean, int sumOfTrainee) {
+		int sumOfTopic = 0;
+		String totalSuggestion = "";
+		
+		Connection conn = MySQLConnectionPool.getConnection();
+		PreparedStatement statementSumOfTopic = null;
+		String sqlSumOfTopic = "select count(Topic_ID) as countTopic "
+				+ "from topic t join evaluation e on(t.Evaluation_ID = e.Evaluation_ID) "
+				+ "join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
+				+ "join register r on (tn.Register_ID = r.Register_ID) "
+				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"';";
+		try {
+			statementSumOfTopic = conn
+					.prepareStatement(sqlSumOfTopic);
+
+			ResultSet rs = statementSumOfTopic.executeQuery();
+			
+			while (rs.next()) {
+				sumOfTopic = rs.getInt("countTopic");
+			}
+			
+			int sizeTopic = sumOfTopic-1;
+			for(int i=0 ; i<sumOfTrainee ; i++){
+				totalSuggestion += registerBean.getTraineeVector().elementAt(i).getEvaluation().getTopicVector().elementAt(sizeTopic).getSuggestion().getAnswerSuggestion() + "\n";
+			}
+			
+		} catch (SQLException ex) {
+			ExceptionUtil.messageException(new Throwable(), ex);
+		} finally {
+			try {
+				statementSumOfTopic.close();
+				conn.close();
+			} catch (SQLException ex) {
+				ExceptionUtil.messageException(new Throwable(), ex);
+			}
+		}
+		
+		return totalSuggestion;
 	}
 
 }

@@ -56,6 +56,7 @@ public class CalculateEvaluationServlet extends HttpServlet {
 		
 		FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
 				.getInstance();
+//		int registerID = fillRegisterMng.searchRegisterId(registerBean.getRegisterNo());
 		int registerID = fillRegisterMng.searchRegisterId(registerBean.getRegisterNo());
 		Vector<TraineeBean> traineeVector = fillRegisterMng.listTraineeByRegisterId(registerID);
 		registerBean.setTraineeVector(traineeVector);
@@ -64,8 +65,15 @@ public class CalculateEvaluationServlet extends HttpServlet {
 		
 		EvaluationManager evaluationMng = EvaluationManager.getInstance();
 		
-//		double[] totalTopic = evaluationMng.calculateTotalAllEvaluation(registerBean, sumOfTrainee);
+		double[] totalTopic = evaluationMng.calculateTotalAllEvaluation(registerBean, sumOfTrainee);
 
+		System.out.println("จำนวนผู้เข้าร่วมอบรม " + sumOfTrainee);
+		for(int i=0 ; i<totalTopic.length ; i++){
+			System.out.println("หัวข้อที่ " + (i+1));
+			System.out.println("\t" + totalTopic[i]);
+		}
+		System.out.println("ข้อเสนอแนะอื่น ๆ");
+		System.out.println("\t" + evaluationMng.totalSuggestion(registerBean, sumOfTrainee));
 	}
 
 }
