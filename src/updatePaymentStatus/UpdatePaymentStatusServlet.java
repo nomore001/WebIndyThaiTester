@@ -1,4 +1,4 @@
-package listAllTrainee;
+package updatePaymentStatus;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -14,42 +14,46 @@ import fillRegisterProfile.FillRegisterProfileManager;
 import fillRegisterProfile.TraineeBean;
 
 /**
- * Servlet implementation class LisAllTrainee
+ * Servlet implementation class UpdaePaymentStatusServlet
  */
-@WebServlet("/LisAllTraineeServlet")
-public class LisAllTraineeServlet extends HttpServlet {
+@WebServlet("/UpdatePaymentStatusServlet")
+public class UpdatePaymentStatusServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public UpdatePaymentStatusServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	public LisAllTraineeServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("text/html");
 		HttpSession session = request.getSession();
+		String name = request.getParameter("traineeName");
+		String status = request.getParameter("status");
 		String registerNo = request.getParameter("registerNo");
 		
-		System.out.print("KK" + registerNo);
+		FillRegisterProfileManager fillregisterProfileMng = FillRegisterProfileManager.getInstance();
+		
+		
+		fillregisterProfileMng.editTraineeStatus(name, status);
+		
+		
+		System.out.println(name+registerNo);
 		FillRegisterProfileManager fillregisterMng = FillRegisterProfileManager
 				.getInstance();
 		int regiserId = fillregisterMng.searchRegisterId(registerNo);
@@ -59,7 +63,6 @@ public class LisAllTraineeServlet extends HttpServlet {
 		session.setAttribute("registerNo", registerNo);
 		session.setAttribute("allTraineeBean", traineeVector);
 		response.sendRedirect("listAllTrainee.jsp");
-		
 	}
 
 }

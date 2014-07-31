@@ -20,7 +20,7 @@
 	<c:out value="${fn:length(allTraineeBean)}"></c:out>
 	Trainee(s)
 	<br>
-
+	<input type="hidden" id="registerNo" value="${registerNo}">	
 	<table class="table table-striped custab">
 		<thead>
 			<tr>
@@ -47,9 +47,9 @@
 
 					<td>
 						<!-- Button trigger modal -->
-						<button class="btn btn-primary btn-lg" data-toggle="modal"
+						<button class="btn btn-primary btn-xs" data-toggle="modal"
 							data-target="#myModal"
-							id="editBtn_${obj.name}_${obj.address.workplace}_${obj.telNo}_${obj.traineePayment}">Edit</button>
+							id="editBtn_${obj.name}_${obj.address.workplace}_${obj.telNo}_${obj.traineePayment}">แก้ไขสถานะ</button>
 						<!-- Modal -->
 						<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
 							aria-labelledby="myModalLabel" aria-hidden="true">
@@ -57,7 +57,7 @@
 								<div class="modal-content">
 									<div class="modal-header">
 										<button type="button" class="close" data-dismiss="modal">
-											<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+											<span aria-hidden="true">&times;</span><span class="sr-only">ปิด</span>
 										</button>
 										<h4 class="modal-title" id="myModalLabel">แก้ไขสถานะการชำระเงิน</h4>
 									</div>
@@ -85,7 +85,7 @@
 
 											<label align="right" class="text-info col-sm-4 control-label">สถานะการชำระเงิน
 												:</label> <label class="radio-inline" id="paymentStatus"> <select
-												class="form-control">
+												class="form-control" id="paymentStatus">
 													<option value="ยังไม่ได้ชำระเงิน">ยังไม่ได้ชำระเงิน</option>
 													<option value="ชำระเงินเรียบร้อยแล้ว">ชำระเงินเรียบร้อยแล้ว</option>
 
@@ -101,15 +101,18 @@
 									<div class="modal-footer">
 										<button type="button" class="btn btn-default"
 											data-dismiss="modal">Close</button>
-										<button type="button" class="btn btn-primary" id="saveEdit">Save
-											changes</button>
+										<button type="button" class="btn btn-primary"
+											id="saveEdit_${obj.name}_${obj.traineeStatus}">บันทึก</button>
 									</div>
 								</div>
 							</div>
 						</div>
 
 						<button type="button" class="btn btn-danger btn-xs"
-							id="removetraineeBtn_${obj.name}" value="${obj.name}">Remove</button>
+							id="removetraineeBtn_${obj.name}" value="${obj.name}">ลบ</button>
+							
+							<button type="button" class="btn btn-success btn-xs"
+							id="viewEvaluate" value="">ดูผลการประเมินรายบุคคล</button>
 					</td>
 				</tr>
 			</thead>
@@ -157,9 +160,41 @@
 			$("#payment").text(tmp[4]);
 		});
 
-		$("#saveEdit").click(function() {
-			alert('55');
-		});
+		$("button[id*='saveEdit']")
+				.click(
+						function() {
+							
+							var traineeName = document
+									.getElementById("trainee_Name").innerText;
+							var status = $("#paymentStatus :selected").text();
+							var registerNo = document.getElementById("registerNo").value;
+							
+							
+										$.ajax({
+											type : 'POST',
+											url : 'UpdatePaymentStatusServlet',
+											data : {
+												'traineeName' : traineeName,
+												'status' : status,
+												'registerNo':registerNo,
+											},
+											
+											success : function(data, textStatus) {
+												alert('แก้ไขสำเร็จ');
+												window.location.href ="listAllTrainee.jsp";
+
+											},
+											error : function(xhr) {
+												// alert("Error");
+											},
+											complete : function(xhr, textStatus) {
+												// $("#mySubModal").remove();
+												// $("#editAttendanceBtn").bind();
+												// alert("Complete");
+											}
+										});
+
+						});
 	</script>
 
 </body>
