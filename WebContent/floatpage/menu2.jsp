@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="fillRegisterProfile.*"%>
+<%@ page import="java.util.*"%>
+<%
+	TraineeBean traineeBean = (TraineeBean) session.getAttribute("traineeBean");
+%>
 <div class="">
 	<div class="navbar navbar-default navbar-static-top setBgmenu">
 
@@ -11,22 +16,29 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"><span
+				<a class="navbar-brand" href="index.jsp"><span
 					class="glyphicon glyphicon-home"></span> หน้าแรก</a>
 			</div>
 			<div class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
-					<li><a href="#about"><span
+					<li><a href="#"><span
 							class="glyphicon glyphicon-asterisk"></span> รายละเอียดการฝึกอบรม</a></li>
-					<li><a href="#contact"><span
+					<li><a href="#"><span
 							class="glyphicon glyphicon-asterisk"></span> วิธีการชำระเงิน</a></li>
+					<%if(traineeBean==null){ %>
 					<li><a href="FillRegisterProfile.jsp"><span
 							class="glyphicon glyphicon-user"></span> ลงทะเบียนอบรม</a></li>
-					<li><a href="#contact"><span
+					<%} %>
+					<%if(traineeBean!=null){ %>
+						<li><a href="Evaluation.jsp"><span
+							class="glyphicon glyphicon-pencil"></span> ประเมินการอบรม</a></li>
+					<%} %>
+					<li><a href="#"><span
 							class="glyphicon glyphicon-map-marker"></span> ติดต่อสอบถาม</a></li>
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
+				<%if(traineeBean==null){ %>
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown" id="login_li"> <span
 							class="glyphicon glyphicon-log-in"></span> เข้าสู่ระบบ<b
@@ -63,7 +75,11 @@
 								</div>
 							</li>
 						</ul></li>
-
+					<%} %>
+					<%if(traineeBean!=null){ %>
+						<li><a href="LogoutServlet"><span
+							class="glyphicon glyphicon-log-out"></span> ออกจากระบบ</a></li>
+					<%} %>
 				</ul>
 
 				<!--/.nav-collapse -->

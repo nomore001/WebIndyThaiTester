@@ -19,7 +19,7 @@
 </head>
 <body>
 
-	<%@include file="floatpage/menu.jsp"%>
+	<%@include file="floatpage/menu2.jsp"%>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -244,8 +244,8 @@
 							</div>
 
 							<div align="center">
-								<button class="btn btn-default" type="submit" class="btn">ยืนยัน</button>
-								<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button>
+								<button class="btn btn-primary" type="submit" class="btn">ยืนยัน</button>
+								<button class="btn btn-default" type="reset" class="btn" onClick="history.go(-1);return true;">ยกเลิก</button>
 
 							</div>
 							<br> <br>

@@ -12,7 +12,7 @@
 <link href="assets/css/jquery-ui.css" rel="stylesheet">	
 </head>
 <body>
-	<%@include file="floatpage/menu.jsp"%>
+	<%@include file="floatpage/menu2.jsp"%>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -264,9 +264,9 @@
 
 						<div align="center">
 <!-- 							<button class="btn btn-default" type="submit" class="btn" onclick="return validate(formFillRegisterProfile)">ลงทะเบียน</button> -->
-							<button class="btn btn-default" type="submit" class="btn" >ลงทะเบียน</button>
-							<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button>
-							
+							<button class="btn btn-primary" type="submit" class="btn" >ลงทะเบียน</button>
+							<button class="btn btn-default" type="reset" class="btn" onClick="history.go(-1);return true;">ยกเลิก</button>
+							<br><br>
 						</div>
 						<br><br>
 					</div>

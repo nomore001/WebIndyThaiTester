@@ -11,13 +11,15 @@
 <link href="assets/css/jquery-ui.css" rel="stylesheet">	
 </head>
 <body>
+	<%@include file="floatpage/menu2.jsp"%>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="col-md-2"></div>
 				<div class="col-md-8" style="background-color: #ffffff;">
 					<form action="EvaluationServlet" method="post" name="FormEvaluation">
-						<p>แบบประเมินการเข้าอบรม</p>
+						<br>
+						<h4 style="color: #05396d;">แบบประเมินการเข้าอบรม</h4>
 						<div>
 						<strong><font color="#5A9800"><input type="hidden" name="topicLecture" value="ด้านวิทยากร">ด้านวิทยากร </font></strong><font color="red" size="4px">*</font><br>
 						<font>ความพึงพอใจ</font>
@@ -263,9 +265,9 @@
 						</div>
 						<br>
 						<div align="center">
-							<button class="btn btn-default" type="submit" class="btn">ตกลง</button>
+							<button class="btn btn-primary" type="submit" class="btn">ตกลง</button>
 							<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button>
-							
+							<br><br>
 						</div>
 					</form>
 				</div>
@@ -273,7 +275,7 @@
 			</div>
 		</div>
 	</div>
-	
+	<%@include file="floatpage/footer.jsp"%>
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->

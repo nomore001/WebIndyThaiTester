@@ -15,7 +15,7 @@
 </head>
 <body>
 	<c:out value="${courseID}"></c:out>
-	<%@include file="floatpage/menu.jsp"%>
+	<%@include file="floatpage/menu2.jsp"%>
 
 	<div class="container">
 		<div class="row">
@@ -198,13 +198,13 @@
 									</p>
 								</div>
 							</div>
-							<br> <br>
 						</div>
 					</form>
 
 					<div align="center">
-						<button class="btn btn-default" type="button" class="btn" onclick="window.location.href='EditRegisterProfileServlet'">แก้ไข</button>
-						<button class="btn btn-default" type="button" class="btn">พิมพ์</button>
+						<button class="btn btn-primary" type="button" class="btn" onclick="window.location.href='EditRegisterProfileServlet'">แก้ไข</button>
+						<button class="btn btn-info" type="button" class="btn">พิมพ์</button>
+						<br><br>
 					</div>
 
 				</div>
