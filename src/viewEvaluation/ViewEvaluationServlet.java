@@ -52,7 +52,8 @@ public class ViewEvaluationServlet extends HttpServlet {
 			session.setAttribute("registerBean", registerBean);
 		}
 		
-		String name = request.getParameter("traineeName");
+//		String name = request.getParameter("traineeName");
+		String name = "อัญชลี มณีนก";
 		
 		try{
 			EvaluationManager evaluationMng = EvaluationManager.getInstance();
