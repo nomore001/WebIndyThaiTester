@@ -368,7 +368,7 @@ public class DownLoadDocumentManager {
 
 	public synchronized String createRegisterNo(int registerAmount) {
 		return this.theCourseTrainingBean.getCourseName()
-				+ (registerAmount + 1);
+				+ (registerAmount + "0" + 1);
 	}
 
 	public synchronized void deleteDocument(String docID, String path,
