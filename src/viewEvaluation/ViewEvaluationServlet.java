@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import evaluation.*;
-import fillRegisterProfile.RegisterBean;
 
 /**
  * Servlet implementation class ViewEvaluationServlet
@@ -44,21 +43,13 @@ public class ViewEvaluationServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		
-		RegisterBean registerBean = (RegisterBean) session
-				.getAttribute("registerBean");
-		if (registerBean == null) {
-			registerBean = new RegisterBean();
-			registerBean.setRegisterNo("QTP2");
-			session.setAttribute("registerBean", registerBean);
-		}
-		
-//		String name = request.getParameter("traineeName");
-		String name = "อัญชลี มณีนก";
-		
 		try{
+			String registerNo = (String) session.getAttribute("registerNo");
+			String name = request.getParameter("traineeName");
+			
 			EvaluationManager evaluationMng = EvaluationManager.getInstance();
 			
-			EvaluationBean evaluationBean = evaluationMng.getEvaluation(registerBean, name);
+			EvaluationBean evaluationBean = evaluationMng.getEvaluation(registerNo, name);
 			
 			session.setAttribute("evaluationBean", evaluationBean);
 			response.sendRedirect("viewEvaluation.jsp");

@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Vector;
 
 import fillRegisterProfile.FillRegisterProfileManager;
@@ -472,14 +474,14 @@ public class EvaluationManager {
 		return totalSuggestion;
 	}
 	
-	public synchronized EvaluationBean getEvaluation(RegisterBean registerBean, String name) {
+	public synchronized EvaluationBean getEvaluation(String registerNo, String name) {
 		EvaluationBean evaluation = null;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementEvaluationID = null;
 		String sqlEvaluationID = "select * "
 				+ "from evaluation e join trainee tn on (e.Trainee_ID = tn.Trainee_ID) "
 				+ "join register r on (tn.Register_ID = r.Register_ID) "
-				+ "where r.registerNo = '"+registerBean.getRegisterNo()+"' and tn.name = '"+name+"';";
+				+ "where r.registerNo = '"+registerNo+"' and tn.name = '"+name+"';";
 		try {
 			
 			statementEvaluationID = conn.prepareStatement(sqlEvaluationID);

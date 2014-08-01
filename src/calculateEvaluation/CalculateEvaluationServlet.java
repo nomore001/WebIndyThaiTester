@@ -51,19 +51,13 @@ public class CalculateEvaluationServlet extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		RegisterBean registerBean = (RegisterBean) session
-				.getAttribute("registerBean");
-		if (registerBean == null) {
-			registerBean = new RegisterBean();
-			registerBean.setRegisterNo("QTP2");
-			session.setAttribute("registerBean", registerBean);
-		}
 		try {
+			String registerNo = request.getParameter("registerNo");
+			
 			FillRegisterProfileManager fillRegisterMng = FillRegisterProfileManager
 					.getInstance();
-			// int registerID =
-			// fillRegisterMng.searchRegisterId(registerBean.getRegisterNo());
-			int registerID = fillRegisterMng.searchRegisterId("QTP2");
+			RegisterBean registerBean = fillRegisterMng.searchRegister(registerNo);
+			int registerID = fillRegisterMng.searchRegisterId(registerNo);
 			Vector<TraineeBean> traineeVector = fillRegisterMng
 					.listTraineeByRegisterId(registerID);
 			registerBean.setTraineeVector(traineeVector);
@@ -93,7 +87,7 @@ public class CalculateEvaluationServlet extends HttpServlet {
 			session.setAttribute("allTopicName", allTopicName);
 			session.setAttribute("totalTopic", totalTopic);
 			session.setAttribute("suggestion", suggestion);
-			response.sendRedirect("calculateEvaluation.jsp");
+			response.sendRedirect("viewEvaluationTotal.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

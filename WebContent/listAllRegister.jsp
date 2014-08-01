@@ -16,16 +16,16 @@
 </head>
 <body>
 	found
-	<c:out value="${fn:length(registerBean)}"></c:out>
+	<c:out value="${fn:length(registerBeanVector)}"></c:out>
 	Register(s)
 	<br>
-	<c:forEach items="${registerBean}" var="obj">
+	<c:forEach items="${registerBeanVector}" var="obj">
 	
 		<p>${obj.registerNo}
 			<button type="button" class="btn btn-primary btn-xs"
 				id="viewtraineeBtn_${obj.registerNo}" value="${obj.registerNo}">ดูรายชื่อผู้เข้าอบรม</button>
 				<button type="button" class="btn btn-success btn-xs"
-							id="viewEvaluate" value="">ดูผลการประเมินโครงการ</button>
+							id="viewEvaluate_${obj.registerNo}" value="">ดูผลการประเมินโครงการ</button>
 		</p>
 	</c:forEach>
 
@@ -56,6 +56,30 @@
 				// $("#mySubModal").remove();
 				// $("#editAttendanceBtn").bind();
 				// alert("Complete");
+			}
+		});
+
+	});
+	
+	$("button[id*='viewEvaluate']").click(function() {
+		
+		var tmp = this.id.split("_");
+		registerNo = tmp[1];
+		$.ajax({
+			type : 'POST',
+			url : 'CalculateEvaluationServlet',
+			data : {
+				'registerNo' : tmp[1],
+			},
+			success : function(data, textStatus) {
+				window.location.href ="viewEvaluationTotal.jsp";
+				
+			},
+			error : function(xhr) {
+				
+			},
+			complete : function(xhr, textStatus) {
+				
 			}
 		});
 

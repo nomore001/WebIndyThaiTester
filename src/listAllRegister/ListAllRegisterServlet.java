@@ -60,7 +60,7 @@ public class ListAllRegisterServlet extends HttpServlet {
 
 		registerBeanVector = fillRegisterProfile.listAllRegister(Integer
 				.parseInt(courseID));
-		session.setAttribute("registerBean", registerBeanVector);
+		session.setAttribute("registerBeanVector", registerBeanVector);
 		
 		for(int i =0 ;i<registerBeanVector.size();i++){
 			System.out.println(registerBeanVector.elementAt(i).getRegisterNo());

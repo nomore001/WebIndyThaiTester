@@ -112,7 +112,7 @@
 							id="removetraineeBtn_${obj.name}" value="${obj.name}">ลบ</button>
 							
 							<button type="button" class="btn btn-success btn-xs"
-							id="viewEvaluate" value="">ดูผลการประเมินรายบุคคล</button>
+							id="viewEvaluate_${obj.name}" value="">ดูผลการประเมินรายบุคคล</button>
 					</td>
 				</tr>
 			</thead>
@@ -195,6 +195,29 @@
 										});
 
 						});
+		
+		$("button[id*='viewEvaluate']").click(function() {
+
+			var tmp = this.id.split("_");
+			$.ajax({
+				type : 'POST',
+				url : 'ViewEvaluationServlet',
+				data : {
+					'traineeName' : tmp[1],
+				},
+				success : function(data, textStatus) {
+					window.location = 'viewEvaluation.jsp';
+
+				},
+				error : function(xhr) {
+					// alert("Error");
+				},
+				complete : function(xhr, textStatus) {
+					
+				}
+			});
+
+		});
 	</script>
 
 </body>

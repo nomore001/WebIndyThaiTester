@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="evaluation.*"%>
 <%@ page import="java.util.*"%>
 <%
@@ -42,7 +44,7 @@
 								<%
 									} else {
 								%>
-								<p><%=totalTopic[i]%></p>
+								<p><fmt:formatNumber pattern="#####.##"> <%=totalTopic[i]%></fmt:formatNumber></p>
 								<%
 									}
 								%>
@@ -51,6 +53,11 @@
 						<%
 							}
 						%>
+						
+						<div align="center">
+							<button class="btn btn-default" type="button" class="btn" onClick="history.go(-1);return true;">กลับ</button>
+							<br><br>
+						</div>
 					</form>
 				</div>
 				<div class="col-md-2"></div>

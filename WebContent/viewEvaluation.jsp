@@ -87,8 +87,7 @@
 						<%} %>
 						
 						<div align="center">
-							<button class="btn btn-default" type="submit" class="btn">ตกลง</button>
-							<button class="btn btn-default" type="reset" class="btn">ยกเลิก</button>
+							<button class="btn btn-default" type="button" class="btn" onClick="history.go(-1);return true;">กลับ</button>
 							<br><br>
 						</div>
 					</form>
