@@ -2,32 +2,59 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset==UTF-8">
 <title>Insert title here</title>
-<link href="assets/css/jquery-ui.css" rel="stylesheet">
-<link href="assets/css/bootstrap2.css" rel="stylesheet">
-<link href="assets/css/style2.css" rel="stylesheet">
-<script src="assets/js/jquery-1.11.1.js"></script>
-<script src="assets/js/jquery-ui.js"></script>
-<script src="assets/js/bootstrap.js"></script>
+
 </head>
 <body>
-	found
+	ค้นพบ
 	<c:out value="${fn:length(registerBeanVector)}"></c:out>
-	Register(s)
+	 รายชื่อโครงการอบรม
 	<br>
-	<c:forEach items="${registerBeanVector}" var="obj">
+<%-- 	<c:forEach items="${registerBeanVector}" var="obj"> --%>
 	
-		<p>${obj.registerNo}
-			<button type="button" class="btn btn-primary btn-xs"
+<%-- 		<p>${obj.registerNo}  ${obj.trainingStartDate}  --%>
+<!-- 			<button type="button" class="btn btn-primary btn-xs" -->
+<%-- 				id="viewtraineeBtn_${obj.registerNo}" value="${obj.registerNo}">ดูรายชื่อผู้เข้าอบรม</button> --%>
+<!-- 				<button type="button" class="btn btn-success btn-xs" -->
+<%-- 							id="viewEvaluate_${obj.registerNo}" value="">ดูผลการประเมินโครงการ</button> --%>
+<!-- 		</p> -->
+<%-- 	</c:forEach> --%>
+	
+	
+	<table class="table table-striped custab">
+		<thead>
+			<tr>
+				<th>ลำดับ</th>
+				<th>รหัสการอบรม</th>
+				<th>วันที่อบรม</th>
+				<th></th>
+
+
+			</tr>
+		</thead>
+		<thead>
+			<c:forEach items="${registerBeanVector}" var="obj"
+				varStatus="object">
+				<tr>
+					<td>${object.index+1}</td>
+					<td><c:out value="${obj.registerNo}">
+						</c:out></td>
+					<td><c:out value="${obj.trainingStartDate}"></c:out> </td>	
+					<td><button type="button" class="btn btn-primary btn-xs"
 				id="viewtraineeBtn_${obj.registerNo}" value="${obj.registerNo}">ดูรายชื่อผู้เข้าอบรม</button>
-				<button type="button" class="btn btn-success btn-xs"
+				</td>
+					<td><button type="button" class="btn btn-success btn-xs"
 							id="viewEvaluate_${obj.registerNo}" value="">ดูผลการประเมินโครงการ</button>
-		</p>
-	</c:forEach>
+						</td>
+
+				</tr>
+			</c:forEach>
+		</thead>
+	</table>
 
 </body>
 <script type="text/javascript">

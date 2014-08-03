@@ -65,7 +65,7 @@ public class ListAllRegisterServlet extends HttpServlet {
 		for(int i =0 ;i<registerBeanVector.size();i++){
 			System.out.println(registerBeanVector.elementAt(i).getRegisterNo());
 		}
-
+			
 		response.sendRedirect("listAllRegister.jsp");
 	}
 

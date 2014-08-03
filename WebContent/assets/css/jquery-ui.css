@@ -224,11 +224,15 @@ button.ui-button::-moz-focus-inner {
 	border: 0;
 	padding: 0;
 }
-.ui-datepicker {
-	width: 17em;
-	padding: .2em .2em 0;
-	display: none;
-}
+/* .ui-datepicker { */
+/* 	width: 17em; */
+/* 	padding: .2em .2em 0; */
+/* 	display: none; */
+	
+	
+/* } */
+
+.ui-datepicker { width: 17em; padding: .2em .2em 0; display: none; z-index: 2000 !important;}
 .ui-datepicker .ui-datepicker-header {
 	position: relative;
 	padding: .2em 0;
