@@ -24,6 +24,12 @@ public class AddCourseTrainingServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
 		HttpSession session = request.getSession();
 
 		SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
@@ -47,12 +53,7 @@ public class AddCourseTrainingServlet extends HttpServlet {
 			int courseRegisterCosts = Integer.parseInt(request
 					.getParameter("textcourseRegisterCosts"));
 
-			CourseTrainingBean courseTrainingBean = (CourseTrainingBean) session
-					.getAttribute("courseTrainingBean");
-			if (courseTrainingBean == null) {
-				courseTrainingBean = new CourseTrainingBean();
-				session.setAttribute("courseTrainingBean", courseTrainingBean);
-			}
+			CourseTrainingBean courseTrainingBean = new CourseTrainingBean();
 
 			DownLoadDocumentManager downloadDocumentMgr = DownLoadDocumentManager
 					.getInstance();
@@ -94,17 +95,15 @@ public class AddCourseTrainingServlet extends HttpServlet {
 				session.setAttribute("courseTrainingBean", courseTrainingBean);
 				downloadDocumentMgr.theCourseTrainingBean = null;
 				System.out.println("Add Register Success");
+				response.sendRedirect("admin.jsp");
 			} else {
 				System.out.println("Add Register Fail");
+				response.sendRedirect("addCourseTraining.jsp");
 			}
 		} catch (ParseException e) {
+			response.sendRedirect("addCourseTraining.jsp");
 			e.printStackTrace();
 		}
-	}
-
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 	}
 
 }

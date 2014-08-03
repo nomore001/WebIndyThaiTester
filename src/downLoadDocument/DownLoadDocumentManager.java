@@ -39,7 +39,6 @@ public class DownLoadDocumentManager {
 
 	public void initDownloadManager(CourseTrainingBean courseTrainingBean) {
 		this.theCourseTrainingBean = courseTrainingBean;
-
 	}
 
 	public synchronized Vector<CourseTrainingBean> listCourseTraining() {
@@ -367,8 +366,8 @@ public class DownLoadDocumentManager {
 	}
 
 	public synchronized String createRegisterNo(int registerAmount) {
-		return this.theCourseTrainingBean.getCourseName()
-				+ (registerAmount + "0" + 1);
+		return this.theCourseTrainingBean.getCourseName()  + "0"
+				+ (registerAmount + 1);
 	}
 
 	public synchronized void deleteDocument(String docID, String path,
