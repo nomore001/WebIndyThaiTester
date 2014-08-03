@@ -21,7 +21,7 @@
 	Trainee(s)
 	<br>
 	<input type="hidden" id="registerNo" value="${registerNo}">	
-	<table class="table table-striped custab">
+	<table class="table table-striped custab" style="background-color: #ffffff;">
 		<thead>
 			<tr>
 				<th>ลำดับ</th>
