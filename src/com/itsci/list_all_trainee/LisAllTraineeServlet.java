@@ -59,7 +59,7 @@ public class LisAllTraineeServlet extends HttpServlet {
 
 			session.setAttribute("registerNo", registerNo);
 			session.setAttribute("allTraineeBean", traineeVector);
-			response.sendRedirect("ListAllTrainee.jsp");
+			response.sendRedirect("listAllTrainee.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

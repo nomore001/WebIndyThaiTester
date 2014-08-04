@@ -36,7 +36,7 @@ public class EditRegisterProfileServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		TraineeBean traineeBean = (TraineeBean) session.getAttribute("traineeBean");
 		session.setAttribute("traineeBean", traineeBean);
-		response.sendRedirect("EditRegisterProfile.jsp");
+		response.sendRedirect("editRegisterProfile.jsp");
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class EditRegisterProfileServlet extends HttpServlet {
 			if(editTrainee){
 				traineeBean = mng.searchTraineeByUsername(traineeBean.getLogin().getUsername());
 				session.setAttribute("traineeBean", traineeBean);
-				response.sendRedirect("ListRegisterDetail.jsp");
+				response.sendRedirect("listRegisterProfile.jsp");
 			}
 		} catch (Exception e) {
 			System.out.println(e);

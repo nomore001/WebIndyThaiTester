@@ -147,7 +147,7 @@ public class FillRegisterProfileServlet extends HttpServlet {
 				}
 				
 				session.setAttribute("registerBean", registerBean);
-				response.sendRedirect("Index.jsp");
+				response.sendRedirect("index.jsp");
 			} else {
 				System.out.println("ขออภัย   ชื่อผู้ใช้ที่ท่านกำหนดไม่สามารถใช้งานได้   เนื่องจากมีผู้ใช้งานแล้ว");
 			}

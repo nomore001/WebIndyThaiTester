@@ -98,10 +98,10 @@ public class AddCourseTrainingServlet extends HttpServlet {
 				response.sendRedirect("admin.jsp");
 			} else {
 				System.out.println("Add Register Fail");
-				response.sendRedirect("AddCourseTraining.jsp");
+				response.sendRedirect("addCourseTraining.jsp");
 			}
 		} catch (ParseException e) {
-			response.sendRedirect("AddCourseTraining.jsp");
+			response.sendRedirect("addCourseTraining.jsp");
 			e.printStackTrace();
 		}
 	}

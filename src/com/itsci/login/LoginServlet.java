@@ -60,16 +60,16 @@ public class LoginServlet extends HttpServlet {
 						.equals("admin")) {
 					response.sendRedirect("ListCourseTrainingServlet");
 				} else {
-					response.sendRedirect("ListRegisterDetail.jsp");
+					response.sendRedirect("listRegisterProfile.jsp");
 				}
 				System.out.println("pass");
 			} else {
 				System.out.println("fail");
 				response.getWriter().print("fail");
-				response.sendRedirect("Index.jsp");
+				response.sendRedirect("index.jsp");
 			}
 		} catch (Exception e) {
-			response.sendRedirect("Index.jsp");
+			response.sendRedirect("index.jsp");
 			System.out.println(e);
 		}
 	}

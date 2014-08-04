@@ -95,7 +95,7 @@ public class UploadDocumentServlet extends HttpServlet {
 				session.setAttribute("trainingDocumentList", list);
 				System.out.println(list);
 				System.out.println(resultaddDoc);
-				response.sendRedirect("ListDocument.jsp");
+				response.sendRedirect("listDocument.jsp");
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

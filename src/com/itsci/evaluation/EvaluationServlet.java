@@ -221,10 +221,10 @@ public class EvaluationServlet extends HttpServlet {
 					traineeID);
 			if (addEvaluation) {
 				System.out.println("success");
-				response.sendRedirect("ListDocumentServlet");
+				response.sendRedirect("listDocumentServlet");
 			} else {
 				System.out.println("Fail");
-				response.sendRedirect("Evaluation.jsp");
+				response.sendRedirect("evaluation.jsp");
 			}
 		} catch (Exception e) {
 			System.out.println(e);

@@ -52,7 +52,7 @@ public class DeleteDocumentServlet extends HttpServlet {
 		documentMng.removeDocument(documentID,documentPath,documentName);
 		
 		
-		response.sendRedirect("ListDocument.jsp");
+		response.sendRedirect("listDocument.jsp");
 
 	}
 

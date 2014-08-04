@@ -67,7 +67,7 @@ public class ListCourseTrainingServlet extends HttpServlet {
 
 			}
 
-			response.sendRedirect("Admin.jsp");
+			response.sendRedirect("admin.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

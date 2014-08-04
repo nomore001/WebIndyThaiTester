@@ -399,7 +399,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 
-									<%@include file="/AddCourseTraining.jsp"%>
+									<%@include file="/addCourseTraining.jsp"%>
 								</div>
 							</div>
 						</div>

@@ -67,7 +67,7 @@ public class ListAllRegisterServlet extends HttpServlet {
 						.getRegisterNo());
 			}
 
-			response.sendRedirect("ListAllRegister.jsp");
+			response.sendRedirect("listAllRegister.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

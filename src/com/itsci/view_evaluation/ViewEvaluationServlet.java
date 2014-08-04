@@ -52,7 +52,7 @@ public class ViewEvaluationServlet extends HttpServlet {
 			EvaluationBean evaluationBean = evaluationMng.getEvaluation(registerNo, name);
 			
 			session.setAttribute("evaluationBean", evaluationBean);
-			response.sendRedirect("ViewEvaluation.jsp");
+			response.sendRedirect("viewEvaluation.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

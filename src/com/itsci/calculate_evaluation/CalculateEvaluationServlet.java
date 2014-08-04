@@ -87,7 +87,7 @@ public class CalculateEvaluationServlet extends HttpServlet {
 			session.setAttribute("allTopicName", allTopicName);
 			session.setAttribute("totalTopic", totalTopic);
 			session.setAttribute("suggestion", suggestion);
-			response.sendRedirect("ViewEvaluationTotal.jsp");
+			response.sendRedirect("viewEvaluationTotal.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}

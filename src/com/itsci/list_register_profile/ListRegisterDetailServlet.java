@@ -59,7 +59,7 @@ public class ListRegisterDetailServlet extends HttpServlet {
 			String username = "unchalee";
 			traineeBean = fillMng.searchTraineeByUsername(username);
 			session.setAttribute("traineeBean", traineeBean);
-			response.sendRedirect("ListRegisterDetail.jsp");
+			response.sendRedirect("listRegisterProfile.jsp");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
