@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="fillRegisterProfile.*"%>
+<%@ page import="com.itsci.fill_register_profile.*"%>
 <%@ page import="java.util.*"%>
 <%
 	TraineeBean traineeBean = (TraineeBean) session.getAttribute("traineeBean");
