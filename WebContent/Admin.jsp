@@ -25,10 +25,8 @@
 	});
 </script>
 </head>
-<body>
+<body style="background-color: #EEEEEE;">
 	<%@include file="floatpage/adminHeader.jsp"%>
-
-
 
 	<div class="container">
 		<div class="row">
@@ -36,7 +34,7 @@
 			<br> <br>
 			
 			<h3><i class="glyphicon glyphicon-user"></i> Admin Manager</h3>
-			<div class="col-md-12 contentBody">
+			<div class="col-md-12 contentBody" style="background-color: #FFFFFF;">
 
 				<div class="col-md-6 contentLeft_admin ">
 					<div class="col-md-12">
