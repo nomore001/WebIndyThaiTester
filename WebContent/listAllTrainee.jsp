@@ -165,10 +165,11 @@
 						function() {
 							
 							var traineeName = document
-									.getElementById("trainee_Name").innerText;
+									.getElementById("trainee_Name").innerHTML;
 							var status = $("#paymentStatus :selected").text();
 							var registerNo = document.getElementById("registerNo").value;
 							
+							alert(traineeName);
 							
 										$.ajax({
 											type : 'POST',

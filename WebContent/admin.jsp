@@ -36,8 +36,8 @@
 			<h3>Admin Manager</h3>
 			<div class="col-md-12 contentBody">
 
-				<div class="col-md-7 contentLeft_admin ">
-					<div class="col-md-4">
+				<div class="col-md-6 contentLeft_admin ">
+					<div class="col-md-12">
 						<div class="col-md-12 contentBody itemMenu">
 							<div align="center">
 								<input type="image" src="assets/img/document-add-icon.png"
@@ -59,25 +59,25 @@
 
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div class="col-md-11 contentBody itemMenu">
+<!-- 					<div class="col-md-4"> -->
+<!-- 						<div class="col-md-11 contentBody itemMenu"> -->
 
-							<input type="image" src="assets/img/document-add-icon.png"
-								name="addCourse" width="120px;" height="120px;"
-								data-toggle="modal" href="#stack1" /><br>test stack modal
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="col-md-11 contentBody itemMenu">menu4</div>
-					</div>
-					<div class="col-md-4">
-						<div class="col-md-11 contentBody itemMenu">menu5</div>
-					</div>
-					<div class="col-md-4">
-						<div class="col-md-11 contentBody itemMenu">menu6</div>
-					</div>
+<!-- 							<input type="image" src="assets/img/document-add-icon.png" -->
+<!-- 								name="addCourse" width="120px;" height="120px;" -->
+<!-- 								data-toggle="modal" href="#stack1" /><br>test stack modal -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="col-md-4"> -->
+<!-- 						<div class="col-md-11 contentBody itemMenu">menu4</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="col-md-4"> -->
+<!-- 						<div class="col-md-11 contentBody itemMenu">menu5</div> -->
+<!-- 					</div> -->
+<!-- 					<div class="col-md-4"> -->
+<!-- 						<div class="col-md-11 contentBody itemMenu">menu6</div> -->
+<!-- 					</div> -->
 				</div>
-				<div class="col-md-5 contentLeft_admin">
+				<div class="col-md-6 contentLeft_admin">
 					<div class="col-md-12  itemMenu">right</div>
 
 				</div>
