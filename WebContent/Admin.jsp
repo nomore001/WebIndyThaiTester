@@ -33,52 +33,204 @@
 	<div class="container">
 		<div class="row">
 			<div class="co-md-12"></div>
-			<h3>Admin Manager</h3>
+			<br> <br>
+			
+			<h3><i class="glyphicon glyphicon-user"></i> Admin Manager</h3>
 			<div class="col-md-12 contentBody">
 
 				<div class="col-md-6 contentLeft_admin ">
 					<div class="col-md-12">
+
+						<div class="col-md-12 contentBody itemMenu text-center">
+
+							<div align="center">
+								<a data-target="#addCourseModal" data-toggle="modal">
+									<div class="col-md-6">
+										<br> <input type="image"
+											src="assets/img/document-add-icon.png" name="addCourse"
+											width="120px;" height="120px;" data-toggle="modal"
+											data-target="#addCourseModal" />
+									</div>
+
+
+									<div class="col-md-6">
+										<h3 style="padding-top: 50px;">เพิ่มการอบรม</h3>
+									</div>
+							</div>
+							</a>
+						</div>
+
+					</div>
+					<div class="col-md-12">
 						<div class="col-md-12 contentBody itemMenu">
 							<div align="center">
-								<input type="image" src="assets/img/document-add-icon.png"
-									name="addCourse" width="120px;" height="120px;"
-									data-toggle="modal" data-target="#addCourseModal" /><br>เพิ่มการอบรม
-							</div>
-
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="col-md-11 contentBody itemMenu">
-							<div align="center">
-								<input type="image"
-									src="assets/img/Actions-view-list-details-icon.png"
-									name="listCourse" width="120px;" height="120px;"
-									data-toggle="modal" data-target="#listCourseModal" /><br>รายละเอียดโครงการอบรม
+								<a data-target="#listCourseModal" data-toggle="modal">
+									<div class="col-md-6">
+										<br> <input type="image"
+											src="assets/img/Actions-view-list-details-icon.png"
+											name="listCourse" width="120px;" height="120px;"
+											data-toggle="modal" data-target="#listCourseModal" /><br>
+									</div>
+									<div class="col-md-6">
+										<h3 style="padding-top: 50px;">รายละเอียดโครงการอบรม</h3>
+									</div>.
+								</a>
 							</div>
 
 
 						</div>
 					</div>
-<!-- 					<div class="col-md-4"> -->
-<!-- 						<div class="col-md-11 contentBody itemMenu"> -->
 
-<!-- 							<input type="image" src="assets/img/document-add-icon.png" -->
-<!-- 								name="addCourse" width="120px;" height="120px;" -->
-<!-- 								data-toggle="modal" href="#stack1" /><br>test stack modal -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-4"> -->
-<!-- 						<div class="col-md-11 contentBody itemMenu">menu4</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-4"> -->
-<!-- 						<div class="col-md-11 contentBody itemMenu">menu5</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-4"> -->
-<!-- 						<div class="col-md-11 contentBody itemMenu">menu6</div> -->
-<!-- 					</div> -->
+				
 				</div>
 				<div class="col-md-6 contentLeft_admin">
-					<div class="col-md-12  itemMenu">right</div>
+					<div class="col-md-12">
+						<br>
+						<h3>รายชื่อโครงการอบรมทั้งหมด</h3>
+						<div class="col-md-12">
+							<!-- Nav tabs category -->
+							<ul class="nav nav-tabs faq-cat-tabs">
+								<li class="active"><a href="#faq-cat-1" data-toggle="tab">Qtp test</a></li>
+								<li><a href="#faq-cat-2" data-toggle="tab">Selenium test</a></li>
+							</ul>
+
+							<!-- Tab panes -->
+							<div class="tab-content faq-cat-content">
+								<div class="tab-pane active in fade" id="faq-cat-1">
+									<div class="panel-group" id="accordion-cat-1">
+										<div class="panel panel-default panel-faq">
+											<div class="panel-heading">
+												<a data-toggle="collapse" data-parent="#accordion-cat-1"
+													href="#faq-cat-1-sub-1">
+													<h4 class="panel-title">
+														FAQ Item Category #1 <span class="pull-right"><i
+															class="glyphicon glyphicon-plus"></i></span>
+													</h4>
+												</a>
+											</div>
+											<div id="faq-cat-1-sub-1" class="panel-collapse collapse">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea
+													proident. Ad vegan excepteur butcher vice lomo. Leggings
+													occaecat craft beer farm-to-table, raw denim aesthetic
+													synth nesciunt you probably haven't heard of them accusamus
+													labore sustainable VHS.Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea
+													proident. Ad vegan excepteur butcher vice lomo. Leggings
+													occaecat craft beer farm-to-table, raw denim aesthetic
+													synth nesciunt you probably haven't heard of them accusamus
+													labore sustainable VHS.Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea
+													proident. Ad vegan excepteur butcher vice lomo. Leggings
+													occaecat craft beer farm-to-table, raw denim aesthetic
+													synth nesciunt you probably haven't heard of them accusamus
+													labore sustainable VHS.</div>
+											</div>
+										</div>
+										<div class="panel panel-default panel-faq">
+											<div class="panel-heading">
+												<a data-toggle="collapse" data-parent="#accordion-cat-1"
+													href="#faq-cat-1-sub-2">
+													<h4 class="panel-title">
+														FAQ Item Category #1 <span class="pull-right"><i
+															class="glyphicon glyphicon-plus"></i></span>
+													</h4>
+												</a>
+											</div>
+											<div id="faq-cat-1-sub-2" class="panel-collapse collapse">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea
+													proident. Ad vegan excepteur butcher vice lomo. Leggings
+													occaecat craft beer farm-to-table, raw denim aesthetic
+													synth nesciunt you probably haven't heard of them accusamus
+													labore sustainable VHS.</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="faq-cat-2">
+									<div class="panel-group" id="accordion-cat-2">
+										<div class="panel panel-default panel-faq">
+											<div class="panel-heading">
+												<a data-toggle="collapse" data-parent="#accordion-cat-2"
+													href="#faq-cat-2-sub-1">
+													<h4 class="panel-title">
+														FAQ Item Category #2 <span class="pull-right"><i
+															class="glyphicon glyphicon-plus"></i></span>
+													</h4>
+												</a>
+											</div>
+											<div id="faq-cat-2-sub-1" class="panel-collapse collapse">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea
+													proident. Ad vegan excepteur butcher vice lomo. Leggings
+													occaecat craft beer farm-to-table, raw denim aesthetic
+													synth nesciunt you probably haven't heard of them accusamus
+													labore sustainable VHS.</div>
+											</div>
+										</div>
+										<div class="panel panel-default panel-faq">
+											<div class="panel-heading">
+												<a data-toggle="collapse" data-parent="#accordion-cat-2"
+													href="#faq-cat-2-sub-2">
+													<h4 class="panel-title">
+														FAQ Item Category #2 <span class="pull-right"><i
+															class="glyphicon glyphicon-plus"></i></span>
+													</h4>
+												</a>
+											</div>
+											<div id="faq-cat-2-sub-2" class="panel-collapse collapse">
+												<div class="panel-body">Anim pariatur cliche
+													reprehenderit, enim eiusmod high life accusamus terry
+													richardson ad squid. 3 wolf moon officia aute, non
+													cupidatat skateboard dolor brunch. Food truck quinoa
+													nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt
+													aliqua put a bird on it squid single-origin coffee nulla
+													assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+													craft beer labore wes anderson cred nesciunt sapiente ea
+													proident. Ad vegan excepteur butcher vice lomo. Leggings
+													occaecat craft beer farm-to-table, raw denim aesthetic
+													synth nesciunt you probably haven't heard of them accusamus
+													labore sustainable VHS.</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
 
 				</div>
 			</div>
@@ -196,8 +348,8 @@
 
 	</div>
 	<!-------------------------------------------------------------------------------------------->
-	
-	
+
+
 	<!--modal listRegister-->
 	<div class="modal fade" id="listRegister" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true"
@@ -208,21 +360,20 @@
 					<button type="button" class="close" data-dismiss="modal">
 						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
 					</button>
-					<h4 class="modal-title" id="myModalLabel">รายชื่อโครงการอบรม
-					</h4>
+					<h4 class="modal-title" id="myModalLabel">รายชื่อโครงการอบรม</h4>
 				</div>
 				<div class="modal-body">
 					<div class="container-fluid">
 						<div class="row">
-							
-								<div class="col-md-12" id="listAllRegister"></div>
-							
+
+							<div class="col-md-12" id="listAllRegister"></div>
+
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					
+
 				</div>
 			</div>
 		</div>
@@ -316,9 +467,11 @@
 
 
 
-
-
-	<%@include file="floatpage/footer.jsp"%>
+	
+	<div class="navbar-fixed-bottom">
+		<%@include file="floatpage/footer.jsp"%>
+	</div>
+	
 
 	<script>
 		var courseID = 1;
@@ -395,8 +548,7 @@
 				},
 				success : function(data, textStatus) {
 					// 					window.location.href = "listAllRegister.jsp";
-					 					$("#listAllRegister").load("listAllRegister.jsp");
-					 				
+					$("#listAllRegister").load("listAllRegister.jsp");
 
 				},
 				error : function(xhr) {
