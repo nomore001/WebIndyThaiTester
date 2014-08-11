@@ -3,6 +3,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <!-- Bootstrap core CSS -->
@@ -24,6 +25,7 @@
 				<div class="col-md-8" style="background-color: #ffffff;">
 					<form class="form-horizontal" name="formListRegisterDetail"
 						action="" method="post">
+						<div id="divprint"> 
 						<div class="page-header">
 							<strong><font color="#5A9800">ส่วนที่ 1
 									ข้อมูลส่วนตัว</font></strong>
@@ -199,12 +201,15 @@
 								</div>
 							</div>
 						</div>
+						</div>
 					</form>
 
 					<div align="center">
-						<button class="btn btn-primary" type="button" class="btn" onclick="window.location.href='EditRegisterProfileServlet'">แก้ไข</button>
-						<button class="btn btn-info" type="button" class="btn">พิมพ์</button>
-						<br><br>
+						<button class="btn btn-primary" type="button" class="btn"
+							onclick="window.location.href='EditRegisterProfileServlet'">แก้ไข</button>
+						<button class="btn btn-info" type="button" class="btn"  onclick="printDiv('divprint')">พิมพ์</button>
+						<br>
+						<br>
 					</div>
 
 				</div>
@@ -220,5 +225,17 @@
 	<script src="assets/js/jquery-1.11.1.js"></script>
 	<script src="assets/js/bootstrap.js"></script>
 	<script src="assets/js/jquery-ui.js"></script>
+
+	<script type="text/javascript">
+		function printDiv(divName) {
+			var printContents = document.getElementById(divName).innerHTML;
+			var originalContents = document.body.innerHTML;
+
+			document.body.innerHTML = printContents;
+			window.print();
+
+			document.body.innerHTML = originalContents;
+		}
+	</script>
 </body>
 </html>
