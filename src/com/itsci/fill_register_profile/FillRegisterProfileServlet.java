@@ -45,6 +45,7 @@ public class FillRegisterProfileServlet extends HttpServlet {
 			fillRegisterMng.initFillRegisterProfileManager(registerBean);
 			// ดึงข้อมูล register ณ ปัจจุบัน
 			registerBean = fillRegisterMng.getRegisterNow();
+			
 			System.out.println(registerBean.getRegisterNo());
 
 			String title = request.getParameter("radiotitle");

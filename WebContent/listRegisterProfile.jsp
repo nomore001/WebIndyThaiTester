@@ -207,7 +207,8 @@
 					<div align="center">
 						<button class="btn btn-primary" type="button" class="btn"
 							onclick="window.location.href='EditRegisterProfileServlet'">แก้ไข</button>
-						<button class="btn btn-info" type="button" class="btn"  onclick="printDiv('divprint')">พิมพ์</button>
+							
+						<button class="btn btn-info" type="button" class="btn" onclick="window.location.href='PrintRegisterProfileServlet'" >พิมพ์</button>
 						<br>
 						<br>
 					</div>
@@ -226,16 +227,6 @@
 	<script src="assets/js/bootstrap.js"></script>
 	<script src="assets/js/jquery-ui.js"></script>
 
-	<script type="text/javascript">
-		function printDiv(divName) {
-			var printContents = document.getElementById(divName).innerHTML;
-			var originalContents = document.body.innerHTML;
-
-			document.body.innerHTML = printContents;
-			window.print();
-
-			document.body.innerHTML = originalContents;
-		}
-	</script>
+	
 </body>
 </html>

@@ -1,24 +1,32 @@
 package com.itsci.printregisterProfile;
 
-import java.io.File;
-import java.io.FileOutputStream;
+
+
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.pdfbox.exceptions.COSVisitorException;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.pdmodel.PDPage;
-import org.pdfbox.pdmodel.edit.PDPageContentStream;
-import org.pdfbox.pdmodel.font.PDFont;
-import org.pdfbox.pdmodel.font.PDTrueTypeFont;
-import org.pdfbox.pdmodel.font.PDType1Font;
+import net.sf.jasperreports.engine.JasperRunManager;
 
-import com.itextpdf.text.pdf.codec.Base64.OutputStream;
+import com.itsci.fill_register_profile.TraineeBean;
+import com.itsci.utility.MySQLConnectionPool;
+import com.itsci.utility.ServletUtils;
+
+
+
+
+
 
 /**
  * Servlet implementation class PrintRegisterProfile
@@ -52,7 +60,44 @@ public class PrintRegisterProfileServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html");
+		
+		HttpSession session = request.getSession();
+		TraineeBean trainee = (TraineeBean) session.getAttribute("traineeBean");
+		String username = trainee.getLogin().getUsername();
+		
+		System.out.println(username);
+
+		// TODO Auto-generated method stub
+		ServletOutputStream servletOutputStream = response.getOutputStream();
+		byte[] bytes = null;
+		Map<String, Object> param = new HashMap<String, Object>();
+		try {
+			// โหลด Driver
+			Class.forName("com.mysql.jdbc.Driver");
+			// ระบุฐานข้อมูลที่ใช้ในการสร้างรายงาน
+			Connection conn = MySQLConnectionPool.getConnection();
+			// ทำการส่งค่าพารามิเตอร์ไปยัง iReport
+			param.put("username", username);
+			
+			// กำหนด path ของไฟล์ i-report
+			System.out.print(ServletUtils.getReportFile(getServletContext(),
+					"traineeProfile.jasper"));
+			bytes = JasperRunManager.runReportToPdf(ServletUtils.getReportFile(
+					getServletContext(), "traineeProfile.jasper"), param, conn);
+
+			// กำหนดชนิดของไฟล์ที่ใช้แสดงผล
+			response.setContentType("application/pdf");
+			response.setContentLength(bytes.length);
+			servletOutputStream.write(bytes, 0, bytes.length);
+			servletOutputStream.flush();
+			servletOutputStream.close();
+		} catch (Exception e) {
+			StringWriter stringWriter = new StringWriter();
+			PrintWriter printWriter = new PrintWriter(stringWriter);
+			e.printStackTrace(printWriter);
+			response.setContentType("text/plain");
+			response.getOutputStream().print(stringWriter.toString());
+		}
 
 	
 		
