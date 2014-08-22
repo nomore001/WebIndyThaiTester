@@ -72,7 +72,7 @@ public class PrintRegisterProfileServlet extends HttpServlet {
 		byte[] bytes = null;
 		Map<String, Object> param = new HashMap<String, Object>();
 		try {
-			// โหลด Driver
+			// //โหลด Driver
 			Class.forName("com.mysql.jdbc.Driver");
 			// ระบุฐานข้อมูลที่ใช้ในการสร้างรายงาน
 			Connection conn = MySQLConnectionPool.getConnection();
