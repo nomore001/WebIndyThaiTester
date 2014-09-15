@@ -24,7 +24,7 @@ public class FillRegisterProfileManager {
 	public void initFillRegisterProfileManager(RegisterBean registerBean) {
 		this.theRegisterBean = registerBean;
 	}
-	
+
 	public synchronized boolean addTrainee(TraineeBean traineeBean) {
 		int registerID = this.searchRegisterId(theRegisterBean.getRegisterNo());
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -149,7 +149,7 @@ public class FillRegisterProfileManager {
 		}
 		return false;
 	}
-	
+
 	public synchronized boolean addOccupation(TraineeBean traineeBean) {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementOccupation = null;
@@ -227,7 +227,7 @@ public class FillRegisterProfileManager {
 		}
 		return false;
 	}
-	
+
 	public synchronized boolean editTrainee(TraineeBean traineeBean) {
 		int traineeID = this.searchTraineeId(traineeBean.getLogin()
 				.getUsername());
@@ -324,7 +324,7 @@ public class FillRegisterProfileManager {
 		}
 		return false;
 	}
-	
+
 	public void editTraineeStatus(String traineeName, String traineeStatus) {
 
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -355,12 +355,14 @@ public class FillRegisterProfileManager {
 		}
 
 	}
-	
+
 	public boolean removeInvalidTrainee(String name) {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementDeleteRow = null;
-		String del_sql = "DELETE FROM trainee WHERE trainee.name ='" + name
-				+ "';";
+		TraineeBean trainee = new TraineeBean();
+		trainee.setName(name);
+		String del_sql = "DELETE FROM trainee WHERE trainee.name ='"
+				+ trainee.getName() + "';";
 		try {
 			statementDeleteRow = conn.prepareStatement(del_sql);
 			statementDeleteRow.execute();
@@ -378,10 +380,11 @@ public class FillRegisterProfileManager {
 
 		return false;
 	}
-	
+
 	public synchronized boolean removeOccupation(int traineeID) {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementRemoveOccupation = null;
+
 		String sqlRemoveOccupation = "DELETE FROM traineeoccupation WHERE Trainee_ID = ?;";
 
 		try {
@@ -411,7 +414,7 @@ public class FillRegisterProfileManager {
 		}
 		return false;
 	}
-	
+
 	public synchronized boolean verifyLogin(LoginBean login) {
 
 		String query = "SELECT * FROM login where username = '"
@@ -456,9 +459,11 @@ public class FillRegisterProfileManager {
 	public synchronized String searchUserAccessStatus(String username) {
 		String userStatus = null;
 		Connection conn = MySQLConnectionPool.getConnection();
+		LoginBean login = new LoginBean();
+		login.setUsername(username);
 		try {
-			String query = "SELECT * FROM login where username = '" + username
-					+ "'";
+			String query = "SELECT * FROM login where username = '"
+					+ login.getUsername() + "'";
 
 			// create the java statement
 
@@ -484,13 +489,16 @@ public class FillRegisterProfileManager {
 
 	public synchronized TraineeBean searchTraineeByUsername(String username) {
 		TraineeBean trainee = new TraineeBean();
+		LoginBean login = new LoginBean();
+		login.setUsername(username);
+
 		Connection conn = MySQLConnectionPool.getConnection();
 		try {
 			String query = "SELECT * FROM login l join trainee t on (l.Trainee_ID=t.Trainee_ID) "
 					+ "join address a on (t.Trainee_ID = a.Trainee_ID) "
 					+ "join traineeoccupation tocc on (t.Trainee_ID = tocc.Trainee_ID) "
 					+ "join occupation o on (tocc.Occupation_ID = o.Occupation_ID) "
-					+ "where username = '" + username + "'";
+					+ "where username = '" + login.getUsername() + "'";
 
 			// create the java statement
 			PreparedStatement st = conn.prepareStatement(query);
@@ -569,7 +577,6 @@ public class FillRegisterProfileManager {
 		return trainee;
 	}
 
-
 	public synchronized int sumOfTrainee(RegisterBean registerBean) {
 		int sumOfTrainee = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
@@ -594,12 +601,13 @@ public class FillRegisterProfileManager {
 		}
 		return sumOfTrainee;
 	}
-	
+
 	public synchronized int sumOfTraineeEvaluation(RegisterBean registerBean) {
 		int sumOfTrainee = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statement_sumOfRegister = null;
-		String sql_sumOfRegister = "select COUNT(e.Trainee_ID) as SumOfTrainee from trainee t join register r on (t.Register_ID = r.Register_ID) join evaluation e on (t.Trainee_ID = e.Trainee_ID) where registerNo = '"+registerBean.getRegisterNo()+"';";
+		String sql_sumOfRegister = "select COUNT(e.Trainee_ID) as SumOfTrainee from trainee t join register r on (t.Register_ID = r.Register_ID) join evaluation e on (t.Trainee_ID = e.Trainee_ID) where registerNo = '"
+				+ registerBean.getRegisterNo() + "';";
 		try {
 			statement_sumOfRegister = conn.prepareStatement(sql_sumOfRegister);
 			ResultSet rs = statement_sumOfRegister.executeQuery();
@@ -696,8 +704,10 @@ public class FillRegisterProfileManager {
 		int traineeId = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchTraineeID = null;
+		LoginBean login = new LoginBean();
+		login.setUsername(username);
 		String sqlSearchTraineeID = "select * from login l join trainee t on (l.Trainee_ID=t.Trainee_ID) where username = '"
-				+ username + "';";
+				+ login.getUsername() + "';";
 		try {
 			statementSearchTraineeID = conn
 					.prepareStatement(sqlSearchTraineeID);
@@ -723,8 +733,10 @@ public class FillRegisterProfileManager {
 		int registerId = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchRegisterID = null;
+		RegisterBean register = new RegisterBean();
+		register.setRegisterNo(registerNo);
 		String sqlSearchRegisterID = "select * from register where registerNo = '"
-				+ registerNo + "';";
+				+ register.getRegisterNo() + "';";
 		try {
 			statementSearchRegisterID = conn
 					.prepareStatement(sqlSearchRegisterID);
@@ -745,27 +757,32 @@ public class FillRegisterProfileManager {
 		}
 		return registerId;
 	}
-	
+
 	public synchronized RegisterBean searchRegisterByUsername(String username) {
 		RegisterBean register = null;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchRegister = null;
-		String sqlSearchRegister = "SELECT * FROM login l join trainee t on (l.Trainee_ID=t.Trainee_ID) join register r on(t.Register_ID = r.Register_ID) where username = '"+username+"'";
+		LoginBean login = new LoginBean();
+		login.setUsername(username);
+		String sqlSearchRegister = "SELECT * FROM login l join trainee t on (l.Trainee_ID=t.Trainee_ID) join register r on(t.Register_ID = r.Register_ID) where username = '"
+				+ login.getUsername() + "'";
 		try {
-			statementSearchRegister = conn
-					.prepareStatement(sqlSearchRegister);
+			statementSearchRegister = conn.prepareStatement(sqlSearchRegister);
 			ResultSet rs = statementSearchRegister.executeQuery();
-			 
+
 			while (rs.next()) {
 				register = new RegisterBean();
 				register.setRegisterNo(rs.getString("registerNo"));
-				register.setCourseRegisterStartDate(rs.getString("courseRegisterStartDate"));
-				register.setCourseRegisterDuration(rs.getInt("courseRegisterDuration"));
+				register.setCourseRegisterStartDate(rs
+						.getString("courseRegisterStartDate"));
+				register.setCourseRegisterDuration(rs
+						.getInt("courseRegisterDuration"));
 				register.setPaymentStartDate(rs.getString("paymentStartDate"));
 				register.setPaymentDuration(rs.getInt("paymentDuration"));
 				register.setTrainingStartDate(rs.getString("trainingStartDate"));
 				register.setCourseDuration(rs.getInt("courseDuration"));
-				register.setCourseRegisterCosts(rs.getInt("courseRegisterCosts"));
+				register.setCourseRegisterCosts(rs
+						.getInt("courseRegisterCosts"));
 			}
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
@@ -779,27 +796,34 @@ public class FillRegisterProfileManager {
 		}
 		return register;
 	}
-	
-	public synchronized RegisterBean searchRegisterByRegisterNo(String registerNo) {
-		RegisterBean register = null;
+
+	public synchronized RegisterBean searchRegisterByRegisterNo(
+			String registerNo) {
+
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchRegister = null;
-		String sqlSearchRegister = "SELECT * FROM register where registerNo = '"+registerNo+"'";
+		RegisterBean register = new RegisterBean();
+		register.setRegisterNo(registerNo);
+
+		String sqlSearchRegister = "SELECT * FROM register where registerNo = '"
+				+ register.getRegisterNo() + "'";
 		try {
-			statementSearchRegister = conn
-					.prepareStatement(sqlSearchRegister);
+			statementSearchRegister = conn.prepareStatement(sqlSearchRegister);
 			ResultSet rs = statementSearchRegister.executeQuery();
-			 
+
 			while (rs.next()) {
 				register = new RegisterBean();
 				register.setRegisterNo(rs.getString("registerNo"));
-				register.setCourseRegisterStartDate(rs.getString("courseRegisterStartDate"));
-				register.setCourseRegisterDuration(rs.getInt("courseRegisterDuration"));
+				register.setCourseRegisterStartDate(rs
+						.getString("courseRegisterStartDate"));
+				register.setCourseRegisterDuration(rs
+						.getInt("courseRegisterDuration"));
 				register.setPaymentStartDate(rs.getString("paymentStartDate"));
 				register.setPaymentDuration(rs.getInt("paymentDuration"));
 				register.setTrainingStartDate(rs.getString("trainingStartDate"));
 				register.setCourseDuration(rs.getInt("courseDuration"));
-				register.setCourseRegisterCosts(rs.getInt("courseRegisterCosts"));
+				register.setCourseRegisterCosts(rs
+						.getInt("courseRegisterCosts"));
 			}
 		} catch (SQLException ex) {
 			ExceptionUtil.messageException(new Throwable(), ex);
@@ -817,8 +841,11 @@ public class FillRegisterProfileManager {
 	public synchronized boolean isOccExist(String job) {
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementIsOccExist = null;
+		OccupationBean occupaiton = new OccupationBean();
+		occupaiton.setOccName(job);
+
 		String sqlIsOccExist = "SELECT * FROM occupation WHERE occName = '"
-				+ job + "';";
+				+ occupaiton.getOccName() + "';";
 		try {
 			statementIsOccExist = conn.prepareStatement(sqlIsOccExist);
 			ResultSet rs = statementIsOccExist.executeQuery();
@@ -842,8 +869,10 @@ public class FillRegisterProfileManager {
 		int occupationId = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchOccupationId = null;
+		OccupationBean occupation = new OccupationBean();
+		occupation.setOccName(occName);
 		String sqlSearchOccupationId = "SELECT * FROM occupation WHERE occName = '"
-				+ occName + "';";
+				+ occupation.getOccName() + "';";
 		try {
 			statementSearchOccupationId = conn
 					.prepareStatement(sqlSearchOccupationId);
@@ -868,10 +897,12 @@ public class FillRegisterProfileManager {
 		int courseTrainingId = 0;
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementSearchCourseTrainingId = null;
+		LoginBean login = new LoginBean();
+		login.setUsername(username);
 		String sqlSearchCourseTrainingId = "select c.CourseTraining_ID from trainee t join login l on (t.Trainee_ID = l.Trainee_ID) "
 				+ "join register r on (t.Register_ID = r.Register_ID) "
 				+ "join coursetraining c on (r.CourseTraining_ID = c.CourseTraining_ID) "
-				+ "where username = '" + username + "';";
+				+ "where username = '" + login.getUsername() + "';";
 		try {
 			statementSearchCourseTrainingId = conn
 					.prepareStatement(sqlSearchCourseTrainingId);
@@ -909,9 +940,9 @@ public class FillRegisterProfileManager {
 			while (rs.next()) {
 				LoginBean login = new LoginBean();
 				login.setUsername(rs.getString("username"));
-				
+
 				TraineeBean traineeBean = new TraineeBean();
-				
+
 				traineeBean.setTitle(rs.getString("title"));
 				traineeBean.setName(rs.getString("name"));
 				traineeBean.setEducation(rs.getString("education"));
@@ -920,7 +951,8 @@ public class FillRegisterProfileManager {
 				traineeBean.setTraineeStatus(rs.getString("traineeStatus"));
 				traineeBean.setRegisterDate(rs.getString("registerDate"));
 				traineeBean.setTraineePayment(rs.getString("traineePayment"));
-				traineeBean.getAddress().setWorkplace(rs.getString("workplace"));
+				traineeBean.getAddress()
+						.setWorkplace(rs.getString("workplace"));
 				traineeBean.setLogin(login);
 				trainee.add(traineeBean);
 			}
@@ -942,6 +974,7 @@ public class FillRegisterProfileManager {
 		Vector<RegisterBean> registervector = new Vector<RegisterBean>();
 		Connection conn = MySQLConnectionPool.getConnection();
 		PreparedStatement statementListRegister = null;
+
 		String sql_selectRegister = "SELECT registerNo, DATE_FORMAT(courseRegisterStartDate, '%d/%m/%Y') AS courseRegisterStartDate, "
 				+ "courseRegisterDuration, DATE_FORMAT(paymentStartDate, '%d/%m/%Y') AS paymentStartDate, "
 				+ "paymentDuration, DATE_FORMAT(trainingStartDate, '%d/%m/%Y') AS trainingStartDate,courseDuration,"
